@@ -13,8 +13,11 @@ services:
 dataDir: yamcs-data
 
 instances:
-  - myproject
+  - genmat_0
 
+yamcs-web:
+  tag: "HRS Test"
+  logo: "/home/einn10184/Downloads/hrs-logo.png"
 # Secret key unique to a particular Yamcs installation.
 # This is used to provide cryptographic signing.
-secretKey: changeme
+secretKey: hrsmissioncontrol

@@ -1,4 +1,4 @@
-package com.example.myproject;
+package com.hrs.mcs;
 
 import java.nio.ByteBuffer;
 import java.util.HashMap;
@@ -15,7 +15,7 @@ import org.yamcs.utils.TimeEncoding;
  * <p>
  * A single instance of this class is created, scoped to the link udp-in.
  * <p>
- * This is specified in the configuration file yamcs.myproject.yaml:
+ * This is specified in the configuration file yamcs.genmat_0.yaml:
  * 
  * <pre>
  * ...
