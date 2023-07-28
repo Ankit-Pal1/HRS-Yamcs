@@ -357,7 +357,7 @@
 			<MetaCommand name="PingCommand" shortDescription="Ping command">
 				<BaseMetaCommand metaCommandRef="HRSMCSPacket">
 					<ArgumentAssignmentList>
-						<ArgumentAssignment argumentName="Packet_ID" argumentValue="6" />
+						<ArgumentAssignment argumentName="Packet_ID" argumentValue="3" />
 					</ArgumentAssignmentList>
 				</BaseMetaCommand>
 				<ArgumentList>
@@ -366,6 +366,7 @@
 				</ArgumentList>
 				<CommandContainer name="PingCommand">
 					<EntryList>
+						<FixedValueEntry binaryValue="01010101" sizeInBits="8"/>
 						<ArgumentRefEntry argumentRef="Port" />
 						<ArgumentRefEntry argumentRef="Value" />
 					</EntryList>

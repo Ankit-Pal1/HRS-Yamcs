@@ -9,8 +9,14 @@ import org.yamcs.commanding.PreparedCommand;
 import org.yamcs.tctm.AbstractThreadedTcDataLink;
 import javax.net.ssl.SSLSocketFactory;
 import java.io.IOException;
+import java.util.Arrays;
 
-class MqttTcDataLink extends AbstractThreadedTcDataLink implements MqttCallback {
+/**
+ * Send raw packet over mqtt
+ *
+ * @author InnobitSystems.com
+ */
+public class MqttTcDataLink extends AbstractThreadedTcDataLink implements MqttCallback {
     private MqttClient mqttclient;
     long reconnectionDelay;
     private String username;
@@ -83,7 +89,7 @@ class MqttTcDataLink extends AbstractThreadedTcDataLink implements MqttCallback 
         if (binary == null) {
             return;
         }
-
+        log.info("sent data to uplink : "+ Arrays.toString(binary) + " and binary " + ByteArrayToBinary.byteArrayToBinary(binary));
         try {
             mqttclient.publish(uplinkTopic, binary, qos, false);
         } catch (MqttException e) {
@@ -113,8 +119,7 @@ class MqttTcDataLink extends AbstractThreadedTcDataLink implements MqttCallback 
             connOpts.setSocketFactory(SSLSocketFactory.getDefault());
 
             mqttclient.connect(connOpts);
-            log.info("Connected to MQTT broker : " + mqttclient);
-            notifyStarted();
+            log.info("Connected to MQTT broker : " + mqttclient.getServerURI());
             return true;
         } catch (MqttException cause) {
             log.warn("Connection to upstream MQTT server failed", cause);
@@ -135,9 +140,8 @@ class MqttTcDataLink extends AbstractThreadedTcDataLink implements MqttCallback 
         try {
             if (mqttclient != null && mqttclient.isConnected()) {
                 mqttclient.disconnect();
-                log.info("disconnected from MQTT", mqttclient);
+                log.info("disconnected from MQTT: %s", mqttclient.getServerURI());
                 mqttclient.close();
-                notifyStopped();
             }
         } catch (MqttException e) {
             log.error("Failed to disconnect from Mqtt server", e);

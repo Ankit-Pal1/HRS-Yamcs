@@ -23,18 +23,27 @@ services:
   - class: org.yamcs.timeline.TimelineService
 
 dataLinks:
-  - name: udp-in
-    class: org.yamcs.tctm.UdpTmDataLink
+  - name: mqtt-in
+    class: com.hrs.mcs.MqttTmDataLink
     stream: tm_realtime
-    port: 10015
-    packetPreprocessorClassName: com.hrs.mcs.MyPacketPreprocessor
+    url: ssl://ua13aef5.ala.us-east-1.emqxsl.com:8883
+    prefix: genmat
+    downlink: your/topic
+    qos: 0
+    username: test
+    password: test
+#    packetPreprocessorClassName: com.hrs.mcs.MyPacketPreprocessor
 
-  - name: udp-out
-    class: org.yamcs.tctm.UdpTcDataLink
+  - name: mqtt-out
+    class: com.hrs.mcs.MqttTcDataLink
     stream: tc_realtime
-    host: localhost
-    port: 10025
-    commandPostprocessorClassName: com.hrs.mcs.MyCommandPostprocessor
+    url: ssl://ua13aef5.ala.us-east-1.emqxsl.com:8883
+    prefix: genmat
+    uplink: your/topic
+    qos: 0
+    username: test
+    password: test
+#    commandPostprocessorClassName: com.example.myproject.MyCommandPostprocessor
 
 mdb:
   # Configuration of the active loaders

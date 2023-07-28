@@ -9,6 +9,7 @@ import org.yamcs.YConfiguration;
 import org.yamcs.tctm.AbstractTmDataLink;
 
 import javax.net.ssl.SSLSocketFactory;
+import java.util.Arrays;
 
 public class MqttTmDataLink extends AbstractTmDataLink implements MqttCallback {
     private MqttClient mqttclient;
@@ -54,7 +55,7 @@ public class MqttTmDataLink extends AbstractTmDataLink implements MqttCallback {
         this.reconnectionDelay = config.getLong("reconnectionDelay", 5000);
         this.brokerUrl = config.getString("url");
         this.clientId = config.getString("prefix", "") + MqttClient.generateClientId();
-        this.downlinkTopic = config.getString("downlinkTopic");
+        this.downlinkTopic = config.getString("downlink");
         this.qos = config.getInt("qos");
 
         try {
@@ -101,7 +102,7 @@ public class MqttTmDataLink extends AbstractTmDataLink implements MqttCallback {
             connOpts.setSocketFactory(SSLSocketFactory.getDefault());
 
             mqttclient.connect(connOpts);
-            log.info("Connected to MQTT broker : " + mqttclient);
+            log.info("Connected to MQTT broker : " + mqttclient.getServerURI());
             mqttclient.subscribe(downlinkTopic);
         } catch (MqttException cause) {
             log.warn("Connection to upstream MQTT server failed", cause);
@@ -123,13 +124,14 @@ public class MqttTmDataLink extends AbstractTmDataLink implements MqttCallback {
         try {
             if (mqttclient != null && mqttclient.isConnected()) {
                 mqttclient.disconnect();
-                log.info("disconnected from MQTT", mqttclient);
+                log.info("disconnected from MQTT: %s", mqttclient.getServerURI());
                 mqttclient.close();
-                notifyStopped();
             }
         } catch (MqttException e) {
             log.error("Failed to disconnect from Mqtt server", e);
         }
+        notifyStopped();
+
     }
 
     @Override
@@ -152,8 +154,9 @@ public class MqttTmDataLink extends AbstractTmDataLink implements MqttCallback {
 
     @Override
     public void messageArrived(String topic, MqttMessage message) throws Exception {
-        log.info("received message from mqtt broker against topic %s : %s", topic, message.getPayload());
         byte[] packetData = message.getPayload();
+
+        log.info("received message from mqtt broker against topic %s : "+ Arrays.toString(packetData) + " and binary " + ByteArrayToBinary.byteArrayToBinary(packetData));
 
         // Now create a TmPacket object using the received packet data
         TmPacket tmPacket = new TmPacket(timeService.getMissionTime(), packetData);
