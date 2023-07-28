@@ -4,12 +4,13 @@ import org.eclipse.paho.client.mqttv3.*;
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 import org.yamcs.ConfigurationException;
 import org.yamcs.Spec;
+import org.yamcs.TmPacket;
 import org.yamcs.YConfiguration;
 import org.yamcs.tctm.AbstractTmDataLink;
 
 import javax.net.ssl.SSLSocketFactory;
 
-public class MqttTmDataLink extends AbstractTmDataLink implements  MqttCallback {
+public class MqttTmDataLink extends AbstractTmDataLink implements MqttCallback {
     private MqttClient mqttclient;
     long reconnectionDelay;
     private String username;
@@ -18,6 +19,7 @@ public class MqttTmDataLink extends AbstractTmDataLink implements  MqttCallback 
     private String clientId;
     private String downlinkTopic;
     private int qos;
+
     @Override
     protected Status connectionStatus() {
         return mqttclient.isConnected() ? Status.OK : Status.UNAVAIL;
@@ -81,7 +83,11 @@ public class MqttTmDataLink extends AbstractTmDataLink implements  MqttCallback 
             // it to come in here
             return;
         }
+        connectToBroker();
 
+    }
+
+    private void connectToBroker() {
         try {
             MqttConnectOptions connOpts = new MqttConnectOptions();
             connOpts.setCleanSession(true);
@@ -106,7 +112,7 @@ public class MqttTmDataLink extends AbstractTmDataLink implements  MqttCallback 
 
     @Override
     protected void doStart() {
-        if(!isDisabled()) {
+        if (!isDisabled()) {
             openConnection();
         }
         notifyStarted();
@@ -114,7 +120,7 @@ public class MqttTmDataLink extends AbstractTmDataLink implements  MqttCallback 
 
     @Override
     protected void doStop() {
-        try{
+        try {
             if (mqttclient != null && mqttclient.isConnected()) {
                 mqttclient.disconnect();
                 log.info("disconnected from MQTT", mqttclient);
@@ -127,17 +133,42 @@ public class MqttTmDataLink extends AbstractTmDataLink implements  MqttCallback 
     }
 
     @Override
+    public String getDetailedStatus() {
+        if (isDisabled()) {
+            return String.format("DISABLED (should connect to %s:%s)", brokerUrl, downlinkTopic);
+        }
+        if (mqttclient != null && mqttclient.isConnected()) {
+            return String.format("OK, connected to %s:%s)", brokerUrl, downlinkTopic);
+        } else {
+            return String.format("Not connected to %s:%s)", brokerUrl, downlinkTopic);
+        }
+    }
+
+    @Override
     public void connectionLost(Throwable cause) {
-        log.error("Connect");
+        log.error("Connection lost to mqtt broker, retrying...");
+        connectToBroker();
     }
 
     @Override
     public void messageArrived(String topic, MqttMessage message) throws Exception {
+        log.info("received message from mqtt broker against topic %s : %s", topic, message.getPayload());
+        byte[] packetData = message.getPayload();
+
+        // Now create a TmPacket object using the received packet data
+        TmPacket tmPacket = new TmPacket(timeService.getMissionTime(), packetData);
+        tmPacket.setEarthReceptionTime(timeService.getHresMissionTime());
+
+        // Process the packet using the packet preprocessor
+        TmPacket processedPacket = packetPreprocessor.process(tmPacket);
+
+        if (processedPacket != null) {
+            processPacket(processedPacket);
+        }
 
     }
 
     @Override
     public void deliveryComplete(IMqttDeliveryToken token) {
-
     }
 }
