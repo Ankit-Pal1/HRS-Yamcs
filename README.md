@@ -38,9 +38,9 @@ Build web interface:
 
 These commands will produce an optimized production version of the web interface. This process will take a few minutes. For faster incremental builds run in watch mode (`npm run watch`).
 
-For demo and development purposes we work with an all-in-one simulation environment that uses many Yamcs features. In this simulation, Yamcs receives TM from a simple simulator of a landing spacecraft. Yamcs can also send some basic TC. The simulator starts together with Yamcs as a subprocess.
+For testing purposes, we have created a yamcs-server under ***examples*** directory by the name **mqtt-mcs**. This server has custom MQTT connectors for connecting with **LeafSpace mqtt loopback** setup. We have also added a basic `ping` command in the **mdb**. To run this server: 
 
-    ./run-example.sh simulation
+    ./run-example.sh mqtt-mcs
 
 This configuration stores data to `/storage/yamcs-data`. Ensure this folder exists and that you can write to it.
 
