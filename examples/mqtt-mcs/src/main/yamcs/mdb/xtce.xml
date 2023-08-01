@@ -366,8 +366,10 @@
 				</ArgumentList>
 				<CommandContainer name="PingCommand">
 					<EntryList>
-						<FixedValueEntry binaryValue="01010101" sizeInBits="8"/>
+						<FixedValueEntry binaryValue="70696E67" sizeInBits="32"/>
+						<FixedValueEntry binaryValue="20" sizeInBits="8"/>
 						<ArgumentRefEntry argumentRef="Port" />
+						<FixedValueEntry binaryValue="20" sizeInBits="8"/>
 						<ArgumentRefEntry argumentRef="Value" />
 					</EntryList>
 					<BaseContainer containerRef="HRSMCSPacket" />

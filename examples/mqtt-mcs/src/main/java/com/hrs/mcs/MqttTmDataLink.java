@@ -1,5 +1,7 @@
 package com.hrs.mcs;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import org.eclipse.paho.client.mqttv3.*;
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 import org.yamcs.ConfigurationException;
@@ -154,9 +156,21 @@ public class MqttTmDataLink extends AbstractTmDataLink implements MqttCallback {
 
     @Override
     public void messageArrived(String topic, MqttMessage message) throws Exception {
-        byte[] packetData = message.getPayload();
+        String jsonPayload = new String(message.getPayload());
+        var gson = new Gson();
+        var leafResponse = gson.fromJson(jsonPayload, LeafMqttResponse.class);
+        String payloadHex = leafResponse.getPayload();
+        log.info("Payload Hex: " + payloadHex);
+        try{
+        byte[] packetData = ByteArrayToBinary.hexToBytes(payloadHex);
 
-        log.info("received message from mqtt broker against topic %s : "+ Arrays.toString(packetData) + " and binary " + ByteArrayToBinary.byteArrayToBinary(packetData));
+
+        log.info("received message from mqtt broker against topic %s : " + Arrays.toString(packetData) + "\n at time : " + leafResponse.timestamp );
+
+        String messageString = new String(Arrays.copyOfRange(packetData,8,packetData.length));
+
+        log.info("actual message from leaf : " +  messageString);
+
 
         // Now create a TmPacket object using the received packet data
         TmPacket tmPacket = new TmPacket(timeService.getMissionTime(), packetData);
@@ -165,8 +179,12 @@ public class MqttTmDataLink extends AbstractTmDataLink implements MqttCallback {
         // Process the packet using the packet preprocessor
         TmPacket processedPacket = packetPreprocessor.process(tmPacket);
 
+
         if (processedPacket != null) {
             processPacket(processedPacket);
+        }
+        }catch (Exception e){
+            log.error("error i parsing hex", e);
         }
 
     }

@@ -23,6 +23,17 @@ public class ByteArrayToBinary {
         return binary.toString().trim();
     }
 
+
+    /**@param  s must be an even-length string. */
+    public static byte[] hexToBytes(String hexString) {
+        String[] hexValues = hexString.split(" ");
+        byte[] decimalBytes = new byte[hexValues.length];
+        for (int i = 0; i < hexValues.length; i++) {
+            decimalBytes[i] = (byte) Integer.parseInt(hexValues[i].substring(2), 16);
+        }
+        return decimalBytes;
+    }
+
     public static void main(String[] args) {
         byte[] byteArray = { 0x4A, (byte) 0xAF, (byte) 0xC3, 0x2E };
         String binaryString = byteArrayToBinary(byteArray);

@@ -89,7 +89,7 @@ public class MqttTcDataLink extends AbstractThreadedTcDataLink implements MqttCa
         if (binary == null) {
             return;
         }
-        log.info("sent data to uplink : "+ Arrays.toString(binary) + " and binary " + ByteArrayToBinary.byteArrayToBinary(binary));
+        log.info("sent data to uplink : "+ Arrays.toString(binary) + "\n and binary " + ByteArrayToBinary.byteArrayToBinary(binary));
         try {
             mqttclient.publish(uplinkTopic, binary, qos, false);
         } catch (MqttException e) {

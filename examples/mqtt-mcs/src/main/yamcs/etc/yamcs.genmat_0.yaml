@@ -26,23 +26,23 @@ dataLinks:
   - name: mqtt-in
     class: com.hrs.mcs.MqttTmDataLink
     stream: tm_realtime
-    url: ssl://ua13aef5.ala.us-east-1.emqxsl.com:8883
+    url: ssl://mqtt-sandbox.leaf.space:8883
     prefix: genmat
-    downlink: your/topic
+    downlink: loopback/genmat01/downlink
     qos: 0
-    username: test
-    password: test
+    username: genmat01_loopback
+    password: kTTC6xWOsZPYqoxqHwiKA4HjXjcvQiuf
 #    packetPreprocessorClassName: com.hrs.mcs.MyPacketPreprocessor
 
   - name: mqtt-out
     class: com.hrs.mcs.MqttTcDataLink
     stream: tc_realtime
-    url: ssl://ua13aef5.ala.us-east-1.emqxsl.com:8883
+    url: ssl://mqtt-sandbox.leaf.space:8883
     prefix: genmat
-    uplink: your/topic
+    uplink: loopback/genmat01/uplink
     qos: 0
-    username: test
-    password: test
+    username: genmat01_loopback
+    password: kTTC6xWOsZPYqoxqHwiKA4HjXjcvQiuf
 #    commandPostprocessorClassName: com.example.myproject.MyCommandPostprocessor
 
 mdb:
