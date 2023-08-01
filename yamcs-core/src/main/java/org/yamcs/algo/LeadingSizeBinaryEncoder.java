@@ -16,6 +16,7 @@ public class LeadingSizeBinaryEncoder extends AbstractDataEncoder {
     
     @Override
     public void encodeRaw(DataEncoding de, Value rawValue, BitBuffer bitbuf) {
+        System.out.println("inside encodeRaw LeadingSizeBinaryEncoder");
         byte[] b = rawValue.getBinaryValue();
         bitbuf.putBits(b.length, sizeInBitsOfSizeTag);
         bitbuf.put(b);

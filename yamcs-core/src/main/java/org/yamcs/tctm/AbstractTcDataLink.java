@@ -97,6 +97,7 @@ public abstract class AbstractTcDataLink extends AbstractLink implements TcDataL
      * @return potentially modified binary, or {@code null} to indicate that the command should not be handled further.
      */
     protected byte[] postprocess(PreparedCommand pc) {
+        log.error("inside postProcess AbstractTcDataLink1::" + " " + pc +" ::");
         byte[] binary = pc.getBinary();
         if (!pc.disablePostprocessing()) {
             binary = cmdPostProcessor.process(pc);
@@ -104,6 +105,7 @@ public abstract class AbstractTcDataLink extends AbstractLink implements TcDataL
                 log.warn("command postprocessor did not process the command");
             }
         }
+        log.error("inside postProcess AbstractTcDataLink2::" + " " + binary +" ::");
         return binary;
     }
 

@@ -66,20 +66,30 @@ public class CommandingManager extends AbstractService {
      */
     public PreparedCommand buildCommand(MetaCommand mc, Map<String, Object> argAssignmentList, String origin,
             int seq, User user) throws ErrorInCommand, YamcsException {
+        log.error("inside buildCommand 1:: " + mc + " :" + argAssignmentList + " : " + origin + ":" + seq +" :" + user);
+
         log.debug("Building command {} with arguments {}", mc.getName(), argAssignmentList);
 
         CommandBuildResult cbr = metaCommandProcessor.buildCommand(mc, argAssignmentList);
+        log.error("inside buildCommand 2:: " +  cbr);
+
 
         CommandId cmdId = CommandId.newBuilder().setCommandName(mc.getQualifiedName()).setOrigin(origin)
                 .setSequenceNumber(seq).setGenerationTime(processor.getCurrentTime()).build();
+        log.error("inside buildCommand 3:: " +  cmdId);
         PreparedCommand pc = new PreparedCommand(cmdId);
+        log.error("inside buildCommand 4:: " +  pc);
         pc.setMetaCommand(mc);
         pc.setUnprocessedBinary(cbr.getCmdPacket());
+        System.out.println(cbr.getCmdPacket() + " :" + "get unprocessedBinary");
         pc.setBinary(cbr.getCmdPacket());
         pc.setUsername(user.getName());
 
         Set<String> userAssignedArgumentNames = new HashSet<>(argAssignmentList.keySet());
         pc.setArgAssignment(cbr.getArgs(), userAssignedArgumentNames);
+        log.error("inside buildCommand 5:: " +  userAssignedArgumentNames);
+
+        log.error("inside buildCommand 6:: " +  pc);
 
         return pc;
     }
@@ -106,8 +116,10 @@ public class CommandingManager extends AbstractService {
      * @return the queue that the command was sent to
      */
     public CommandQueue sendCommand(User user, PreparedCommand pc) {
+        log.error("inside sendCommand CommandingManager1 :: " + user +" :" + pc + "::");
         log.debug("sendCommand command={}", StringConverter.toString(pc.getCommandId()));
         ActiveCommand activeCommand = new ActiveCommand(processor, pc);
+        log.error("inside sendCommand CommandingManager2 :: " + activeCommand + "::");
         cmdHistoryManager.addCommand(pc);
         cmdHistoryManager.subscribeCommand(pc.getCommandId(), activeCommand);
         return commandQueueManager.addCommand(user, activeCommand);
@@ -168,7 +180,9 @@ public class CommandingManager extends AbstractService {
 
     public void releaseCommand(ActiveCommand activeCommand) {
         // start the verifiers
+        log.error("inside releaseCommand CommandingManager1 :: " + activeCommand + "::");
         MetaCommand mc = activeCommand.getMetaCommand();
+        log.error("inside releaseCommand CommandingManager1 :: " + mc + "::");
         if (mc.hasCommandVerifiers()) {
             log.debug("Starting command verification for {}", activeCommand);
             CommandVerificationHandler cvh = new CommandVerificationHandler(this, activeCommand);

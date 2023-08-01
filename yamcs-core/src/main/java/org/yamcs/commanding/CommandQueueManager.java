@@ -257,11 +257,15 @@ public class CommandQueueManager extends AbstractService implements ParameterPro
      * @return the queue the command was added to
      */
     public synchronized CommandQueue addCommand(User user, ActiveCommand activeCommand) {
+        log.error("inside addCommand CommandQueueManager1 :: " + user +" :" + activeCommand + "::");
+
         commandHistoryPublisher.addCommand(activeCommand.getPreparedCommand());
 
         long missionTime = timeService.getMissionTime();
 
         CommandQueue q = getQueue(user, activeCommand.getPreparedCommand());
+        log.error("inside addCommand CommandQueueManager2 :: " + q +" :"  + "::");
+
         if (q == null) {
             log.warn("No queue available for command {}", activeCommand.getLoggingId());
             commandHistoryPublisher.publishAck(activeCommand.getCommandId(),
@@ -296,6 +300,7 @@ public class CommandQueueManager extends AbstractService implements ParameterPro
             preReleaseCommand(q, activeCommand);
 
         }
+        log.error("inside addCommand CommandQueueManager3 :: " + q + "::");
 
         return q;
     }
@@ -303,6 +308,7 @@ public class CommandQueueManager extends AbstractService implements ParameterPro
     // if there are transmission constraints, start the checker;
     // if not just release the command
     private void preReleaseCommand(CommandQueue q, ActiveCommand pc) {
+        log.error("inside preReleaseCommand CommandQueueManager1 :: " + q +":"+pc+ "::");
         long missionTime = timeService.getMissionTime();
         if (pc.getMetaCommand().hasTransmissionConstraints() && !pc.disableTransmissionConstraints()) {
             startTransmissionConstraintChecker(q, pc);
@@ -442,6 +448,8 @@ public class CommandQueueManager extends AbstractService implements ParameterPro
     }
 
     private void releaseCommand(CommandQueue q, ActiveCommand activeCommand, boolean notify) {
+        log.error("inside releaseCommand CommandQueueManager1 :: " + q +":"+notify+ "::");
+
         commandingManager.releaseCommand(activeCommand);
         // Notify the monitoring clients
         if (notify) {

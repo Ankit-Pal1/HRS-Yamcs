@@ -76,14 +76,24 @@ public class CommandsApi extends AbstractCommandsApi<Context> {
 
     @Override
     public void issueCommand(Context ctx, IssueCommandRequest request, Observer<IssueCommandResponse> observer) {
+        log.error("inside issue command in CommandApi class:::1 " + ctx +" :" + request + " ::"+ observer +"::::");
+
         Processor processor = ProcessingApi.verifyProcessor(request.getInstance(), request.getProcessor());
+        log.error("inside issue command in CommandApi class:::2 " + processor);
+
         if (!processor.hasCommanding()) {
             throw new BadRequestException("Commanding not activated for this processor");
         }
 
         String requestCommandName = UriEncoder.decode(request.getName());
+        log.error("inside issue command in CommandApi class:::3 " + requestCommandName);
+
         XtceDb mdb = XtceDbFactory.getInstance(processor.getInstance());
+        log.error("inside issue command in CommandApi class:::4 " + mdb);
+
         MetaCommand cmd = MdbApi.verifyCommand(mdb, requestCommandName);
+        log.error("inside issue command in CommandApi class:::5 " + cmd);
+
 
         ctx.checkObjectPrivileges(ObjectPrivilegeType.Command, cmd.getQualifiedName());
 
@@ -119,10 +129,12 @@ public class CommandsApi extends AbstractCommandsApi<Context> {
         try {
             preparedCommand = processor.getCommandingManager().buildCommand(cmd, assignments, origin, sequenceNumber,
                     ctx.user);
+            log.error("inside issue command in CommandApi class:::6 " +preparedCommand);
+
             if (comment != null && !comment.trim().isEmpty()) {
                 preparedCommand.setComment(comment);
             }
-
+            log.error("inside issue command in CommandApi class:::7 " +comment);
             if (request.getExtraCount() > 0) {
                 ctx.checkSystemPrivilege(SystemPrivilege.CommandOptions);
                 request.getExtraMap().forEach((k, v) -> {
@@ -188,9 +200,12 @@ public class CommandsApi extends AbstractCommandsApi<Context> {
         CommandQueue queue;
         if (dryRun) {
             CommandQueueManager mgr = processor.getCommandingManager().getCommandQueueManager();
+            log.error("inside issue command in CommandApi class:::8 " +mgr);
             queue = mgr.getQueue(ctx.user, preparedCommand);
+            log.error("inside issue command in CommandApi class::: 9" +queue);
         } else {
             queue = processor.getCommandingManager().sendCommand(ctx.user, preparedCommand);
+            log.error("inside issue command in CommandApi class:::10 " +queue + "and" + ctx.user.getName() +":" + preparedCommand.getCommandName());
         }
 
         IssueCommandResponse.Builder responseb = IssueCommandResponse.newBuilder()
@@ -201,8 +216,9 @@ public class CommandsApi extends AbstractCommandsApi<Context> {
                 .setCommandName(preparedCommand.getMetaCommand().getQualifiedName())
                 .setUsername(preparedCommand.getUsername())
                 .addAllAssignments(preparedCommand.getAssignments());
-
+        log.error("inside issue command in CommandApi class:::11 " +responseb);
         byte[] unprocessedBinary = preparedCommand.getUnprocessedBinary();
+        log.error("inside issue command in CommandApi class::: 12" +unprocessedBinary);
         if (unprocessedBinary != null) {
             responseb.setUnprocessedBinary(ByteString.copyFrom(unprocessedBinary));
         }
@@ -211,11 +227,11 @@ public class CommandsApi extends AbstractCommandsApi<Context> {
         if (binary != null) {
             responseb.setBinary(ByteString.copyFrom(binary));
         }
-
+        log.error("inside issue command in CommandApi class::: 13" +binary);
         if (queue != null) {
             responseb.setQueue(queue.getName());
         }
-
+        log.error("inside issue command in CommandApi class:::14 " +queue);
         observer.complete(responseb.build());
     }
 

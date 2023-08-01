@@ -38,12 +38,17 @@ public class DataEncodingEncoder {
      * Encode the raw value of the argument into the packet.
      */
     public void encodeRaw(DataEncoding de, Value rawValue) {
-        pcontext.bitbuf.setByteOrder(de.getByteOrder());
+        log.error("inside encodeRaw in DataEncodingEncoder class it Encode the the raw value of the argument into the packet.");
+        log.error("inside encodeRaw in DataEncodingEncoder class ::"+ de + ":"+ de.getByteOrder() +":"+rawValue);
+        pcontext.bitbuf.setByteOrder(de.getByteOrder()); // apply log it is imp
+        log.error("inside encodeRaw in DataEncodingEncoder class ::"+ de.getToBinaryTransformAlgorithm());
 
         if (de.getToBinaryTransformAlgorithm() != null) {
+            log.error("inside encodeRaw in DataEncodingEncoder class => going to inside encodeRaw::"+ de.getToBinaryTransformAlgorithm());
             DataEncoder denc = pcontext.pdata.getDataEncoder(de);
             denc.encodeRaw(de, rawValue, pcontext.bitbuf);
         } else {
+            log.error("inside encodeRaw in DataEncodingEncoder class => going to inside encodeRawInt/Float/String/Binary::"+ de.getToBinaryTransformAlgorithm());
             if (de instanceof IntegerDataEncoding) {
                 encodeRawInteger((IntegerDataEncoding) de, rawValue);
             } else if (de instanceof FloatDataEncoding) {
@@ -114,10 +119,18 @@ public class DataEncodingEncoder {
     }
 
     private void encodeRawString(StringDataEncoding sde, Value rawValue) {
+        log.error("inside encodeRawString in DataEncodingEncoder::" + sde+":"+ rawValue);
         String v = rawRawStringValue(rawValue).getStringValue();
+        log.error("inside encodeRawString in DataEncodingEncoder::" + v+":");
+
         BitBuffer bitbuf = pcontext.bitbuf;
+        log.error("inside encodeRawString in DataEncodingEncoder::" + bitbuf);
+
 
         int initialBitPosition = bitbuf.getPosition();
+        log.error("inside encodeRawString in DataEncodingEncoder::" + initialBitPosition);
+        log.error("inside encodeRawString in DataEncodingEncoder::" + (initialBitPosition & 0x7));
+
 
         if ((initialBitPosition & 0x7) != 0) {
             throw new IllegalStateException(
@@ -127,24 +140,30 @@ public class DataEncodingEncoder {
 
         byte[] rawValueBytes;
         try {
-            rawValueBytes = v.getBytes(sde.getEncoding());
+            rawValueBytes = v.getBytes(sde.getEncoding()); // encoding is here
+            log.error("inside encodeRawString in DataEncodingEncoder::" + rawValueBytes);
+
         } catch (UnsupportedEncodingException e1) {
             throw new CommandEncodingException(pcontext, "Unsupported encoding '" + sde.getEncoding() + "'");
         }
 
         // bmr = buffer, max, or remaining size
         int bmr = sde.getMaxSizeInBytes();
+        log.error("inside encodeRawString in DataEncodingEncoder => bmr = buffer, max, or remaining size::" + bmr);
         if (bmr < 0 || bmr > bitbuf.remainingBytes()) {
             bmr = bitbuf.remainingBytes();
         }
+        log.error("inside encodeRawString in DataEncodingEncoder => bmr = buffer, max, or remaining size::" + bmr);
 
         // first determine the buffer size
         int bufSize = -1;
         DynamicIntegerValue div = sde.getDynamicBufferSize();
+        log.error("inside encodeRawString in DataEncodingEncoder => sde.getDynamicBufferSize()::" + sde.getDynamicBufferSize());
         if (div != null) {
             long sizeInBits;
             try {
                 sizeInBits = pcontext.resolveDynamicIntegerValue(div, false);
+                log.error("inside encodeRawString in DataEncodingEncoder::" + sizeInBits +":" + (sizeInBits & 7));
             } catch (XtceProcessingException e) {
                 throw new CommandEncodingException(pcontext, e.getMessage());
             }
@@ -154,6 +173,7 @@ public class DataEncodingEncoder {
                                 + " is not a multiple of 8: " + sizeInBits);
             }
             bufSize = (int) (sizeInBits >>> 3);
+            log.error("inside encodeRawString in DataEncodingEncoder bufSize::" + bufSize + "and bmr" + bmr);
             if (bufSize > bmr) {
                 throw new CommandEncodingException(pcontext,
                         "Size of string buffer (computed from " + div.getDynamicInstanceRef().getName() + ")"
@@ -162,18 +182,23 @@ public class DataEncodingEncoder {
                                 + sizeInBits + ">" + (8 * bmr));
             }
             bmr = bufSize;
+            log.error("inside encodeRawString in DataEncodingEncoder ::" + "bmr" + bmr);
         } else if (sde.getSizeInBits() > 0) {
+            log.error("inside encodeRawString in DataEncodingEncoder   else if (sde.getSizeInBits() > 0) ::" + sde.getSizeInBits());
             bufSize = sde.getSizeInBits() >>> 3;
+            log.error("inside encodeRawString in DataEncodingEncoder ::" + "bufsize" + bufSize);
             if (bufSize > bmr) {
                 throw new CommandEncodingException(pcontext, "Fixed size of string buffer exceeds the "
                         + ((bmr == sde.getMaxSizeInBytes()) ? "max" : "remaining") + " size: "
                         + sde.getSizeInBits() + ">" + (8 * bmr));
             }
             bmr = bufSize;
+            log.error("inside encodeRawString in DataEncodingEncoder ::" + "bmr" + bmr);
         }
 
         // then write the string
         int sizeInBytes;
+        log.error("inside encodeRawString in DataEncodingEncoder ::" + sde.getSizeType());
         switch (sde.getSizeType()) {
         case FIXED:
             assert (bufSize > 0);
@@ -210,6 +235,7 @@ public class DataEncodingEncoder {
             }
 
             bitbuf.put(rawValueBytes);
+            System.out.println("inside DataEncodingEncoder" + ":" + rawValue);
             if (bufSize < 0) {
                 bitbuf.putByte(sde.getTerminationChar());
             } else if (sizeInBytes < bufSize) {
@@ -220,7 +246,7 @@ public class DataEncodingEncoder {
         default:
             throw new IllegalStateException("Unsupported size type " + sde.getSizeType());
         }
-
+        log.error("inside encodeRawString in DataEncodingEncoder bitbuf::" + bitbuf + "and sizeInBytes" + sizeInBytes);
         if (bufSize > sizeInBytes) { // fill up with nulls to reach the required size
             byte[] nulls = new byte[bufSize - sizeInBytes];
             bitbuf.put(nulls);

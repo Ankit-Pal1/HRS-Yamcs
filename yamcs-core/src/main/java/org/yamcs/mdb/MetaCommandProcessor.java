@@ -32,20 +32,25 @@ public class MetaCommandProcessor {
 
     public CommandBuildResult buildCommand(MetaCommand mc, Map<String, Object> argAssignmentList)
             throws ErrorInCommand {
+        System.out.println("inside buildCommand MetaCommandProcessor1::" + mc.getCommandContainer().getName() +" :" + argAssignmentList);
         return buildCommand(pdata, mc, argAssignmentList);
     }
 
     public static CommandBuildResult buildCommand(ProcessorData pdata, MetaCommand mc,
             Map<String, Object> argAssignmentList) throws ErrorInCommand {
+        System.out.println("inside buildCommand MetaCommandProcessor::1" +pdata+":" + mc +" :" + argAssignmentList);
         if (mc.isAbstract()) {
             throw new ErrorInCommand("Not building command " + mc.getQualifiedName() + " because it is abstract");
         }
-
+        System.out.println("inside buildCommand MetaCommandProcessor::2" + mc.isAbstract());
         ProcessorConfig procConf = pdata.getProcessorConfig();
+        System.out.println("inside buildCommand MetaCommandProcessor procConf::3" + procConf);
 
         Map<Parameter, Value> params = new HashMap<>();
 
         CommandContainer cmdContainer = mc.getCommandContainer();
+        System.out.println("inside buildCommand MetaCommandProcessor cmdContainer::4" + cmdContainer.getQualifiedName());
+
         if (cmdContainer == null && !procConf.allowContainerlessCommands()) {
             throw new ErrorInCommand("MetaCommand " + mc.getName()
                     + " has no container (and the processor option allowContainerlessCommands is set to false)");
@@ -55,28 +60,42 @@ public class MetaCommandProcessor {
             collectParameters(cmdContainer, params);
         }
         BitBuffer bitbuf = new BitBuffer(new byte[procConf.getMaxCommandSize()]);
+        System.out.println("inside buildCommand MetaCommandProcessor bitbuf::5" + bitbuf);
         TcProcessingContext pcontext = new TcProcessingContext(mc, pdata, params, bitbuf, 0);
+        System.out.println("inside buildCommand MetaCommandProcessor TcProcessingContext pcontext::6" + pcontext);
 
         Map<String, Object> argAssignment = new HashMap<>(argAssignmentList);
+        System.out.println("inside buildCommand MetaCommandProcessor argAssignment::7" + argAssignment);
+
 
         List<ArgumentAssignment> inheritedAssignment = mc.getEffectiveArgumentAssignmentList();
+        System.out.println("inside buildCommand MetaCommandProcessor inheritedAssignment List::8" + inheritedAssignment);
 
         for (ArgumentAssignment aa : inheritedAssignment) {
+            System.out.println("inside buildCommand MetaCommandProcessor inheritedAssignment List::9" + aa );
+
             if (argAssignment.containsKey(aa.getArgumentName())) {
                 throw new ErrorInCommand("Cannot overwrite the argument " + aa.getArgumentName()
                         + " which is defined in the inheritance assignment list");
             }
             argAssignment.put(aa.getArgumentName(), aa.getArgumentValue());
+            System.out.println("inside buildCommand MetaCommandProcessor inheritedAssignment List::10" + aa.getArgumentName() +":" +  aa.getArgumentValue() );
+
         }
+        System.out.println("inside buildCommand MetaCommandProcessor::11" + argAssignment);
+        // it gets every argAssignment here which I have send from Yamcs
         collectAndCheckArguments(pcontext, argAssignment);
 
         byte[] binary = null;
+        System.out.println("inside buildCommand MetaCommandProcessor::" + binary +" and cmdContainer:12" + cmdContainer);
 
         if (cmdContainer != null) {
             try {
+                System.out.println("inside buildCommand MetaCommandProcessor for encoding::13");
+
                 pcontext.mccProcessor.encode(mc);
             } catch (CommandEncodingException e) {
-                throw new ErrorInCommand("Error when encoding command: " + e.getMessage());
+                throw new ErrorInCommand("Error when encoding command:14 " + e.getMessage());
             }
 
             int length = pcontext.getSize();
@@ -97,13 +116,22 @@ public class MetaCommandProcessor {
      */
     private static void collectAndCheckArguments(TcProcessingContext pcontext, Map<String, Object> args)
             throws ErrorInCommand {
+        System.out.println("inside collectAndCheckArguments MetaCommandProcessor::1" + pcontext +":" + args+"::");
 
         List<Argument> argList = pcontext.getCommand().getEffectiveArgumentList();
         List<Argument> unassigned = new ArrayList<>();
+        System.out.println("inside collectAndCheckArguments MetaCommandProcessor argList by pcontext::2" + argList);
 
         if (argList != null) {
             // check for each argument that we either have an assignment or an value
+            System.out.println("inside collectAndCheckArguments MetaCommandProcessor argList ::3" + "check for each argument that we either have an assignment or an value");
+
             for (Argument a : argList) {
+                System.out.println("inside collectAndCheckArguments MetaCommandProcessor argList by Argument a::4" + a);
+                System.out.println("inside collectAndCheckArguments MetaCommandProcessor argList by Argument a::5" + pcontext.hasArgumentValue(a));
+                System.out.println("inside collectAndCheckArguments MetaCommandProcessor argList by Argument a.getName()::6" + a.getName() + "andInitialValue" + a.getInitialValue() +
+                        "anda.getArgumentType().getInitialValue()" + a.getArgumentType().getInitialValue());
+
                 if (pcontext.hasArgumentValue(a)) {
                     continue;
                 }
@@ -136,6 +164,10 @@ public class MetaCommandProcessor {
                 pcontext.addArgumentValue(a, argValue);
             }
         }
+        System.out.println("inside collectAndCheckArguments MetaCommandProcessor pcontect::7" + pcontext);
+        System.out.println("inside collectAndCheckArguments MetaCommandProcessor unassigned::8" + unassigned);
+        System.out.println("inside collectAndCheckArguments MetaCommandProcessor pcontext.getCmdArgs().keySet()::9" + pcontext.getCmdArgs().keySet());
+
         if (!unassigned.isEmpty()) {
             // some arguments may have been assigned by the checkRange method
             // for example arguments used as dynamic array sizes
@@ -150,18 +182,26 @@ public class MetaCommandProcessor {
     // look at the command container if it inherits another container using a condition list and add those parameters
     // with the respective values
     private static void collectParameters(Container container, Map<Parameter, Value> params) throws ErrorInCommand {
+        System.out.println("inside collectParameters in MetaCommandProcessor::1" + container + " :"+ ":" + params);
         Container parent = container.getBaseContainer();
+        System.out.println("inside collectParameters in MetaCommandProcessor parent::2" + parent);
+
         if (parent != null) {
             MatchCriteria cr = container.getRestrictionCriteria();
+            System.out.println("inside collectParameters in MetaCommandProcessor criteria::3" + cr);
+
             if (cr instanceof ComparisonList) {
                 ComparisonList cl = (ComparisonList) cr;
                 for (Comparison c : cl.getComparisonList()) {
                     if (c.getComparisonOperator() == OperatorType.EQUALITY) {
                         Parameter param = ((ParameterInstanceRef) c.getRef()).getParameter();
+                        System.out.println("inside collectParameters in MetaCommandProcessor param::4" + param +" :" + param.getParameterType() + ":" + c.getStringValue());
                         if (param != null) {
                             try {
                                 Value v = ParameterTypeUtils.parseString(param.getParameterType(), c.getStringValue());
                                 params.put(param, v);
+                                System.out.println("inside collectParameters in MetaCommandProcessor param::5" + param +" :" + v + ":" );
+
                             } catch (IllegalArgumentException e) {
                                 throw new ErrorInCommand("Cannot parse '" + c.getStringValue()
                                         + "' as value for parameter " + param.getQualifiedName());
@@ -183,6 +223,7 @@ public class MetaCommandProcessor {
         }
 
         public byte[] getCmdPacket() {
+            System.out.println("inside getCmdpacket 11111111111111:: "+cmdPacket);
             return cmdPacket;
         }
 

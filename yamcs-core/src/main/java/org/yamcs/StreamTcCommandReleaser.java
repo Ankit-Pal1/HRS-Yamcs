@@ -90,6 +90,8 @@ public class StreamTcCommandReleaser extends AbstractProcessorService implements
     public void releaseCommand(PreparedCommand pc) {
         for (StreamWriter w : writers) {
             if (w.releaseCommand(pc)) {
+                log.error("inside releaseCommand StreamTcCommandReleaser1::"+ " ::"  );
+
                 return;
             }
         }
@@ -126,6 +128,7 @@ public class StreamTcCommandReleaser extends AbstractProcessorService implements
                     || tcPatterns.stream().anyMatch(p -> p.matcher(pc.getCommandName()).matches())) {
                 log.trace("Releasing command {} on stream {}", pc.getLoggingId(), stream.getName());
                 stream.emitTuple(pc.toTuple());
+                log.error("inside releaseCommand StreamTcCommandReleaser2::"+ " ::"  );
                 return true;
             }
             return false;

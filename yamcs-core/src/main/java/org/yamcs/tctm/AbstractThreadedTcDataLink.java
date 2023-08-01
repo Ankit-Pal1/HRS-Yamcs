@@ -100,11 +100,14 @@ public abstract class AbstractThreadedTcDataLink extends AbstractTcDataLink impl
      */
     @Override
     public boolean sendCommand(PreparedCommand pc) {
+        log.error("inside sendCommand AbstractThreadedTcDataLink1:" + pc + "::");
         if (!commandQueue.offer(pc)) {
+            log.error("inside sendCommand AbstractThreadedTcDataLink2:" + commandQueue.offer(pc) + "::");
             log.warn("Cannot put command {} in the queue, because it's full; sending NACK", pc);
             commandHistoryPublisher.commandFailed(pc.getCommandId(), getCurrentTime(),
                     "Link " + linkName + ": queue full");
         }
+        log.error("inside sendCommand AbstractThreadedTcDataLink2:" + linkName + "::");
         return true;
     }
 
@@ -129,6 +132,7 @@ public abstract class AbstractThreadedTcDataLink extends AbstractTcDataLink impl
             doHousekeeping();
             try {
                 PreparedCommand pc = commandQueue.poll(housekeepingInterval, TimeUnit.MILLISECONDS);
+                log.error("inside run Thread AbstractThreadedTcDataLink2:" + pc + "::");
                 if (pc == null) {
                     continue;
                 }
@@ -140,6 +144,8 @@ public abstract class AbstractThreadedTcDataLink extends AbstractTcDataLink impl
                     rateLimiter.acquire();
                 }
                 uplinkCommand(pc);
+                log.error("inside run Thread AbstractThreadedTcDataLink2:" + "after uplinkCommand" + "::");
+
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
                 break;

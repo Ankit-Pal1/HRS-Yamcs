@@ -50,6 +50,7 @@ public abstract class Stream {
     }
 
     public void emitTuple(Tuple tuple) {
+//        log.error("inside emitTuple Stream.java1 ::" + "::" );
         dataCount.incrementAndGet();
         for (StreamSubscriber s : subscribers) {
             try {

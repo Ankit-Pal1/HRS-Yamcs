@@ -35,19 +35,30 @@ public class MetaCommandContainerProcessor {
     }
 
     public void encode(MetaCommand metaCommand) throws ErrorInCommand {
+        log.error("inside encode for metaCommand so get baseMetaCommand::" + metaCommand.getBaseMetaCommand());
         MetaCommand parent = metaCommand.getBaseMetaCommand();
+        log.error("inside encode for metaCommand so get parent::" + parent);
+
         if (parent != null) {
             encode(parent);
         }
 
         CommandContainer container = metaCommand.getCommandContainer();
+        log.error("inside encode for metaCommand so get container::" + container);
+
         if (container == null) {
             throw new ErrorInCommand("MetaCommand has no container: " + metaCommand.getQualifiedName());
         }
 
         if (parent == null) { // strange case for inheriting only the container without a command
+            log.error("inside encode for metaCommand, inside if parent is null::" + parent);
+
             Container baseContainer = container.getBaseContainer();
+            log.error("inside encode for metaCommand baseContainer::" + baseContainer);
+
             if (baseContainer != null) {
+                log.error("inside encode for metaCommand baseContainer if not null::" + baseContainer);
+
                 encode(baseContainer);
             }
         }
@@ -56,6 +67,8 @@ public class MetaCommandContainerProcessor {
 
             int size = 0;
             BitBuffer bitbuf = pcontext.bitbuf;
+            log.error("inside encode for metaCommand bitBuffer::" + bitbuf + ":and get se.getReferenceLocation():" + se.getReferenceLocation());
+            log.error("inside encode for metaCommand::" + "bitbuf.getPosition():"+ bitbuf.getPosition() +":"+ se.getLocationInContainerInBits()  );
             switch (se.getReferenceLocation()) {
             case PREVIOUS_ENTRY:
                 bitbuf.setPosition(bitbuf.getPosition() + se.getLocationInContainerInBits());
@@ -63,16 +76,22 @@ public class MetaCommandContainerProcessor {
             case CONTAINER_START:
                 bitbuf.setPosition(se.getLocationInContainerInBits());
             }
+            log.error("inside encode for metaCommand bitbuf.getPosition()::" + bitbuf.getPosition() + ":and size:" + (bitbuf.getPosition() + 7) / 8);
             if (se instanceof ArgumentEntry) {
+                log.error("inside encode for metaCommand bitbuf.getPosition()::" + bitbuf.getPosition() + ":and size:" + (bitbuf.getPosition() + 7) / 8);
                 fillInArgumentEntry((ArgumentEntry) se, pcontext);
                 size = (bitbuf.getPosition() + 7) / 8;
             } else if (se instanceof FixedValueEntry) {
+                log.error("inside encode for metaCommand bitbuf.getPosition()::" + bitbuf.getPosition() + ":and size:" + (bitbuf.getPosition() + 7) / 8);
                 fillInFixedValueEntry((FixedValueEntry) se, pcontext);
                 size = (bitbuf.getPosition() + 7) / 8;
             } else if (se instanceof ParameterEntry) {
+                log.error("inside encode for metaCommand bitbuf.getPosition()::" + bitbuf.getPosition() + ":and size:" + (bitbuf.getPosition() + 7) / 8);
                 fillInParameterEntry((ParameterEntry) se, pcontext);
                 size = (bitbuf.getPosition() + 7) / 8;
             }
+            log.error("inside encode for metaCommand size comparison::" + size + ":and pcontext.getSize():" + pcontext.getSize() );
+
             if (size > pcontext.getSize()) {
                 pcontext.setSize(size);
             }
@@ -80,11 +99,18 @@ public class MetaCommandContainerProcessor {
     }
 
     private void encode(Container container) {
+        log.error("inside another encode function container:::" + container +": and get entryList from container:"+ container.getEntryList());
         Container baseContainer = container.getBaseContainer();
+        log.error("inside another encode function baseContainer:::" + baseContainer);
+
         if (baseContainer != null) {
+            log.error("inside another encode function if not null baseContainer:::" + baseContainer);
+
             encode(baseContainer);
         }
         for (SequenceEntry se : container.getEntryList()) {
+            log.error("inside another encode function get SequenceEntry:::" + se);
+
             int size = 0;
             BitBuffer bitbuf = pcontext.bitbuf;
             switch (se.getReferenceLocation()) {
@@ -111,27 +137,38 @@ public class MetaCommandContainerProcessor {
     }
 
     private void fillInArgumentEntry(ArgumentEntry argEntry, TcProcessingContext pcontext) {
+        log.error("inside fillInArgumentEntry ArgumentEntry argEntry:::" + argEntry +"::" + "TcProcessingContext" + pcontext);
         Argument arg = argEntry.getArgument();
+        log.error("inside fillInArgumentEntry Argument arg:::" + arg);
         ArgumentValue argValue = pcontext.getCmdArgument(arg);
+        log.error("inside fillInArgumentEntry Argument ArgumentValue argValue:::" + argValue);
         if (argValue == null) {
             throw new IllegalStateException("No value for argument " + arg.getName());
         }
         Value engValue = argValue.getEngValue();
+        log.error("inside fillInArgumentEntry Argument Value engValue:::" + engValue);
         ArgumentType atype = arg.getArgumentType();
+        log.error("inside fillInArgumentEntry Argument ArgumentType atype:::" + atype);
         Value rawValue = pcontext.argumentTypeProcessor.decalibrate(atype, engValue);
+        log.error("inside fillInArgumentEntry Argument Value rawValue:::" + rawValue);
         argValue.setRawValue(rawValue);
         encodeRawValue(arg.getName(), atype, rawValue, pcontext);
     }
 
     private void encodeRawValue(String argName, DataType type, Value rawValue, TcProcessingContext pcontext) {
+        log.error("inside encodeRawValue :::" + argName +" :" + type + " :" + rawValue+":" + pcontext+"::");
         if (type instanceof BaseDataType) {
+            log.error("inside encodeRawValue inside BaseDataType:::" );
             DataEncoding encoding = ((BaseDataType) type).getEncoding();
+            log.error("inside encodeRawValue inside BaseDataType DataEncoding encoding:::" + encoding );
+
             if (encoding == null) {
                 throw new CommandEncodingException("No encoding available for type '" + type.getName()
                         + "' used for argument '" + argName + "'");
             }
             pcontext.deEncoder.encodeRaw(encoding, rawValue);
         } else if (type instanceof AggregateDataType) {
+            log.error("inside encodeRawValue inside AggregateDataType:::" );
             AggregateDataType aggtype = (AggregateDataType) type;
             AggregateValue aggRawValue = (AggregateValue) rawValue;
             for (Member aggm : aggtype.getMemberList()) {
@@ -139,6 +176,7 @@ public class MetaCommandContainerProcessor {
                 encodeRawValue(argName + "." + aggm.getName(), aggm.getType(), mvalue, pcontext);
             }
         } else if (type instanceof ArrayDataType) {
+            log.error("inside encodeRawValue inside ArrayDataType:::" );
             ArrayDataType arrtype = (ArrayDataType) type;
             DataType etype = arrtype.getElementType();
             ArrayValue arrayRawValue = (ArrayValue) rawValue;

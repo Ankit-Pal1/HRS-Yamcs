@@ -143,9 +143,15 @@ public class PreparedCommand {
     }
 
     public byte[] getBinaryAttribute(String attrname) {
+        System.out.println("inside getBinaryAttribute PreparedCommand->1" + ":" + attrname);
         CommandHistoryAttribute a = getAttribute(attrname);
+        System.out.println("inside getBinaryAttribute PreparedCommand->2" + ":" + a);
         if (a != null) {
+            System.out.println("inside getBinaryAttribute PreparedCommand->3" + ":" + a.getValue());
             Value v = ValueUtility.fromGpb(a.getValue());
+            System.out.println("inside getBinaryAttribute PreparedCommand->4" + ":" + v);
+            System.out.println("inside getBinaryAttribute PreparedCommand->5" + ":" + a.getValue());
+            System.out.println("inside getBinaryAttribute PreparedCommand->6" + ":" + v.getType() + ":" + v.getBinaryValue());
             if (v.getType() == Type.BINARY) {
                 return v.getBinaryValue();
             }
@@ -323,6 +329,7 @@ public class PreparedCommand {
     }
 
     public byte[] getBinary() {
+        System.out.println(" inside getBinary PreparedCommand:::");
         return getBinaryAttribute(CNAME_BINARY);
     }
 
@@ -426,6 +433,7 @@ public class PreparedCommand {
 
     public CommandHistoryAttribute getAttribute(String name) {
         for (CommandHistoryAttribute a : attributes) {
+            System.out.println();
             if (name.equals(a.getName())) {
                 return a;
             }

@@ -62,12 +62,15 @@ public class UdpTcDataLink extends AbstractThreadedTcDataLink {
 
     @Override
     public void uplinkCommand(PreparedCommand pc) throws IOException {
+        log.error("inside uplinkCommand UdpTcDataLink1::" + pc + "::");
         byte[] binary = postprocess(pc);
+        log.error("inside uplinkCommand UdpTcDataLink::" + binary + "::");
         if (binary == null) {
             return;
         }
 
         DatagramPacket packet = new DatagramPacket(binary, binary.length, address, port);
+        log.error("inside uplinkCommand UdpTcDataLink::" + packet + "::");
         socket.send(packet);
         dataCount.getAndIncrement();
         ackCommand(pc.getCommandId());
