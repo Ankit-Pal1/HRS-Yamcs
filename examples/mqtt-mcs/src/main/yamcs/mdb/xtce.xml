@@ -250,20 +250,26 @@
 					<ValidRange minInclusive="1" maxInclusive="3" />
 				</ValidRangeSet>
 			</IntegerArgumentType>
-			<IntegerArgumentType name="Port" signed="false">
+			<StringArgumentType name="String_Type">
+				<StringDataEncoding encoding="UTF-8">
+					<Variable maxSizeInBits="200">
+						<DynamicValue>
+							<ParameterInstanceRef parameterRef="_yamcs_ignore" />
+						</DynamicValue>
+						<TerminationChar>00</TerminationChar>
+					</Variable>
+				</StringDataEncoding>
+			</StringArgumentType>
+			<EnumeratedArgumentType name="CommandNameType">
 				<UnitSet />
-				<IntegerDataEncoding encoding="unsigned" sizeInBits="16" />
-				<ValidRangeSet>
-					<ValidRange minInclusive="1" maxInclusive="10" />
-				</ValidRangeSet>
-			</IntegerArgumentType>
-			<IntegerArgumentType name="Value" signed="false">
-				<UnitSet />
-				<IntegerDataEncoding encoding="unsigned" sizeInBits="16" />
-				<ValidRangeSet>
-					<ValidRange minInclusive="1" maxInclusive="10" />
-				</ValidRangeSet>
-			</IntegerArgumentType>
+				<IntegerDataEncoding sizeInBits="8" />
+				<EnumerationList>
+					<Enumeration value="1" label="ping" />
+					<Enumeration value="2" label="eps" />
+					<Enumeration value="3" label="xband" />
+					<!-- Add more command names as needed -->
+				</EnumerationList>
+			</EnumeratedArgumentType>
 
 
 		</ArgumentTypeSet>
@@ -354,27 +360,35 @@
 					<BaseContainer containerRef="HRSMCSPacket" />
 				</CommandContainer>
 			</MetaCommand>
-			<MetaCommand name="PingCommand" shortDescription="Ping command">
+			<MetaCommand name="PingCommand" shortDescription="Ping command to ADCS">
 				<BaseMetaCommand metaCommandRef="HRSMCSPacket">
 					<ArgumentAssignmentList>
-						<ArgumentAssignment argumentName="Packet_ID" argumentValue="3" />
+						<ArgumentAssignment argumentName="Packet_ID" argumentValue="4" />
 					</ArgumentAssignmentList>
 				</BaseMetaCommand>
 				<ArgumentList>
-					<Argument argumentTypeRef="Port" name="Port" shortDescription="PingToADCS" />
-					<Argument argumentTypeRef="Value" name="Value" shortDescription="PingToADCS" />
+					<Argument argumentTypeRef="String_Type" name="Port" shortDescription="PingToADCS" />
+					<Argument argumentTypeRef="String_Type" name="Value" shortDescription="PingToADCS" />
 				</ArgumentList>
 				<CommandContainer name="PingCommand">
 					<EntryList>
-						<FixedValueEntry binaryValue="70696E67" sizeInBits="32"/>
-						<FixedValueEntry binaryValue="20" sizeInBits="8"/>
+						<!-- FixedValueEntry for "ping" -->
+						<FixedValueEntry name="CommandName" sizeInBits="32" binaryValue="70696E67" />
+						<!-- FixedValueEntry for space -->
+						<FixedValueEntry name="Space1" sizeInBits="8" binaryValue="20" />
+						<!-- ArgumentRefEntry for "Port" -->
 						<ArgumentRefEntry argumentRef="Port" />
-						<FixedValueEntry binaryValue="20" sizeInBits="8"/>
+						<!-- FixedValueEntry for space -->
+						<FixedValueEntry name="Space2" sizeInBits="8" binaryValue="20" />
+						<!-- ArgumentRefEntry for "Value" -->
 						<ArgumentRefEntry argumentRef="Value" />
 					</EntryList>
+
 					<BaseContainer containerRef="HRSMCSPacket" />
 				</CommandContainer>
 			</MetaCommand>
+
+
 		</MetaCommandSet>
 	</CommandMetaData>
 </SpaceSystem>
