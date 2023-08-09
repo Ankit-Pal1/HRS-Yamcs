@@ -66,9 +66,10 @@ public class CommandingManager extends AbstractService {
      */
     public PreparedCommand buildCommand(MetaCommand mc, Map<String, Object> argAssignmentList, String origin,
             int seq, User user) throws ErrorInCommand, YamcsException {
+        log.error("inside buildCommand in CommandingManager start");
         log.debug("Building command {} with arguments {}", mc.getName(), argAssignmentList);
 
-        CommandBuildResult cbr = metaCommandProcessor.buildCommand(mc, argAssignmentList);
+        CommandBuildResult cbr = metaCommandProcessor.buildCommand(mc, argAssignmentList); // {Value=3000, Port=2000}
 
         CommandId cmdId = CommandId.newBuilder().setCommandName(mc.getQualifiedName()).setOrigin(origin)
                 .setSequenceNumber(seq).setGenerationTime(processor.getCurrentTime()).build();
@@ -80,7 +81,7 @@ public class CommandingManager extends AbstractService {
 
         Set<String> userAssignedArgumentNames = new HashSet<>(argAssignmentList.keySet());
         pc.setArgAssignment(cbr.getArgs(), userAssignedArgumentNames);
-
+//        log.error("inside buildCommand in CommandingManager end");
         return pc;
     }
 

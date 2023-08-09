@@ -38,17 +38,26 @@ public class DataEncodingEncoder {
      * Encode the raw value of the argument into the packet.
      */
     public void encodeRaw(DataEncoding de, Value rawValue) {
-        pcontext.bitbuf.setByteOrder(de.getByteOrder());
+        // de values
+        // IntegerDataEncoding[sizeInBits: (3,1,1,11,2,16), byteOrder: BIG_ENDIAN, encoding:UNSIGNED]
+        // StringDataEncoding size: TERMINATION_CHAR(terminationChar=0)
 
-        if (de.getToBinaryTransformAlgorithm() != null) {
+        // rawValue on everyLoop = 0 1 0 101 3 4 2000 3000 picked from xtce.xml file
+
+        log.error("inside encodeRaw in DataEncodingEncoder::");
+        pcontext.bitbuf.setByteOrder(de.getByteOrder()); // BIG_ENDIAN
+
+        if (de.getToBinaryTransformAlgorithm() != null) { // null so not run
             DataEncoder denc = pcontext.pdata.getDataEncoder(de);
             denc.encodeRaw(de, rawValue, pcontext.bitbuf);
         } else {
             if (de instanceof IntegerDataEncoding) {
+                System.out.println("inside IntegerDataEncoding" + rawValue);
                 encodeRawInteger((IntegerDataEncoding) de, rawValue);
             } else if (de instanceof FloatDataEncoding) {
                 encodeRawFloat((FloatDataEncoding) de, rawValue);
             } else if (de instanceof StringDataEncoding) {
+                System.out.println("inside StringDataEncoding");
                 encodeRawString((StringDataEncoding) de, rawValue);
             } else if (de instanceof BinaryDataEncoding) {
                 encodeRawBinary((BinaryDataEncoding) de, rawValue, pcontext);
@@ -61,14 +70,20 @@ public class DataEncodingEncoder {
 
     private void encodeRawInteger(IntegerDataEncoding ide, Value rawValue) {
         // Integer encoded as string
-        if (ide.getEncoding() == Encoding.STRING) {
+//        log.error("inside encodeRawInteger in DataEncodingEncoder::"+ ide +":" + rawValue+":" + ide.getEncoding()+":"+ Encoding.STRING+":" + ide.getStringEncoding());
+//        IntegerDataEncoding[sizeInBits: 16, byteOrder: BIG_ENDIAN, encoding:UNSIGNED]:4:UNSIGNED:STRING:null
+
+        // rawValue on everyLoop = 0 1 0 101 3 4 2000 3000 picked from xtce.xml file
+
+        if (ide.getEncoding() == Encoding.STRING) { // not going inside
+//            log.error("i am in");
             encodeRaw(ide.getStringEncoding(), rawValue);
             return;
         }
 
         // STEP 0 convert the value to a long
         long v;
-        switch (rawValue.getType()) {
+        switch (rawValue.getType()) { // UINT32
         case SINT32:
             v = rawValue.getSint32Value();
             break;
@@ -77,6 +92,8 @@ public class DataEncodingEncoder {
             break;
         case UINT32:
             v = rawValue.getUint32Value() & 0xFFFFFFFFL;
+//            log.error("v value::"+ v +":" +  rawValue.getUint32Value() +":");
+            //it will print values as follows => 0:0, 1:1, 0:0, 101:101, SINT64, 4:4 => for each iteration remember loop is running
             break;
         case UINT64:
             v = rawValue.getUint64Value();
@@ -93,8 +110,8 @@ public class DataEncodingEncoder {
         default:
             throw new IllegalArgumentException("Cannot encode values of types " + rawValue.getType() + " to integer");
         }
-        int sizeInBits = ide.getSizeInBits();
-
+        int sizeInBits = ide.getSizeInBits(); //sizeInBits: 3 1 1 11 2 16 for each iteration remember loop is running
+//        log.error(sizeInBits + ":" + ide.getEncoding()); // 3:UNSIGNED 1:UNSIGNED 1:UNSIGNED 11:UNSIGNED 2:UNSIGNED 16:UNSIGNED for each iteration remember loop is running
         switch (ide.getEncoding()) {
         case TWOS_COMPLEMENT:
             v = (v << (64 - sizeInBits) >>> (64 - sizeInBits));
@@ -110,7 +127,7 @@ public class DataEncodingEncoder {
         default:
             throw new UnsupportedOperationException("encoding " + ide.getEncoding() + " not implemented");
         }
-        pcontext.bitbuf.putBits(v, sizeInBits);
+        pcontext.bitbuf.putBits(v, sizeInBits);  //v : 0 1 0 101 SINT64 4 || sizeInBits: 3 1 1 11 2 16 (defined in xtce) for each iteration remember loop is running
     }
 
     private void encodeRawString(StringDataEncoding sde, Value rawValue) {

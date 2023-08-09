@@ -150,47 +150,85 @@ public class BitBuffer {
      * put the least significant numBits from value into the buffer, increasing the position with numBits
      */
     public void putBits(long value, int numBits) {
+        // value : 0 1 0 101 SINT64 4
+        // numBits: 3 1 1 11 2 16
+        System.out.println("inside putBits in BitBiffer start:: value::");
         if (numBits > 64) {
             throw new IllegalArgumentException("Invalid numBits " + numBits + " max value: 64");
         }
-        // cleanup the first 64-numBits bits just in case
-        long v = (numBits < 64) ? value & ((1L << numBits) - 1) : value;
 
-        if (byteOrder == ByteOrder.LITTLE_ENDIAN) {
+        // cleanup the first 64-numBits bits just in case
+//        long v = (numBits < 64) ? value & ((1L << numBits) - 1) : value; // 0 1 0 101 3 0 0 0 0 4 112 105 110 103 32 32
+
+        long v; // 1L << numBits => formula 1 * power(2,11)
+        if(numBits<64) {
+            v = value & ((1L << numBits) - 1); //  v; // 0 1 0 101 3 0 0 0 0 4 112 105 110 103 32 32  strange
+        } else { // not going inside
+            v = value;
+        }
+        if (byteOrder == ByteOrder.LITTLE_ENDIAN) { // not going inside due to byteOrder is BIG_ENDIAN
             putBitsLE(v, numBits);
             return;
         }
-
-        int bytepos = position >> 3;
-        int n = numBits;
+        // System.out.println("get position value: " + position+":" + (position>>3) +":" + numBits);
+        // get position value: 8:1:3
+        // get position value: 11:1:1
+        // get position value: 12:1:1
+        // get position value: 13:1:11
+        // get position value: 24:3:2
+        // get position value: 26:3:6
+        // get position value: 32:4:8
+        // get position value: 40:5:8
+        // get position value: 48:6:8   output for each iteration
+        int bytepos = position >> 3; // formula = position / 2^3
+        int n = numBits; // 3 1 1 11 2 6 8 8 8  strange
         int fbb = -position & 0x7; // how many bits are from position until the end of the byte
-        if (fbb > 0) {
+//        System.out.println("get fbb value:" + fbb); // 0 5 4 3 0 6 0 0 0 0 0 0 0 0 0
+        if (fbb > 0) { // Resume from here
+//            System.out.println("get fbb value1:" + fbb); // 5 4 3 6
             if (n <= fbb) { // the value fits entirely within the first byte
-                int m = fbb - n;
-                position += numBits;
+//                System.out.println("get n value2:" + n); // 1 1  6
+                int m = fbb - n; //4 3  0
+                position += numBits;//12 13 32
                 b[idx(bytepos)] &= ~(((1 << n) - 1) << m);
                 b[idx(bytepos)] |= (v << m);
-
+//                System.out.println("get n value3:" + ~(((1 << n) - 1) << m)+":" + (v << m));
+                // it will store binary value  -17(11101111):16, -9(11110111):0, -64(11000000):0
                 return;
             } else {
-                n -= fbb;
+//                System.out.println("get n value1:"+n +":fbb:"+ fbb ); //n:11:fbb:3
+                n -= fbb; //8
+//                System.out.println("get n value2:"+n);
                 b[idx(bytepos)] &= -1 << fbb;
+//                System.out.println("get n value3:"+ (-1 << fbb)); //-8
                 b[idx(bytepos)] |= (v >>> n);
+//                System.out.println("get n value4:"+ (v >>> n)); //0
                 v = v & ((1L << n) - 1);
+//                System.out.println("get n value5:"+ (v & ((1L << n) - 1))+":"+bytepos);// 101:1
                 bytepos++;
+//                System.out.println("get n value6:"+bytepos);// 2
             }
         }
         while (n > 8) {
+//            System.out.println("get n value1:"+n); //16
             n -= 8;
+//            System.out.println("get n value2:"+n);//8
             b[idx(bytepos)] = (byte) (v >>> n);
+//            System.out.println("get n value3:"+(byte) (v >>> n));//0
             v = v & ((1L << n) - 1);
+//            System.out.println("get n value4:"+v+":"+bytepos);//4:7
             bytepos++;
+//            System.out.println("get n value4:"+bytepos); // 8
         }
 
         b[idx(bytepos)] &= ((1 << (8 - n)) - 1);
+//        System.out.println("get nfgh value5:"+((1 << (8 - n)) - 1)); // 31, 0, 63 0 0 0 0 0 0 0 0 0 0
         b[idx(bytepos)] |= v << (8 - n);
-
+//        System.out.println("get nfgh value6:"+":"+ (v << (8 - n)) +"numBits:"+ numBits);// 0:3, 101:11, 192:,0:8, 0:8,0:8 4:16 112:8 105:8 110:8 103:8 32:8, 32:8
+        // numbits: 3 11 2 8 8 8 16 8 8 8 8 8 8
         position += numBits;
+//        System.out.println("get nfgh value8:"+position); // 11 24 26 40 48 56 72 80 88 96 104 112 160
+
 
     }
 

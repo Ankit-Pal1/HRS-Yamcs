@@ -44,7 +44,6 @@ public class TcProcessingContext extends ProcessingData {
         this.deEncoder = new DataEncodingEncoder(this);
         this.argumentTypeProcessor = new ArgumentTypeProcessor(this);
     }
-
     /**
      * Look up an argument by name only, for cases in which we do not have the full argument definition, such as
      * arguments used for defining the length of other variable-length arguments.
@@ -86,7 +85,9 @@ public class TcProcessingContext extends ProcessingData {
         return cmdArgs.containsKey(a);
     }
 
-    public void addArgumentValue(Argument a, Value argValue) {
+    public void addArgumentValue(Argument a, Value argValue) { // it is loading data of defined metacommand from xtce.xml
+//        System.out.println("inside addArgumentValue in TcProcessingContext 1::" + a+":" + a.getName() +":" + a.getInitialValue()+":" );
+//        System.out.println("inside addArgumentValue in TcProcessingContext 2::" + argValue+":" +":"  +":" );
         if (cmdArgs.containsKey(a)) {
             throw new IllegalStateException("There is already a value for argument " + a.getName());
         }

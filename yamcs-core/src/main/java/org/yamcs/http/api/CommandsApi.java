@@ -76,7 +76,8 @@ public class CommandsApi extends AbstractCommandsApi<Context> {
 
     @Override
     public void issueCommand(Context ctx, IssueCommandRequest request, Observer<IssueCommandResponse> observer) {
-        Processor processor = ProcessingApi.verifyProcessor(request.getInstance(), request.getProcessor());
+        log.error("inside issueCommand in CommandApi start");
+        Processor processor = ProcessingApi.verifyProcessor(request.getInstance(), request.getProcessor()); // realtime
         if (!processor.hasCommanding()) {
             throw new BadRequestException("Commanding not activated for this processor");
         }
@@ -84,8 +85,7 @@ public class CommandsApi extends AbstractCommandsApi<Context> {
         String requestCommandName = UriEncoder.decode(request.getName());
         XtceDb mdb = XtceDbFactory.getInstance(processor.getInstance());
         MetaCommand cmd = MdbApi.verifyCommand(mdb, requestCommandName);
-
-        ctx.checkObjectPrivileges(ObjectPrivilegeType.Command, cmd.getQualifiedName());
+        ctx.checkObjectPrivileges(ObjectPrivilegeType.Command, cmd.getQualifiedName()); // /myproject/PingCommand
 
         String origin = ctx.getClientAddress();
         int sequenceNumber = 0;
@@ -111,8 +111,11 @@ public class CommandsApi extends AbstractCommandsApi<Context> {
                 assignments.put(a.getName(), a.getValue());
             }
         } else if (request.hasArgs()) {
-            assignments.putAll(GpbWellKnownHelper.toJava(request.getArgs()));
+            assignments.putAll(GpbWellKnownHelper.toJava(request.getArgs()));// assignments : {Value=3000, Port=2000}
+
         }
+//        System.out.println(assignments+":" +":" + cmd.getArgumentList()+":" + cmd.getArgumentAssignmentList());
+//        {Value=3000, Port=2000}::[ArgName: Port argType:StringArgumentType name:String_Type encoding: StringDataEncoding size: TERMINATION_CHAR(terminationChar=0), ArgName: Value argType:StringArgumentType name:String_Type encoding: StringDataEncoding size: TERMINATION_CHAR(terminationChar=0)]:[Packet_ID=4]
 
         // Prepare the command
         PreparedCommand preparedCommand;
@@ -122,7 +125,7 @@ public class CommandsApi extends AbstractCommandsApi<Context> {
             if (comment != null && !comment.trim().isEmpty()) {
                 preparedCommand.setComment(comment);
             }
-
+//            log.error("inside issueCommand in CommandApi:" + request.getExtraCount());
             if (request.getExtraCount() > 0) {
                 ctx.checkSystemPrivilege(SystemPrivilege.CommandOptions);
                 request.getExtraMap().forEach((k, v) -> {
@@ -130,6 +133,7 @@ public class CommandsApi extends AbstractCommandsApi<Context> {
                     if (commandOption == null) {
                         throw new BadRequestException("Unknown command option '" + k + "'");
                     }
+//                    log.error("inside issueCommand in CommandApi:" + "k is name" +k+"v is value" +v);
                     preparedCommand.addAttribute(CommandHistoryAttribute.newBuilder()
                             .setName(k)
                             .setValue(commandOption.coerceValue(v))
@@ -145,7 +149,8 @@ public class CommandsApi extends AbstractCommandsApi<Context> {
             if (request.hasDisableTransmissionConstraints()) {
                 ctx.checkSystemPrivilege(SystemPrivilege.CommandOptions);
                 preparedCommand.disableTransmissionConstraints(request.getDisableTransmissionConstraints());
-            } else if (request.getVerifierConfigCount() > 0) {
+            }
+            else if (request.getVerifierConfigCount() > 0) {
                 ctx.checkSystemPrivilege(SystemPrivilege.CommandOptions);
                 List<String> invalidVerifiers = new ArrayList<>();
                 for (String stage : request.getVerifierConfigMap().keySet()) {
@@ -215,7 +220,7 @@ public class CommandsApi extends AbstractCommandsApi<Context> {
         if (queue != null) {
             responseb.setQueue(queue.getName());
         }
-
+        log.error("inside issueCommand in CommandApi end");
         observer.complete(responseb.build());
     }
 

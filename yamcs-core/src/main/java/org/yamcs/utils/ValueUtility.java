@@ -82,7 +82,7 @@ public class ValueUtility {
         return org.yamcs.protobuf.Yamcs.Value.newBuilder().setType(Type.UINT32).setUint32Value(x).build();
     }
 
-    public static Value getColumnValue(ColumnDefinition cd, Object v) {
+    public static Value getColumnValue(ColumnDefinition cd, Object v) {// (gentime TIMESTAMP, 1690916803978)
         switch (cd.getType().val) {
         case INT:
             return getSint32Value((Integer) v);
@@ -355,6 +355,7 @@ public class ValueUtility {
             if (v.hasTimestampValue()) {
                 return new TimestampValue(v.getTimestampValue());
             } else if (v.hasStringValue()) {
+                System.out.println("inside value utility :" + TimeEncoding.parse(v.getStringValue()));
                 return new TimestampValue(TimeEncoding.parse(v.getStringValue()));
             } else {
                 throw new IllegalArgumentException("No string or timestamp value provided ");

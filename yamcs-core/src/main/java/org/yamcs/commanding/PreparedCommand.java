@@ -1,13 +1,7 @@
 package org.yamcs.commanding;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.Set;
 
 import org.yamcs.StandardTupleDefinitions;
 import org.yamcs.cmdhistory.protobuf.Cmdhistory.Assignment;
@@ -142,11 +136,24 @@ public class PreparedCommand {
         return null;
     }
 
-    public byte[] getBinaryAttribute(String attrname) {
+    public byte[] getBinaryAttribute(String attrname) { // attrname = "unprocessedBinary"
+//        System.out.println("inside getBinaryAttribute in PreparedCommand");
         CommandHistoryAttribute a = getAttribute(attrname);
+//        System.out.println("inside getBinaryAttribute in PreparedCommand::1:" + a +":" + a.getValue()+":");
+//        name: "binary"
+//        value {
+//            type: BINARY
+//            binaryValue: "\020e\300\000\000\000\000\004ping 4000\000 5000\000"
+//        }
+//        :type: BINARY
+//        binaryValue: "\020e\300\000\000\000\000\004ping 4000\000 5000\000"
+//        :
+
         if (a != null) {
             Value v = ValueUtility.fromGpb(a.getValue());
             if (v.getType() == Type.BINARY) {
+//                System.out.println("inside getBinaryAttribute in PreparedCommand::2:" + v +":" + v.getType()+":"+ v.getBinaryValue());// 1065C0000000000470696E67203430303000203530303000:BINARY:[B@2248246a
+
                 return v.getBinaryValue();
             }
         }
@@ -264,16 +271,18 @@ public class PreparedCommand {
         CommandId cmdId = getCommandId(t);
         PreparedCommand pc = new PreparedCommand(cmdId);
         pc.setMetaCommand(xtcedb.getMetaCommand(cmdId.getCommandName()));
-
+//        System.out.println("inside fromTuple in PreparedCommand:Tuple t:" + t+"and t size" + t.size()+":"+t.getColumnDefinition(0) + ":" + t.getColumnDefinition(0).getName() +":" + t.getColumn(0));
         for (int i = 0; i < t.size(); i++) {
             ColumnDefinition cd = t.getColumnDefinition(i);
             String name = cd.getName();
             if (isProtectedColumn(name)) {
                 continue;
             }
-            Value v = ValueUtility.getColumnValue(cd, t.getColumn(i));
+            Value v = ValueUtility.getColumnValue(cd, t.getColumn(i));// here issue
+//            System.out.println("inside fromTuple in PreparedCommand:"+v+":" +":" +":");
             CommandHistoryAttribute a = CommandHistoryAttribute.newBuilder().setName(name)
                     .setValue(ValueUtility.toGbp(v)).build();
+//            System.out.println("inside fromTuple in PreparedCommand:" + a); // here it is filling name and value in attributeArrayList
             pc.attributes.add(a);
         }
 
@@ -316,6 +325,7 @@ public class PreparedCommand {
 
     public void addAttribute(CommandHistoryAttribute cha) {
         String name = cha.getName();
+        System.out.println("addAttribute ::" + cha +":" + name);
         if (isProtectedColumn(name)) {
             throw new IllegalArgumentException("Cannot use '" + name + "' as a command attribute");
         }
@@ -331,7 +341,8 @@ public class PreparedCommand {
     }
 
     public byte[] getUnprocessedBinary() {
-        return getBinaryAttribute(CNAME_UNPROCESSED_BINARY);
+//        System.out.println("inside getUnprocessedBinary in PreparedCommand");
+        return getBinaryAttribute(CNAME_UNPROCESSED_BINARY); // "unprocessedBinary" passing
     }
 
     public void setUnprocessedBinary(byte[] b) {
@@ -424,7 +435,9 @@ public class PreparedCommand {
         return verifierConfig;
     }
 
-    public CommandHistoryAttribute getAttribute(String name) {
+    public CommandHistoryAttribute getAttribute(String name) { // name = "unprocessedBinary"
+//        System.out.println("inside getAttribute in PreparedCommand:attributes:" + attributes+":" + attributes.get(0).getName());// it stores in list:: name:unprocessedBinary, binary, username value{type:BINARY binaryValue: ""\020e\300\000\000\000\000\004ping 4000\000 5000\000""}
+//        System.out.println("inside getAttribute in PreparedCommand now get how "attribute have name and value" from "fromTuple");
         for (CommandHistoryAttribute a : attributes) {
             if (name.equals(a.getName())) {
                 return a;

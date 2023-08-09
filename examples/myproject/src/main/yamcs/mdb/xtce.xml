@@ -2,6 +2,7 @@
 <SpaceSystem name="myproject" xmlns="http://www.omg.org/spec/XTCE/20180204" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.omg.org/spec/XTCE/20180204 https://www.omg.org/spec/XTCE/20180204/SpaceSystem.xsd">
 	<TelemetryMetaData>
 		<ParameterTypeSet>
+<!--			define telemetry data encoding format-->
 			<AggregateParameterType name="CCSDS_Packet_ID_Type">
 				<MemberList>
 					<Member name="Version" typeRef="CCSDS_Version_Type" />
@@ -87,6 +88,7 @@
 			</EnumeratedParameterType>
 		</ParameterTypeSet>
 		<ParameterSet>
+			<!--			define telemetry data name -->
 			<Parameter name="CCSDS_Packet_ID" parameterTypeRef="CCSDS_Packet_ID_Type" />
 			<Parameter name="CCSDS_Packet_Sequence" parameterTypeRef="CCSDS_Packet_Sequence_Type" />
 			<Parameter name="CCSDS_Packet_Length" parameterTypeRef="CCSDS_Packet_Length_Type" />
@@ -131,6 +133,18 @@
 		</ParameterSet>
 		<ContainerSet>
 			<SequenceContainer abstract="true" name="CCSDSPacket">
+<!--				1. to describe telemetry formats (CCSDS packet, etc...)-->
+<!--				– Specify Sequence of parameters-->
+<!--					• various options to manipulate sequence-->
+<!--					– Optionally EXTEND another container in an inheritance like fashion-->
+<!--				• (CommandContainers and MetaCommand/CommandContainers are similar)-->
+
+<!--				2. Use to represent “memory layout” of Parameters (e.g. a packet or-->
+<!--				minor frame) minor frame)-->
+<!--				– EntryList specifies content and layout:-->
+<!--				Lookup parameter then parameter type then parameter type encoding and then sizeInBits-->
+
+<!--				By default EntryList assumes items are “packed”&ndash;&gt;-->
 				<EntryList>
 					<ParameterRefEntry parameterRef="CCSDS_Packet_ID" />
 					<ParameterRefEntry parameterRef="CCSDS_Packet_Sequence" />
@@ -366,14 +380,12 @@
 				</CommandContainer>
 			</MetaCommand>
 
-
-
 			<MetaCommand name="PingCommand" shortDescription="Ping command to ADCS">
 				<BaseMetaCommand metaCommandRef="MyProjectPacket">
 					<ArgumentAssignmentList>
 						<ArgumentAssignment argumentName="Packet_ID" argumentValue="4" />
 					</ArgumentAssignmentList>
-				</BaseMetaCommand>-->
+				</BaseMetaCommand>
 				<ArgumentList>
 					<Argument argumentTypeRef="String_Type" name="Port" shortDescription="PingToADCS" />
 					<Argument argumentTypeRef="String_Type" name="Value" shortDescription="PingToADCS" />
@@ -396,7 +408,22 @@
 				</CommandContainer>
 			</MetaCommand>
 
+			<MetaCommand name="SendString">
+			<CommandContainer name="SendString">
+				<EntryList>
+					<!-- FixedValueEntry for payload (ASCII representation of "Hello World") -->
+					<FixedValueEntry name="PayloadData" sizeInBits="80" binaryValue="48656C6C6F20576F726C64" />
+				</EntryList>
+			</CommandContainer>
+			</MetaCommand>
+
+
+
+
+
 
 		</MetaCommandSet>
 	</CommandMetaData>
 </SpaceSystem>
+
+
