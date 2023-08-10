@@ -271,6 +271,37 @@
 				</EnumerationList>
 			</EnumeratedArgumentType>
 
+			<StringArgumentType name="Battery_Types">
+				<StringDataEncoding encoding="UTF-8">
+					<Variable maxSizeInBits="200">
+						<DynamicValue>
+							<ParameterInstanceRef parameterRef="_yamcs_ignore" />
+						</DynamicValue>
+						<TerminationChar>20</TerminationChar>
+					</Variable>
+				</StringDataEncoding>
+			</StringArgumentType>
+			<StringArgumentType name="Voltage_Type">
+				<StringDataEncoding encoding="UTF-8">
+					<Variable maxSizeInBits="200">
+						<DynamicValue>
+							<ParameterInstanceRef parameterRef="_yamcs_ignore" />
+						</DynamicValue>
+						<TerminationChar>20</TerminationChar>
+					</Variable>
+				</StringDataEncoding>
+			</StringArgumentType>
+			<StringArgumentType name="Current_Type">
+				<StringDataEncoding encoding="UTF-8">
+					<Variable maxSizeInBits="200">
+						<DynamicValue>
+							<ParameterInstanceRef parameterRef="_yamcs_ignore" />
+						</DynamicValue>
+						<TerminationChar>20</TerminationChar>
+					</Variable>
+				</StringDataEncoding>
+			</StringArgumentType>
+
 
 		</ArgumentTypeSet>
 		<MetaCommandSet>
@@ -385,6 +416,27 @@
 					</EntryList>
 
 					<BaseContainer containerRef="HRSMCSPacket" />
+				</CommandContainer>
+			</MetaCommand>
+
+			<MetaCommand name="EPS" shortDescription="Send fixed value 'Hello World!'">
+				<ArgumentList>
+					<Argument argumentTypeRef="Battery_Types" name="Battery" shortDescription="PingToBattery" />
+					<Argument argumentTypeRef="Voltage_Type" name="Voltage" shortDescription="PingToVoltage" />
+					<Argument argumentTypeRef="Current_Type" name="Current" shortDescription="PingToCurrent" />
+				</ArgumentList>
+				<CommandContainer name="EPS">
+					<EntryList>
+						<FixedValueEntry binaryValue="657073206f7574707574" sizeInBits="80" />
+						<FixedValueEntry binaryValue="20" sizeInBits="8"/>
+						<ArgumentRefEntry argumentRef="Battery" />
+<!--						<FixedValueEntry binaryValue="20" sizeInBits="8"/>-->
+						<ArgumentRefEntry argumentRef="Voltage" />
+<!--						<FixedValueEntry binaryValue="20" sizeInBits="8"/>-->
+						<ArgumentRefEntry argumentRef="Current" />
+
+
+					</EntryList>
 				</CommandContainer>
 			</MetaCommand>
 
