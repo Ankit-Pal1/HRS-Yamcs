@@ -1,0 +1,1147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SpaceSystem name="obc" xmlns="http://www.omg.org/spec/XTCE/20180204" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.omg.org/spec/XTCE/20180204 https://www.omg.org/spec/XTCE/20180204/SpaceSystem.xsd">
+    <TelemetryMetaData>
+        <ParameterTypeSet>
+            <AggregateParameterType name="CCSDS_Packet_ID_Type">
+                <MemberList>
+                    <Member name="Version" typeRef="CCSDS_Version_Type" />
+                    <Member name="Type" typeRef="CCSDS_Type_Type" />
+                    <Member name="SecHdrFlag" typeRef="CCSDS_Sec_Hdr_Flag_Type" />
+                    <Member name="APID" typeRef="CCSDS_APID_Type" />
+                </MemberList>
+            </AggregateParameterType>
+            <IntegerParameterType name="CCSDS_Version_Type" signed="false">
+                <UnitSet />
+                <IntegerDataEncoding sizeInBits="3" />
+            </IntegerParameterType>
+            <BooleanParameterType name="CCSDS_Type_Type" zeroStringValue="TM" oneStringValue="TC">
+                <UnitSet />
+                <IntegerDataEncoding sizeInBits="1" />
+            </BooleanParameterType>
+            <BooleanParameterType name="CCSDS_Sec_Hdr_Flag_Type" zeroStringValue="NotPresent" oneStringValue="Present">
+                <UnitSet />
+                <IntegerDataEncoding sizeInBits="1" />
+            </BooleanParameterType>
+            <IntegerParameterType name="CCSDS_APID_Type" signed="false">
+                <UnitSet />
+                <IntegerDataEncoding sizeInBits="11" />
+            </IntegerParameterType>
+            <AggregateParameterType name="CCSDS_Packet_Sequence_Type">
+                <MemberList>
+                    <Member name="GroupFlags" typeRef="CCSDS_Group_Flags_Type" />
+                    <Member name="Count" typeRef="CCSDS_Source_Sequence_Count_Type" />
+                </MemberList>
+            </AggregateParameterType>
+            <EnumeratedParameterType name="CCSDS_Group_Flags_Type">
+                <UnitSet />
+                <IntegerDataEncoding sizeInBits="2" />
+                <EnumerationList>
+                    <Enumeration value="0" label="Continuation" />
+                    <Enumeration value="1" label="First" />
+                    <Enumeration value="2" label="Last" />
+                    <Enumeration value="3" label="Standalone" />
+                </EnumerationList>
+            </EnumeratedParameterType>
+            <IntegerParameterType name="CCSDS_Source_Sequence_Count_Type" signed="false">
+                <UnitSet />
+                <IntegerDataEncoding sizeInBits="14" />
+            </IntegerParameterType>
+            <IntegerParameterType name="CCSDS_Packet_Length_Type" signed="false" initialValue="0">
+                <UnitSet>
+                    <Unit description="Size">Octets</Unit>
+                </UnitSet>
+                <IntegerDataEncoding sizeInBits="16" />
+            </IntegerParameterType>
+            <IntegerParameterType name="uint32_t" signed="false">
+                <UnitSet />
+                <IntegerDataEncoding encoding="unsigned" sizeInBits="32" />
+            </IntegerParameterType>
+            <FloatParameterType name="float_t">
+                <UnitSet />
+                <FloatDataEncoding sizeInBits="32" />
+            </FloatParameterType>
+            <BooleanParameterType name="bool_t">
+                <UnitSet />
+                <IntegerDataEncoding sizeInBits="8" />
+            </BooleanParameterType>
+            <AggregateParameterType name="vec3_t">
+                <MemberList>
+                    <Member name="x" typeRef="float_t" />
+                    <Member name="y" typeRef="float_t" />
+                    <Member name="z" typeRef="float_t" />
+                </MemberList>
+            </AggregateParameterType>
+            <EnumeratedParameterType name="EnumerationTest">
+                <UnitSet />
+                <IntegerDataEncoding sizeInBits="3" />
+                <EnumerationList>
+                    <Enumeration value="0" label="ENUM_VALUE_0" />
+                    <Enumeration value="1" label="ENUM_VALUE_1" />
+                    <Enumeration value="2" label="ENUM_VALUE_2" />
+                    <Enumeration value="3" label="ENUM_VALUE_3" />
+                    <Enumeration value="4" label="ENUM_VALUE_4" />
+                    <Enumeration value="5" label="ENUM_VALUE_5" />
+                    <Enumeration value="6" label="ENUM_VALUE_6" />
+                    <Enumeration value="7" label="ENUM_VALUE_7" />
+                </EnumerationList>
+            </EnumeratedParameterType>
+        </ParameterTypeSet>
+        <ParameterSet>
+            <Parameter name="CCSDS_Packet_ID" parameterTypeRef="CCSDS_Packet_ID_Type" />
+            <Parameter name="CCSDS_Packet_Sequence" parameterTypeRef="CCSDS_Packet_Sequence_Type" />
+            <Parameter name="CCSDS_Packet_Length" parameterTypeRef="CCSDS_Packet_Length_Type" />
+            <Parameter name="EpochUSNO" parameterTypeRef="float_t" />
+            <Parameter name="OrbitNumberCumulative" parameterTypeRef="uint32_t" />
+            <Parameter name="ElapsedSeconds" parameterTypeRef="uint32_t" />
+            <Parameter name="A" parameterTypeRef="float_t" />
+            <Parameter name="Height" parameterTypeRef="float_t" />
+            <Parameter name="Position" parameterTypeRef="vec3_t" />
+            <Parameter name="Velocity" parameterTypeRef="vec3_t" />
+            <Parameter name="Latitude" parameterTypeRef="float_t" />
+            <Parameter name="Longitude" parameterTypeRef="float_t" />
+            <Parameter name="Battery1_Voltage" parameterTypeRef="float_t" />
+            <Parameter name="Battery2_Voltage" parameterTypeRef="float_t" />
+            <Parameter name="Battery1_Temp" parameterTypeRef="float_t" />
+            <Parameter name="Battery2_Temp" parameterTypeRef="float_t" />
+            <Parameter name="Magnetometer" parameterTypeRef="vec3_t" />
+            <Parameter name="Sunsensor" parameterTypeRef="float_t" />
+            <Parameter name="Gyro" parameterTypeRef="vec3_t" />
+            <Parameter name="Detector_Temp" parameterTypeRef="float_t" />
+            <Parameter name="Shadow" parameterTypeRef="bool_t" />
+            <Parameter name="Contact_Golbasi_GS" parameterTypeRef="bool_t" />
+            <Parameter name="Contact_Svalbard" parameterTypeRef="bool_t" />
+            <Parameter name="Payload_Status" parameterTypeRef="bool_t" />
+            <Parameter name="Payload_Error_Flag" parameterTypeRef="bool_t" />
+            <Parameter name="ADCS_Error_Flag" parameterTypeRef="bool_t" />
+            <Parameter name="CDHS_Error_Flag" parameterTypeRef="bool_t" />
+            <Parameter name="COMMS_Error_Flag" parameterTypeRef="bool_t" />
+            <Parameter name="EPS_Error_Flag" parameterTypeRef="bool_t" />
+            <Parameter name="COMMS_Status" parameterTypeRef="bool_t" />
+            <Parameter name="CDHS_Status" parameterTypeRef="bool_t" />
+            <Parameter name="Mode_Night" parameterTypeRef="bool_t" />
+            <Parameter name="Mode_Day" parameterTypeRef="bool_t" />
+            <Parameter name="Mode_Payload" parameterTypeRef="bool_t" />
+            <Parameter name="Mode_XBand" parameterTypeRef="bool_t" />
+            <Parameter name="Mode_SBand" parameterTypeRef="bool_t" />
+            <Parameter name="Mode_Safe" parameterTypeRef="bool_t" />
+
+            <Parameter name="Enum_Para_1" parameterTypeRef="EnumerationTest" />
+            <Parameter name="Enum_Para_2" parameterTypeRef="EnumerationTest" />
+            <Parameter name="Enum_Para_3" parameterTypeRef="EnumerationTest" />
+        </ParameterSet>
+        <ContainerSet>
+            <SequenceContainer abstract="true" name="CCSDSPacket">
+                <EntryList>
+                    <ParameterRefEntry parameterRef="CCSDS_Packet_ID" />
+                    <ParameterRefEntry parameterRef="CCSDS_Packet_Sequence" />
+                    <ParameterRefEntry parameterRef="CCSDS_Packet_Length" />
+                </EntryList>
+            </SequenceContainer>
+            <SequenceContainer name="TelemetryPacket">
+                <EntryList />
+                <BaseContainer containerRef="CCSDSPacket">
+                    <RestrictionCriteria>
+                        <ComparisonList>
+                            <Comparison value="0" parameterRef="CCSDS_Packet_ID/Version" />
+                            <Comparison value="TM" parameterRef="CCSDS_Packet_ID/Type" />
+                        </ComparisonList>
+                    </RestrictionCriteria>
+                </BaseContainer>
+            </SequenceContainer>
+            <SequenceContainer name="Spacecraft">
+                <EntryList>
+                    <ParameterRefEntry parameterRef="EpochUSNO" />
+                    <ParameterRefEntry parameterRef="OrbitNumberCumulative" />
+                    <ParameterRefEntry parameterRef="ElapsedSeconds" />
+                    <ParameterRefEntry parameterRef="A" />
+                    <ParameterRefEntry parameterRef="Height" />
+                    <ParameterRefEntry parameterRef="Position" />
+                    <ParameterRefEntry parameterRef="Velocity" />
+                    <ParameterRefEntry parameterRef="Latitude" />
+                    <ParameterRefEntry parameterRef="Longitude" />
+                    <ParameterRefEntry parameterRef="Battery1_Voltage" />
+                    <ParameterRefEntry parameterRef="Battery2_Voltage" />
+                    <ParameterRefEntry parameterRef="Battery1_Temp" />
+                    <ParameterRefEntry parameterRef="Battery2_Temp" />
+                    <ParameterRefEntry parameterRef="Magnetometer" />
+                    <ParameterRefEntry parameterRef="Sunsensor" />
+                    <ParameterRefEntry parameterRef="Gyro" />
+                    <ParameterRefEntry parameterRef="Detector_Temp" />
+                    <ParameterRefEntry parameterRef="Shadow" />
+                    <ParameterRefEntry parameterRef="Contact_Golbasi_GS" />
+                    <ParameterRefEntry parameterRef="Contact_Svalbard" />
+                    <ParameterRefEntry parameterRef="Payload_Status" />
+                    <ParameterRefEntry parameterRef="Payload_Error_Flag" />
+                    <ParameterRefEntry parameterRef="ADCS_Error_Flag" />
+                    <ParameterRefEntry parameterRef="CDHS_Error_Flag" />
+                    <ParameterRefEntry parameterRef="COMMS_Error_Flag" />
+                    <ParameterRefEntry parameterRef="EPS_Error_Flag" />
+                    <ParameterRefEntry parameterRef="COMMS_Status" />
+                    <ParameterRefEntry parameterRef="CDHS_Status" />
+                    <ParameterRefEntry parameterRef="Mode_Night" />
+                    <ParameterRefEntry parameterRef="Mode_Day" />
+                    <ParameterRefEntry parameterRef="Mode_Payload" />
+                    <ParameterRefEntry parameterRef="Mode_XBand" />
+                    <ParameterRefEntry parameterRef="Mode_SBand" />
+                    <ParameterRefEntry parameterRef="Mode_Safe" />
+                    <ParameterRefEntry parameterRef="Enum_Para_1">
+                        <LocationInContainerInBits referenceLocation="containerStart">
+                            <FixedValue>29</FixedValue>
+                        </LocationInContainerInBits>
+                    </ParameterRefEntry>
+                    <ParameterRefEntry parameterRef="Enum_Para_2">
+                        <LocationInContainerInBits referenceLocation="containerStart">
+                            <FixedValue>27</FixedValue>
+                        </LocationInContainerInBits>
+                    </ParameterRefEntry>
+                    <ParameterRefEntry parameterRef="Enum_Para_3">
+                        <LocationInContainerInBits referenceLocation="containerStart">
+                            <FixedValue>25</FixedValue>
+                        </LocationInContainerInBits>
+                    </ParameterRefEntry>
+                </EntryList>
+                <BaseContainer containerRef="TelemetryPacket">
+                    <RestrictionCriteria>
+                        <ComparisonList>
+                            <Comparison value="NotPresent" parameterRef="CCSDS_Packet_ID/SecHdrFlag" />
+                            <Comparison value="100" parameterRef="CCSDS_Packet_ID/APID" />
+                        </ComparisonList>
+                    </RestrictionCriteria>
+                </BaseContainer>
+            </SequenceContainer>
+        </ContainerSet>
+    </TelemetryMetaData>
+    <CommandMetaData>
+        <ArgumentTypeSet>
+            <StringArgumentType name="String_Type">
+                <StringDataEncoding encoding="UTF-8">
+                    <Variable maxSizeInBits="200">
+                        <DynamicValue>
+                            <ParameterInstanceRef parameterRef="_yamcs_ignore" />
+                        </DynamicValue>
+                        <TerminationChar>00</TerminationChar>
+                    </Variable>
+                </StringDataEncoding>
+            </StringArgumentType>
+            <StringArgumentType name="Battery_Types">
+                <StringDataEncoding encoding="UTF-8">
+                    <Variable maxSizeInBits="200">
+                        <DynamicValue>
+                            <ParameterInstanceRef parameterRef="_yamcs_ignore" />
+                        </DynamicValue>
+                        <TerminationChar>00</TerminationChar>
+                    </Variable>
+                </StringDataEncoding>
+            </StringArgumentType>
+            <StringArgumentType name="Voltage_Type">
+                <StringDataEncoding encoding="UTF-8">
+                    <Variable maxSizeInBits="200">
+                        <DynamicValue>
+                            <ParameterInstanceRef parameterRef="_yamcs_ignore" />
+                        </DynamicValue>
+                        <TerminationChar>00</TerminationChar>
+                    </Variable>
+                </StringDataEncoding>
+            </StringArgumentType>
+            <StringArgumentType name="Current_Type">
+                <StringDataEncoding encoding="UTF-8">
+                    <Variable maxSizeInBits="200">
+                        <DynamicValue>
+                            <ParameterInstanceRef parameterRef="_yamcs_ignore" />
+                        </DynamicValue>
+                        <TerminationChar>00</TerminationChar>
+                    </Variable>
+                </StringDataEncoding>
+            </StringArgumentType>
+            <StringArgumentType name="UART_CHANNEL_Type">
+                <StringDataEncoding encoding="UTF-8">
+                    <Variable maxSizeInBits="200">
+                        <DynamicValue>
+                            <ParameterInstanceRef parameterRef="_yamcs_ignore" />
+                        </DynamicValue>
+                        <TerminationChar>20</TerminationChar>
+                    </Variable>
+                </StringDataEncoding>
+            </StringArgumentType>
+            <StringArgumentType name="Module_ID_Type">
+                <StringDataEncoding encoding="UTF-8">
+                    <Variable maxSizeInBits="200">
+                        <DynamicValue>
+                            <ParameterInstanceRef parameterRef="_yamcs_ignore" />
+                        </DynamicValue>
+                        <TerminationChar>20</TerminationChar>
+                    </Variable>
+                </StringDataEncoding>
+            </StringArgumentType>
+            <StringArgumentType name="Data_Length_Type">
+                <StringDataEncoding encoding="UTF-8">
+                    <Variable maxSizeInBits="200">
+                        <DynamicValue>
+                            <ParameterInstanceRef parameterRef="_yamcs_ignore" />
+                        </DynamicValue>
+                        <TerminationChar>20</TerminationChar>
+                    </Variable>
+                </StringDataEncoding>
+            </StringArgumentType>
+            <StringArgumentType name="Command_Status_Type">
+                <StringDataEncoding encoding="UTF-8">
+                    <Variable maxSizeInBits="200">
+                        <DynamicValue>
+                            <ParameterInstanceRef parameterRef="_yamcs_ignore" />
+                        </DynamicValue>
+                        <TerminationChar>20</TerminationChar>
+                    </Variable>
+                </StringDataEncoding>
+            </StringArgumentType>
+            <StringArgumentType name="Command_Type">
+                <StringDataEncoding encoding="UTF-8">
+                    <Variable maxSizeInBits="200">
+                        <DynamicValue>
+                            <ParameterInstanceRef parameterRef="_yamcs_ignore" />
+                        </DynamicValue>
+                        <TerminationChar>20</TerminationChar>
+                    </Variable>
+                </StringDataEncoding>
+            </StringArgumentType>
+            <StringArgumentType name="Type_Type">
+                <StringDataEncoding encoding="UTF-8">
+                    <Variable maxSizeInBits="200">
+                        <DynamicValue>
+                            <ParameterInstanceRef parameterRef="_yamcs_ignore" />
+                        </DynamicValue>
+                        <TerminationChar>20</TerminationChar>
+                    </Variable>
+                </StringDataEncoding>
+            </StringArgumentType>
+            <StringArgumentType name="Data_Type">
+                <StringDataEncoding encoding="UTF-8">
+                    <Variable maxSizeInBits="200">
+                        <DynamicValue>
+                            <ParameterInstanceRef parameterRef="_yamcs_ignore" />
+                        </DynamicValue>
+                        <TerminationChar>20</TerminationChar>
+                    </Variable>
+                </StringDataEncoding>
+            </StringArgumentType>
+            <StringArgumentType name="Radio_File_Name_Type">
+                <StringDataEncoding encoding="UTF-8">
+                    <Variable maxSizeInBits="200">
+                        <DynamicValue>
+                            <ParameterInstanceRef parameterRef="_yamcs_ignore" />
+                        </DynamicValue>
+                        <TerminationChar>20</TerminationChar>
+                    </Variable>
+                </StringDataEncoding>
+            </StringArgumentType>
+            <StringArgumentType name="OBC_File_Name_Type">
+                <StringDataEncoding encoding="UTF-8">
+                    <Variable maxSizeInBits="400">
+                        <DynamicValue>
+                            <ParameterInstanceRef parameterRef="_yamcs_ignore" />
+                        </DynamicValue>
+                        <TerminationChar>20</TerminationChar>
+                    </Variable>
+                </StringDataEncoding>
+            </StringArgumentType>
+            <StringArgumentType name="PIN_CONFIGURATION_Type">
+                <StringDataEncoding encoding="UTF-8">
+                    <Variable maxSizeInBits="200">
+                        <DynamicValue>
+                            <ParameterInstanceRef parameterRef="_yamcs_ignore" />
+                        </DynamicValue>
+                        <TerminationChar>20</TerminationChar>
+                    </Variable>
+                </StringDataEncoding>
+            </StringArgumentType>
+            <StringArgumentType name="Destination_Type">
+                <StringDataEncoding encoding="UTF-8">
+                    <Variable maxSizeInBits="200">
+                        <DynamicValue>
+                            <ParameterInstanceRef parameterRef="_yamcs_ignore" />
+                        </DynamicValue>
+                        <TerminationChar>20</TerminationChar>
+                    </Variable>
+                </StringDataEncoding>
+            </StringArgumentType>
+            <StringArgumentType name="I2C_Imager_Address_Type">
+                <StringDataEncoding encoding="UTF-8">
+                    <Variable maxSizeInBits="200">
+                        <DynamicValue>
+                            <ParameterInstanceRef parameterRef="_yamcs_ignore" />
+                        </DynamicValue>
+                        <TerminationChar>20</TerminationChar>
+                    </Variable>
+                </StringDataEncoding>
+            </StringArgumentType>
+            <StringArgumentType name="Send_Bytes_Number_Type">
+                <StringDataEncoding encoding="UTF-8">
+                    <Variable maxSizeInBits="200">
+                        <DynamicValue>
+                            <ParameterInstanceRef parameterRef="_yamcs_ignore" />
+                        </DynamicValue>
+                        <TerminationChar>20</TerminationChar>
+                    </Variable>
+                </StringDataEncoding>
+            </StringArgumentType>
+            <StringArgumentType name="Receive_Bytes_Number_Type">
+                <StringDataEncoding encoding="UTF-8">
+                    <Variable maxSizeInBits="200">
+                        <DynamicValue>
+                            <ParameterInstanceRef parameterRef="_yamcs_ignore" />
+                        </DynamicValue>
+                        <TerminationChar>20</TerminationChar>
+                    </Variable>
+                </StringDataEncoding>
+            </StringArgumentType>
+            <StringArgumentType name="Send_Data_Hexadecimal_Format_Type">
+                <StringDataEncoding encoding="UTF-8">
+                    <Variable maxSizeInBits="400">
+                        <DynamicValue>
+                            <ParameterInstanceRef parameterRef="_yamcs_ignore" />
+                        </DynamicValue>
+                        <TerminationChar>20</TerminationChar>
+                    </Variable>
+                </StringDataEncoding>
+            </StringArgumentType>
+            <StringArgumentType name="I2C_BUS_Type">
+                <StringDataEncoding encoding="UTF-8">
+                    <Variable maxSizeInBits="800">
+                        <DynamicValue>
+                            <ParameterInstanceRef parameterRef="_yamcs_ignore" />
+                        </DynamicValue>
+                        <TerminationChar>20</TerminationChar>
+                    </Variable>
+                </StringDataEncoding>
+            </StringArgumentType>
+            <StringArgumentType name="I2C_ADDRESS_Type">
+                <StringDataEncoding encoding="UTF-8">
+                    <Variable maxSizeInBits="800">
+                        <DynamicValue>
+                            <ParameterInstanceRef parameterRef="_yamcs_ignore" />
+                        </DynamicValue>
+                        <TerminationChar>20</TerminationChar>
+                    </Variable>
+                </StringDataEncoding>
+            </StringArgumentType>
+            <StringArgumentType name="File_Number_Type">
+                <StringDataEncoding encoding="UTF-8">
+                    <Variable maxSizeInBits="800">
+                        <DynamicValue>
+                            <ParameterInstanceRef parameterRef="_yamcs_ignore" />
+                        </DynamicValue>
+                        <TerminationChar>20</TerminationChar>
+                    </Variable>
+                </StringDataEncoding>
+            </StringArgumentType>
+            <StringArgumentType name="Digi_Image_Number_Type">
+                <StringDataEncoding encoding="UTF-8">
+                    <Variable maxSizeInBits="400">
+                        <DynamicValue>
+                            <ParameterInstanceRef parameterRef="_yamcs_ignore" />
+                        </DynamicValue>
+                        <TerminationChar>20</TerminationChar>
+                    </Variable>
+                </StringDataEncoding>
+            </StringArgumentType>
+            <StringArgumentType name="OBC_Filename_Type">
+                <StringDataEncoding encoding="UTF-8">
+                    <Variable maxSizeInBits="400">
+                        <DynamicValue>
+                            <ParameterInstanceRef parameterRef="_yamcs_ignore" />
+                        </DynamicValue>
+                        <TerminationChar>20</TerminationChar>
+                    </Variable>
+                </StringDataEncoding>
+            </StringArgumentType>
+            <StringArgumentType name="Exposure_Type_Type">
+                <StringDataEncoding encoding="UTF-8">
+                    <Variable maxSizeInBits="400">
+                        <DynamicValue>
+                            <ParameterInstanceRef parameterRef="_yamcs_ignore" />
+                        </DynamicValue>
+                        <TerminationChar>20</TerminationChar>
+                    </Variable>
+                </StringDataEncoding>
+            </StringArgumentType>
+            <StringArgumentType name="Manual_Exposure_Value_Type">
+                <StringDataEncoding encoding="UTF-8">
+                    <Variable maxSizeInBits="400">
+                        <DynamicValue>
+                            <ParameterInstanceRef parameterRef="_yamcs_ignore" />
+                        </DynamicValue>
+                        <TerminationChar>20</TerminationChar>
+                    </Variable>
+                </StringDataEncoding>
+            </StringArgumentType>
+            <StringArgumentType name="Resolution_Type">
+                <StringDataEncoding encoding="UTF-8">
+                    <Variable maxSizeInBits="400">
+                        <DynamicValue>
+                            <ParameterInstanceRef parameterRef="_yamcs_ignore" />
+                        </DynamicValue>
+                        <TerminationChar>20</TerminationChar>
+                    </Variable>
+                </StringDataEncoding>
+            </StringArgumentType>
+            <StringArgumentType name="Command_Typee">
+                <StringDataEncoding encoding="UTF-8">
+                    <Variable maxSizeInBits="400">
+                        <DynamicValue>
+                            <ParameterInstanceRef parameterRef="_yamcs_ignore" />
+                        </DynamicValue>
+                        <TerminationChar>20</TerminationChar>
+                    </Variable>
+                </StringDataEncoding>
+            </StringArgumentType>
+            <StringArgumentType name="I2C_Channel_Type">
+                <StringDataEncoding encoding="UTF-8">
+                    <Variable maxSizeInBits="400">
+                        <DynamicValue>
+                            <ParameterInstanceRef parameterRef="_yamcs_ignore" />
+                        </DynamicValue>
+                        <TerminationChar>20</TerminationChar>
+                    </Variable>
+                </StringDataEncoding>
+            </StringArgumentType>
+            <StringArgumentType name="Number_of_write_bytes_Type">
+                <StringDataEncoding encoding="UTF-8">
+                    <Variable maxSizeInBits="400">
+                        <DynamicValue>
+                            <ParameterInstanceRef parameterRef="_yamcs_ignore" />
+                        </DynamicValue>
+                        <TerminationChar>20</TerminationChar>
+                    </Variable>
+                </StringDataEncoding>
+            </StringArgumentType>
+            <StringArgumentType name="Byte_Data_Type">
+                <StringDataEncoding encoding="UTF-8">
+                    <Variable maxSizeInBits="400">
+                        <DynamicValue>
+                            <ParameterInstanceRef parameterRef="_yamcs_ignore" />
+                        </DynamicValue>
+                        <TerminationChar>20</TerminationChar>
+                    </Variable>
+                </StringDataEncoding>
+            </StringArgumentType>
+            <StringArgumentType name="Number_of_read_bytes_Type">
+                <StringDataEncoding encoding="UTF-8">
+                    <Variable maxSizeInBits="400">
+                        <DynamicValue>
+                            <ParameterInstanceRef parameterRef="_yamcs_ignore" />
+                        </DynamicValue>
+                        <TerminationChar>20</TerminationChar>
+                    </Variable>
+                </StringDataEncoding>
+            </StringArgumentType>
+            <StringArgumentType name="UART_Channel_Type">
+                <StringDataEncoding encoding="UTF-8">
+                    <Variable maxSizeInBits="400">
+                        <DynamicValue>
+                            <ParameterInstanceRef parameterRef="_yamcs_ignore" />
+                        </DynamicValue>
+                        <TerminationChar>20</TerminationChar>
+                    </Variable>
+                </StringDataEncoding>
+            </StringArgumentType>
+        </ArgumentTypeSet>
+
+        <MetaCommandSet>
+<!--            xob commands-->
+<!--            X-Radio-->
+<!--            Most X-Band radio commands can be accessed using the xob xband txrx command-->
+<!--            commanding the X-band radio from the ADCS-OBC. Write a hex string to the x-band radio then read a hex string-->
+            <MetaCommand name="xob-xband-trrx" shortDescription="commanding the X-band radio from the ADCS-OBC. Write a hex string to the x-band radio then read a hex string">
+                <ArgumentList>
+                    <Argument argumentTypeRef="UART_CHANNEL_Type" name="UART_CHANNEL" shortDescription=""> </Argument>
+                    <Argument argumentTypeRef="Module_ID_Type" name="Module_ID" shortDescription=""> </Argument>
+                    <Argument argumentTypeRef="Data_Length_Type" name="Data_Length" shortDescription=""> </Argument>
+                    <Argument argumentTypeRef="Command_Status_Type" name="Command_Status" shortDescription=""> </Argument>
+                    <Argument argumentTypeRef="Command_Type" name="Command" shortDescription=""> </Argument>
+                    <Argument argumentTypeRef="Type_Type" name="Type" shortDescription=""> </Argument>
+                    <Argument argumentTypeRef="Data_Type" name="Data" shortDescription=""> </Argument>
+                </ArgumentList>
+                <CommandContainer name="xob-xband-trrx">
+                    <EntryList>
+                        <FixedValueEntry binaryValue="786f62207862616e642074787278" sizeInBits="112" />
+                        <FixedValueEntry binaryValue="20" sizeInBits="8"/>
+                        <ArgumentRefEntry argumentRef="UART_CHANNEL" />
+                        <ArgumentRefEntry argumentRef="Module_ID" />
+                        <ArgumentRefEntry argumentRef="Data_Length" />
+                        <ArgumentRefEntry argumentRef="Command_Status" />
+                        <ArgumentRefEntry argumentRef="Command" />
+                        <ArgumentRefEntry argumentRef="Type" />
+                        <ArgumentRefEntry argumentRef="Data" />
+                    </EntryList>
+                </CommandContainer>
+            </MetaCommand>
+            <MetaCommand name="xob-xband-vtrrx" shortDescription="Same as txrx but with verbose output">
+                <ArgumentList>
+                    <Argument argumentTypeRef="UART_CHANNEL_Type" name="UART_CHANNEL" shortDescription=""> </Argument>
+                    <Argument argumentTypeRef="Module_ID_Type" name="Module_ID" shortDescription=""> </Argument>
+                    <Argument argumentTypeRef="Data_Length_Type" name="Data_Length" shortDescription=""> </Argument>
+                    <Argument argumentTypeRef="Command_Status_Type" name="Command_Status" shortDescription=""> </Argument>
+                    <Argument argumentTypeRef="Command_Type" name="Command" shortDescription=""> </Argument>
+                    <Argument argumentTypeRef="Type_Type" name="Type" shortDescription=""> </Argument>
+                    <Argument argumentTypeRef="Data_Type" name="Data" shortDescription=""> </Argument>
+                </ArgumentList>
+                <CommandContainer name="xob-xband-vtrrx">
+                    <EntryList>
+                        <FixedValueEntry binaryValue="786f62207862616e642074787278" sizeInBits="112" />
+                        <FixedValueEntry binaryValue="20" sizeInBits="8"/>
+                        <ArgumentRefEntry argumentRef="UART_CHANNEL" />
+                        <ArgumentRefEntry argumentRef="Module_ID" />
+                        <ArgumentRefEntry argumentRef="Data_Length" />
+                        <ArgumentRefEntry argumentRef="Command_Status" />
+                        <ArgumentRefEntry argumentRef="Command" />
+                        <ArgumentRefEntry argumentRef="Type" />
+                        <ArgumentRefEntry argumentRef="Data" />
+                    </EntryList>
+                </CommandContainer>
+            </MetaCommand>
+
+            <!--reading and writing files can be accessed by below command-->
+            <MetaCommand name="xob-xband-file-upload" shortDescription="upload files">
+                <ArgumentList>
+                    <Argument argumentTypeRef="UART_CHANNEL_Type" name="UART_CHANNEL" shortDescription=""> </Argument>
+                    <Argument argumentTypeRef="Module_ID_Type" name="Module_ID" shortDescription=""> </Argument>
+                    <Argument argumentTypeRef="Radio_File_Name_Type" name="Radio_File_Name" shortDescription="path length less than 30 characters"> </Argument>
+                    <Argument argumentTypeRef="OBC_File_Name_Type" name="OBC_File_Name" shortDescription="path length less than 50 characters"> </Argument>
+                </ArgumentList>
+                <CommandContainer name="xob-xband-file-upload">
+                    <EntryList>
+                        <FixedValueEntry binaryValue="786f62207862616e642075706c6f6164" sizeInBits="128" />
+                        <FixedValueEntry binaryValue="20" sizeInBits="8"/>
+                        <ArgumentRefEntry argumentRef="UART_CHANNEL" />
+                        <ArgumentRefEntry argumentRef="Module_ID" />
+                        <ArgumentRefEntry argumentRef="Radio_File_Name" />
+                        <ArgumentRefEntry argumentRef="OBC_File_Name" />
+                    </EntryList>
+                </CommandContainer>
+            </MetaCommand>
+            <MetaCommand name="xob-xband-file-download" shortDescription="download files">
+                <ArgumentList>
+                    <Argument argumentTypeRef="UART_CHANNEL_Type" name="UART_CHANNEL" shortDescription=""> </Argument>
+                    <Argument argumentTypeRef="Module_ID_Type" name="Module_ID" shortDescription=""> </Argument>
+                    <Argument argumentTypeRef="Radio_File_Name_Type" name="Radio_File_Name" shortDescription="path length less than 30 characters"> </Argument>
+                    <Argument argumentTypeRef="OBC_File_Name_Type" name="OBC_File_Name" shortDescription="path length less than 50 characters"> </Argument>
+                </ArgumentList>
+                <CommandContainer name="xob-xband-file-download">
+                    <EntryList>
+                        <FixedValueEntry binaryValue="786f62207862616e6420646f776e6c6f6164" sizeInBits="112" />
+                        <FixedValueEntry binaryValue="20" sizeInBits="8"/>
+                        <ArgumentRefEntry argumentRef="UART_CHANNEL" />
+                        <ArgumentRefEntry argumentRef="Module_ID" />
+                        <ArgumentRefEntry argumentRef="Radio_File_Name" />
+                        <ArgumentRefEntry argumentRef="OBC_File_Name" />
+                    </EntryList>
+                </CommandContainer>
+            </MetaCommand>
+
+<!--            xob mux commands for multiplexer-->
+            <MetaCommand name="xob-mux-read_input_read_current_configuration" shortDescription="Read the current configuration and Read the current output pin state">
+                <CommandContainer name="xob-mux-read_input_read_current_configuration">
+                    <EntryList>
+                        <FixedValueEntry binaryValue="786f62206d7578" sizeInBits="56" />
+                        <FixedValueEntry binaryValue="20" sizeInBits="8"/>
+                        <FixedValueEntry binaryValue="726561645f696e707574" sizeInBits="80" />
+                        <FixedValueEntry binaryValue="20" sizeInBits="8"/>
+                        <FixedValueEntry binaryValue="20" sizeInBits="8"/>
+                        <FixedValueEntry binaryValue="32" sizeInBits="8"/>
+                        <FixedValueEntry binaryValue="20" sizeInBits="8"/>
+                        <FixedValueEntry binaryValue="313132" sizeInBits="24"/>
+                    </EntryList>
+                </CommandContainer>
+            </MetaCommand>
+            <MetaCommand name="xob-mux-read_input" shortDescription="Read the incoming logic level of multiplexer pins regardless of I/O configuration">
+                <ArgumentList>
+                    <Argument argumentTypeRef="PIN_CONFIGURATION_Type" name="PIN_CONFIGURATION" shortDescription="enter i2c bus value"> </Argument>
+                </ArgumentList>
+                <CommandContainer name="xob-mux-read_input">
+                    <EntryList>
+                        <FixedValueEntry binaryValue="786f62206d7578" sizeInBits="56" />
+                        <FixedValueEntry binaryValue="20" sizeInBits="8"/>
+                        <FixedValueEntry binaryValue="726561645f696e707574" sizeInBits="80" />
+                        <FixedValueEntry binaryValue="20" sizeInBits="8"/>
+                        <FixedValueEntry binaryValue="20" sizeInBits="8"/>
+                        <FixedValueEntry binaryValue="32" sizeInBits="8"/>
+                        <FixedValueEntry binaryValue="20" sizeInBits="8"/>
+                        <FixedValueEntry binaryValue="313132" sizeInBits="24"/>
+                        <FixedValueEntry binaryValue="20" sizeInBits="8"/>
+                        <ArgumentRefEntry argumentRef="PIN_CONFIGURATION" />
+                    </EntryList>
+                </CommandContainer>
+            </MetaCommand>
+            <MetaCommand name="xob-mux-read_output" shortDescription="Read the outgoing logic level of multiplexer pins regardless of I/O configuration">
+                <ArgumentList>
+                    <Argument argumentTypeRef="PIN_CONFIGURATION_Type" name="PIN_CONFIGURATION" shortDescription="enter pin value according to operation"> </Argument>
+                </ArgumentList>
+                <CommandContainer name="xob-mux-read_output">
+                    <EntryList>
+                        <FixedValueEntry binaryValue="786f62206d7578" sizeInBits="56" />
+                        <FixedValueEntry binaryValue="20" sizeInBits="8"/>
+                        <FixedValueEntry binaryValue="726561645f6f7574707574" sizeInBits="88" />
+                        <FixedValueEntry binaryValue="20" sizeInBits="8"/>
+                        <FixedValueEntry binaryValue="20" sizeInBits="8"/>
+                        <FixedValueEntry binaryValue="32" sizeInBits="8"/>
+                        <FixedValueEntry binaryValue="20" sizeInBits="8"/>
+                        <FixedValueEntry binaryValue="313132" sizeInBits="24"/>
+                        <FixedValueEntry binaryValue="20" sizeInBits="8"/>
+                        <ArgumentRefEntry argumentRef="PIN_CONFIGURATION" />
+                    </EntryList>
+                </CommandContainer>
+            </MetaCommand>
+            <MetaCommand name="xob-mux-read_invert" shortDescription="Read the inversion state of multiplexer pins regardless of I/O configuration">
+                <ArgumentList>
+                    <Argument argumentTypeRef="PIN_CONFIGURATION_Type" name="PIN_CONFIGURATION" shortDescription="enter pin value according to operation"> </Argument>
+                </ArgumentList>
+                <CommandContainer name="xob-mux-read_invert">
+                    <EntryList>
+                        <FixedValueEntry binaryValue="786f62206d7578" sizeInBits="56" />
+                        <FixedValueEntry binaryValue="20" sizeInBits="8"/>
+                        <FixedValueEntry binaryValue="726561645f696e76657274" sizeInBits="88" />
+                        <FixedValueEntry binaryValue="20" sizeInBits="8"/>
+                        <FixedValueEntry binaryValue="20" sizeInBits="8"/>
+                        <FixedValueEntry binaryValue="32" sizeInBits="8"/>
+                        <FixedValueEntry binaryValue="20" sizeInBits="8"/>
+                        <FixedValueEntry binaryValue="313132" sizeInBits="24"/>
+                        <FixedValueEntry binaryValue="20" sizeInBits="8"/>
+                        <ArgumentRefEntry argumentRef="PIN_CONFIGURATION" />
+                    </EntryList>
+                </CommandContainer>
+            </MetaCommand>
+            <MetaCommand name="xob-mux-read_config" shortDescription="Make all pins act as input pins then enter pin config 255, Read the configuration of multiplexer pins for input (1) or output (0)">
+                <ArgumentList>
+                    <Argument argumentTypeRef="PIN_CONFIGURATION_Type" name="PIN_CONFIGURATION" shortDescription="enter pin value according to operation"> </Argument>
+                </ArgumentList>
+                <CommandContainer name="xob-mux-read_config">
+                    <EntryList>
+                        <FixedValueEntry binaryValue="786f62206d7578" sizeInBits="56" />
+                        <FixedValueEntry binaryValue="20" sizeInBits="8"/>
+                        <FixedValueEntry binaryValue="726561645f636f6e666967" sizeInBits="88" />
+                        <FixedValueEntry binaryValue="20" sizeInBits="8"/>
+                        <FixedValueEntry binaryValue="20" sizeInBits="8"/>
+                        <FixedValueEntry binaryValue="32" sizeInBits="8"/>
+                        <FixedValueEntry binaryValue="20" sizeInBits="8"/>
+                        <FixedValueEntry binaryValue="313132" sizeInBits="24"/>
+                        <FixedValueEntry binaryValue="20" sizeInBits="8"/>
+                        <ArgumentRefEntry argumentRef="PIN_CONFIGURATION" />
+                    </EntryList>
+                </CommandContainer>
+            </MetaCommand>
+            <MetaCommand name="xob-mux-write_invert" shortDescription="Write the inversion state of multiplexer pins regardless of I/O configuration">
+                <ArgumentList>
+                    <Argument argumentTypeRef="PIN_CONFIGURATION_Type" name="PIN_CONFIGURATION" shortDescription="enter pin value according to operation"> </Argument>
+                </ArgumentList>
+                <CommandContainer name="xob-mux-write_invert">
+                    <EntryList>
+                        <FixedValueEntry binaryValue="786f62206d7578" sizeInBits="56" />
+                        <FixedValueEntry binaryValue="20" sizeInBits="8"/>
+                        <FixedValueEntry binaryValue="77726974655f696e76657274" sizeInBits="96" />
+                        <FixedValueEntry binaryValue="20" sizeInBits="8"/>
+                        <FixedValueEntry binaryValue="20" sizeInBits="8"/>
+                        <FixedValueEntry binaryValue="32" sizeInBits="8"/>
+                        <FixedValueEntry binaryValue="20" sizeInBits="8"/>
+                        <FixedValueEntry binaryValue="313132" sizeInBits="24"/>
+                        <FixedValueEntry binaryValue="20" sizeInBits="8"/>
+                        <ArgumentRefEntry argumentRef="PIN_CONFIGURATION" />
+                    </EntryList>
+                </CommandContainer>
+            </MetaCommand>
+            <MetaCommand name="xob-mux-write_output" shortDescription="Enable all output pins enter 255 in pin config and Enable a single output pin enter 1 and to Disable a single output pin enter 255">
+                <ArgumentList>
+                    <Argument argumentTypeRef="PIN_CONFIGURATION_Type" name="PIN_CONFIGURATION" shortDescription="Enable a single output pin enter 1 and to Disable a single output pin enter 255"> </Argument>
+                </ArgumentList>
+                <CommandContainer name="xob-mux-write_output">
+                    <EntryList>
+                        <FixedValueEntry binaryValue="786f62206d7578" sizeInBits="56" />
+                        <FixedValueEntry binaryValue="20" sizeInBits="8"/>
+                        <FixedValueEntry binaryValue="77726974655f6f7574707574" sizeInBits="96" />
+                        <FixedValueEntry binaryValue="20" sizeInBits="8"/>
+                        <FixedValueEntry binaryValue="20" sizeInBits="8"/>
+                        <FixedValueEntry binaryValue="32" sizeInBits="8"/>
+                        <FixedValueEntry binaryValue="20" sizeInBits="8"/>
+                        <FixedValueEntry binaryValue="313132" sizeInBits="24"/>
+                        <FixedValueEntry binaryValue="20" sizeInBits="8"/>
+                        <ArgumentRefEntry argumentRef="PIN_CONFIGURATION" />
+                    </EntryList>
+                </CommandContainer>
+            </MetaCommand>
+            <MetaCommand name="xob-mux-write_config" shortDescription="Make all pins act as output pins then enter pin config 0, Write the configuration of multiplexer pins for input (1) or output (0)">
+                <ArgumentList>
+                    <Argument argumentTypeRef="PIN_CONFIGURATION_Type" name="PIN_CONFIGURATION" shortDescription="enter pin value according to operation"> </Argument>
+                </ArgumentList>
+                <CommandContainer name="xob-mux-write_config">
+                    <EntryList>
+                        <FixedValueEntry binaryValue="786f62206d7578" sizeInBits="56" />
+                        <FixedValueEntry binaryValue="20" sizeInBits="8"/>
+                        <FixedValueEntry binaryValue="77726974655f636f6e666967" sizeInBits="96" />
+                        <FixedValueEntry binaryValue="20" sizeInBits="8"/>
+                        <FixedValueEntry binaryValue="20" sizeInBits="8"/>
+                        <FixedValueEntry binaryValue="32" sizeInBits="8"/>
+                        <FixedValueEntry binaryValue="20" sizeInBits="8"/>
+                        <FixedValueEntry binaryValue="313132" sizeInBits="24"/>
+                        <FixedValueEntry binaryValue="20" sizeInBits="8"/>
+                        <ArgumentRefEntry argumentRef="PIN_CONFIGURATION" />
+                    </EntryList>
+                </CommandContainer>
+            </MetaCommand>
+
+<!--            HyperSpectral Imager-->
+            <MetaCommand name="xob-i2c-trtx-get-current-time" shortDescription="Get current imager time (Root I2C forwarding command)">
+                <ArgumentList>
+                    <Argument argumentTypeRef="Destination_Type" name="Destination" shortDescription="I2C lane commands are being sent on"> </Argument>
+                    <Argument argumentTypeRef="I2C_Imager_Address_Type" name="I2C_Imager_Address" shortDescription="I2C address of the hyperspectral imager"> </Argument>
+                    <Argument argumentTypeRef="Send_Bytes_Number_Type" name="Send_Bytes_Number" shortDescription="Number of send bytes in decimal format"> </Argument>
+                    <Argument argumentTypeRef="Receive_Bytes_Number_Type" name="Receive_Bytes_Number" shortDescription="Number of recieve bytes in decimal format"> </Argument>
+                    <Argument argumentTypeRef="Send_Data_Hexadecimal_Format_Type" name="Send_Data_Hexadecimal_Format" shortDescription="Data to send in hexadecimal format, This data corresponds to 88 - 1st byte sent - Command ID"> </Argument>
+                </ArgumentList>
+                <CommandContainer name="xob-i2c-trtx-get-current-time">
+                    <EntryList>
+<!--                        Root I2C forwarding command-->
+                        <FixedValueEntry binaryValue="786f6220693263" sizeInBits="56" />
+                        <FixedValueEntry binaryValue="20" sizeInBits="8"/>
+<!--                        I2C command for sending and receiving-->
+                        <FixedValueEntry binaryValue="74787278" sizeInBits="32" />
+                        <FixedValueEntry binaryValue="20" sizeInBits="8"/>
+                        <ArgumentRefEntry argumentRef="Destination" />
+                        <ArgumentRefEntry argumentRef="I2C_Imager_Address" />
+                        <ArgumentRefEntry argumentRef="Send_Bytes_Number" />
+                        <ArgumentRefEntry argumentRef="Receive_Bytes_Number" />
+                        <ArgumentRefEntry argumentRef="Send_Data_Hexadecimal_Format" />
+                    </EntryList>
+                </CommandContainer>
+            </MetaCommand>
+            <MetaCommand name="xob-i2c-tx-get-encoding" shortDescription="Get encoding (Root I2C forwarding command)">
+                <ArgumentList>
+                    <Argument argumentTypeRef="Destination_Type" name="Destination" shortDescription="I2C lane commands are being sent on"> </Argument>
+                    <Argument argumentTypeRef="I2C_Imager_Address_Type" name="I2C_Imager_Address" shortDescription="I2C address of the hyperspectral imager"> </Argument>
+                    <Argument argumentTypeRef="Send_Bytes_Number_Type" name="Send_Bytes_Number" shortDescription="Number of send bytes in decimal format"> </Argument>
+                    <Argument argumentTypeRef="Send_Data_Hexadecimal_Format_Type" name="Send_Data_Hexadecimal_Format" shortDescription="2422 - Data to send in hexadecimal format2. This data corresponds to
+24 - 1st byte sent - Command ID
+22 - 2nd byte sent - Parameter ID"> </Argument>
+                </ArgumentList>
+                <CommandContainer name="xob-i2c-tx-get-encoding">
+                    <EntryList>
+                        <!--                        Root I2C forwarding command-->
+                        <FixedValueEntry binaryValue="786f6220693263" sizeInBits="56" />
+                        <FixedValueEntry binaryValue="20" sizeInBits="8"/>
+                        <!--                        I2C command for sending-->
+                        <FixedValueEntry binaryValue="7478" sizeInBits="16" />
+                        <FixedValueEntry binaryValue="20" sizeInBits="8"/>
+                        <ArgumentRefEntry argumentRef="Destination" />
+                        <ArgumentRefEntry argumentRef="I2C_Imager_Address" />
+                        <ArgumentRefEntry argumentRef="Send_Bytes_Number" />
+                        <ArgumentRefEntry argumentRef="Send_Data_Hexadecimal_Format" />
+                    </EntryList>
+                </CommandContainer>
+            </MetaCommand>
+
+<!--            XO-CAM-->
+            <MetaCommand name="xob_xo-cam_capture_image" shortDescription="Captures and saves an image to the selected file number">
+                <ArgumentList>
+                    <Argument argumentTypeRef="I2C_BUS_Type" name="I2C_BUS" shortDescription="uint8"> </Argument>
+                    <Argument argumentTypeRef="I2C_ADDRESS_Type" name="I2C_ADDRESS" shortDescription="uint8"> </Argument>
+                    <Argument argumentTypeRef="File_Number_Type" name="File_Number" shortDescription="uint16"> </Argument>
+                </ArgumentList>
+                <CommandContainer name="xob_xo-cam_capture_image">
+                    <EntryList>
+                        <!--Root I2C forwarding command-->
+                        <FixedValueEntry binaryValue="786f6220786f2d63616d" sizeInBits="80" />
+                        <FixedValueEntry binaryValue="20" sizeInBits="8"/>
+                        <!--I2C command for sending-->
+                        <FixedValueEntry binaryValue="636170747572655f696d616765" sizeInBits="104" />
+                        <FixedValueEntry binaryValue="20" sizeInBits="8"/>
+                        <ArgumentRefEntry argumentRef="I2C_BUS" />
+                        <ArgumentRefEntry argumentRef="I2C_ADDRESS" />
+                        <ArgumentRefEntry argumentRef="File_Number" />
+
+                    </EntryList>
+                </CommandContainer>
+            </MetaCommand>
+            <MetaCommand name="xob_xo-cam_delete" shortDescription="Delete payload image number">
+                <ArgumentList>
+                    <Argument argumentTypeRef="I2C_BUS_Type" name="I2C_BUS" shortDescription="uint8"> </Argument>
+                    <Argument argumentTypeRef="I2C_ADDRESS_Type" name="I2C_ADDRESS" shortDescription="uint8"> </Argument>
+                    <Argument argumentTypeRef="Digi_Image_Number_Type" name="Digi_Image_Number" shortDescription="uint16"> </Argument>
+                </ArgumentList>
+                <CommandContainer name="xob_xo-cam_delete">
+                    <EntryList>
+                        <!--Root I2C forwarding command-->
+                        <FixedValueEntry binaryValue="786f6220786f2d63616d" sizeInBits="80" />
+                        <FixedValueEntry binaryValue="20" sizeInBits="8"/>
+                        <!--I2C command for sending-->
+                        <FixedValueEntry binaryValue="64656c657465" sizeInBits="48" />
+                        <FixedValueEntry binaryValue="20" sizeInBits="8"/>
+                        <ArgumentRefEntry argumentRef="I2C_BUS" />
+                        <ArgumentRefEntry argumentRef="I2C_ADDRESS" />
+                        <ArgumentRefEntry argumentRef="Digi_Image_Number" />
+
+                    </EntryList>
+                </CommandContainer>
+            </MetaCommand>
+            <MetaCommand name="xob_xo-cam_download" shortDescription="Downloads payload image number to a named OBC file">
+                <ArgumentList>
+                    <Argument argumentTypeRef="I2C_BUS_Type" name="I2C_BUS" shortDescription="uint8"> </Argument>
+                    <Argument argumentTypeRef="I2C_ADDRESS_Type" name="I2C_ADDRESS" shortDescription="uint8"> </Argument>
+                    <Argument argumentTypeRef="Digi_Image_Number_Type" name="Digi_Image_Number" shortDescription="uint16"> </Argument>
+                    <Argument argumentTypeRef="OBC_Filename_Type" name="OBC_Filename" shortDescription="String"> </Argument>
+                </ArgumentList>
+                <CommandContainer name="xob_xo-cam_download">
+                    <EntryList>
+                        <!--Root I2C forwarding command-->
+                        <FixedValueEntry binaryValue="786f6220786f2d63616d" sizeInBits="80" />
+                        <FixedValueEntry binaryValue="20" sizeInBits="8"/>
+                        <!--I2C command for sending-->
+                        <FixedValueEntry binaryValue="646f776e6c6f6164" sizeInBits="64" />
+                        <FixedValueEntry binaryValue="20" sizeInBits="8"/>
+                        <ArgumentRefEntry argumentRef="I2C_BUS" />
+                        <ArgumentRefEntry argumentRef="I2C_ADDRESS" />
+                        <ArgumentRefEntry argumentRef="Digi_Image_Number" />
+                        <ArgumentRefEntry argumentRef="OBC_Filename" />
+                    </EntryList>
+                </CommandContainer>
+            </MetaCommand>
+            <MetaCommand name="xob_xo-cam_exposure" shortDescription="Sets manual exposure value (0-65535) and whether to use automatic (1) or manual (0) exposure">
+                <ArgumentList>
+                    <Argument argumentTypeRef="I2C_BUS_Type" name="I2C_BUS" shortDescription="uint8"> </Argument>
+                    <Argument argumentTypeRef="I2C_ADDRESS_Type" name="I2C_ADDRESS" shortDescription="uint8"> </Argument>
+                    <Argument argumentTypeRef="Exposure_Type_Type" name="Exposure_Type" shortDescription="uint8"> </Argument>
+                    <Argument argumentTypeRef="Manual_Exposure_Value_Type" name="Manual_Exposure_Value" shortDescription="uint16"> </Argument>
+                </ArgumentList>
+                <CommandContainer name="xob_xo-cam_exposure">
+                    <EntryList>
+                        <!--Root I2C forwarding command-->
+                        <FixedValueEntry binaryValue="786f6220786f2d63616d" sizeInBits="80" />
+                        <FixedValueEntry binaryValue="20" sizeInBits="8"/>
+                        <!--I2C command for sending-->
+                        <FixedValueEntry binaryValue="6578706f73757265" sizeInBits="64" />
+                        <FixedValueEntry binaryValue="20" sizeInBits="8"/>
+                        <ArgumentRefEntry argumentRef="I2C_BUS" />
+                        <ArgumentRefEntry argumentRef="I2C_ADDRESS" />
+                        <ArgumentRefEntry argumentRef="Exposure_Type" />
+                        <ArgumentRefEntry argumentRef="Manual_Exposure_Value" />
+                    </EntryList>
+                </CommandContainer>
+            </MetaCommand>
+            <MetaCommand name="xob_xo-ls" shortDescription="List payload images">
+                <ArgumentList>
+                    <Argument argumentTypeRef="I2C_BUS_Type" name="I2C_BUS" shortDescription="uint8"> </Argument>
+                    <Argument argumentTypeRef="I2C_ADDRESS_Type" name="I2C_ADDRESS" shortDescription="uint8"> </Argument>
+                </ArgumentList>
+                <CommandContainer name="xob_xo-ls">
+                    <EntryList>
+                        <!--Root I2C forwarding command-->
+                        <FixedValueEntry binaryValue="786f6220786f2d63616d" sizeInBits="80" />
+                        <FixedValueEntry binaryValue="20" sizeInBits="8"/>
+                        <!--I2C command for sending-->
+                        <FixedValueEntry binaryValue="6c73" sizeInBits="16" />
+                        <FixedValueEntry binaryValue="20" sizeInBits="8"/>
+                        <ArgumentRefEntry argumentRef="I2C_BUS" />
+                        <ArgumentRefEntry argumentRef="I2C_ADDRESS" />
+                    </EntryList>
+                </CommandContainer>
+            </MetaCommand>
+            <MetaCommand name="xob_xo-cam_resolution" shortDescription="Select preconfigured resolution [0-8]">
+                <ArgumentList>
+                    <Argument argumentTypeRef="I2C_BUS_Type" name="I2C_BUS" shortDescription="uint8"> </Argument>
+                    <Argument argumentTypeRef="I2C_ADDRESS_Type" name="I2C_ADDRESS" shortDescription="uint8"> </Argument>
+                    <Argument argumentTypeRef="Resolution_Type" name="Resolution" shortDescription="uint8"> </Argument>
+                </ArgumentList>
+                <CommandContainer name="xob_xo-cam_resolution">
+                    <EntryList>
+                        <!--Root I2C forwarding command-->
+                        <FixedValueEntry binaryValue="786f6220786f2d63616d" sizeInBits="80" />
+                        <FixedValueEntry binaryValue="20" sizeInBits="8"/>
+                        <!--I2C command for sending-->
+                        <FixedValueEntry binaryValue="7265736f6c7574696f6e" sizeInBits="80" />
+                        <FixedValueEntry binaryValue="20" sizeInBits="8"/>
+                        <ArgumentRefEntry argumentRef="I2C_BUS" />
+                        <ArgumentRefEntry argumentRef="I2C_ADDRESS" />
+                        <ArgumentRefEntry argumentRef="Resolution" />
+                    </EntryList>
+                </CommandContainer>
+            </MetaCommand>
+            <MetaCommand name="xob_xo-cam_upload" shortDescription="Uploads named OBC file to payload image number">
+                <ArgumentList>
+                    <Argument argumentTypeRef="I2C_BUS_Type" name="I2C_BUS" shortDescription="uint8"> </Argument>
+                    <Argument argumentTypeRef="I2C_ADDRESS_Type" name="I2C_ADDRESS" shortDescription="uint8"> </Argument>
+                    <Argument argumentTypeRef="Digi_Image_Number_Type" name="Digi_Image_Number" shortDescription="uint16"> </Argument>
+                    <Argument argumentTypeRef="OBC_Filename_Type" name="OBC_Filename" shortDescription="String"> </Argument>
+                </ArgumentList>
+                <CommandContainer name="xob_xo-cam_upload">
+                    <EntryList>
+                        <!--Root I2C forwarding command-->
+                        <FixedValueEntry binaryValue="786f6220786f2d63616d" sizeInBits="80" />
+                        <FixedValueEntry binaryValue="20" sizeInBits="8"/>
+                        <!--I2C command for sending-->
+                        <FixedValueEntry binaryValue="75706c6f6164" sizeInBits="48" />
+                        <FixedValueEntry binaryValue="20" sizeInBits="8"/>
+                        <ArgumentRefEntry argumentRef="I2C_BUS" />
+                        <ArgumentRefEntry argumentRef="I2C_ADDRESS" />
+                        <ArgumentRefEntry argumentRef="Digi_Image_Number" />
+                        <ArgumentRefEntry argumentRef="OBC_Filename" />
+                    </EntryList>
+                </CommandContainer>
+            </MetaCommand>
+            <MetaCommand name="xob_xo-exce" shortDescription="Executes a custom Yocto Linux command (Exobotics only!)">
+                <ArgumentList>
+                    <Argument argumentTypeRef="I2C_BUS_Type" name="I2C_BUS" shortDescription="uint8"> </Argument>
+                    <Argument argumentTypeRef="I2C_ADDRESS_Type" name="I2C_ADDRESS" shortDescription="uint8"> </Argument>
+                    <Argument argumentTypeRef="Command_Typee" name="Command" shortDescription="string"> </Argument>
+                </ArgumentList>
+                <CommandContainer name="xob_xo-exce">
+                    <EntryList>
+                        <!--Root I2C forwarding command-->
+                        <FixedValueEntry binaryValue="786f6220786f2d63616d" sizeInBits="80" />
+                        <FixedValueEntry binaryValue="20" sizeInBits="8"/>
+                        <!--I2C command for sending-->
+                        <FixedValueEntry binaryValue="65786563" sizeInBits="32" />
+                        <FixedValueEntry binaryValue="20" sizeInBits="8"/>
+                        <ArgumentRefEntry argumentRef="I2C_BUS" />
+                        <ArgumentRefEntry argumentRef="I2C_ADDRESS" />
+                        <ArgumentRefEntry argumentRef="Command" />
+                    </EntryList>
+                </CommandContainer>
+            </MetaCommand>
+
+<!--            XO-Track Ask -->
+
+
+<!--            Generic I2C Commands-->
+<!--            Both OBCs expose an xob i2c command with the following sub commands:-->
+            <MetaCommand name="xob-i2c-tx" shortDescription="Write the specified number of bytes to the given I2C channel and address">
+                <ArgumentList>
+                    <Argument argumentTypeRef="I2C_Channel_Type" name="I2C_Channel" shortDescription="uint8"> </Argument>
+                    <Argument argumentTypeRef="I2C_ADDRESS_Type" name="I2C_ADDRESS" shortDescription="uint8"> </Argument>
+                    <Argument argumentTypeRef="Number_of_write_bytes_Type" name="Number_of_write_bytes" shortDescription="uint8"> </Argument>
+                    <Argument argumentTypeRef="Byte_Data_Type" name="Byte_Data" shortDescription="string"> </Argument>
+                </ArgumentList>
+                <CommandContainer name="xob-i2c-tx">
+                    <EntryList>
+                        <FixedValueEntry binaryValue="786f6220693263" sizeInBits="56" />
+                        <FixedValueEntry binaryValue="20" sizeInBits="8"/>
+                        <FixedValueEntry binaryValue="7478" sizeInBits="16" />
+                        <FixedValueEntry binaryValue="20" sizeInBits="8"/>
+                        <ArgumentRefEntry argumentRef="I2C_Channel" />
+                        <ArgumentRefEntry argumentRef="I2C_ADDRESS" />
+                        <ArgumentRefEntry argumentRef="Number_of_write_bytes" />
+                        <ArgumentRefEntry argumentRef="Byte_Data" />
+                    </EntryList>
+                </CommandContainer>
+            </MetaCommand>
+            <MetaCommand name="xob-i2c-txrx" shortDescription="Write the specified number of bytes to the given I2C channel and address and then read the specified number of bytes from the same channel and address">
+                <ArgumentList>
+                    <Argument argumentTypeRef="I2C_Channel_Type" name="I2C_Channel" shortDescription="uint8"> </Argument>
+                    <Argument argumentTypeRef="I2C_ADDRESS_Type" name="I2C_ADDRESS" shortDescription="uint8"> </Argument>
+                    <Argument argumentTypeRef="Number_of_write_bytes_Type" name="Number_of_write_bytes" shortDescription="uint8"> </Argument>
+                    <Argument argumentTypeRef="Number_of_read_bytes_Type" name="Number_of_read_bytes" shortDescription="uint8"> </Argument>
+                    <Argument argumentTypeRef="Byte_Data_Type" name="Byte_Data" shortDescription="string"> </Argument>
+                </ArgumentList>
+                <CommandContainer name="xob-i2c-txrx">
+                    <EntryList>
+                        <FixedValueEntry binaryValue="786f6220693263" sizeInBits="56" />
+                        <FixedValueEntry binaryValue="20" sizeInBits="8"/>
+                        <FixedValueEntry binaryValue="74787278" sizeInBits="32" />
+                        <FixedValueEntry binaryValue="20" sizeInBits="8"/>
+                        <ArgumentRefEntry argumentRef="I2C_Channel" />
+                        <ArgumentRefEntry argumentRef="I2C_ADDRESS" />
+                        <ArgumentRefEntry argumentRef="Number_of_write_bytes" />
+                        <ArgumentRefEntry argumentRef="Number_of_read_bytes" />
+                        <ArgumentRefEntry argumentRef="Byte_Data" />
+                    </EntryList>
+                </CommandContainer>
+            </MetaCommand>
+            <MetaCommand name="xob-i2c-rx" shortDescription="Read the specified number of bytes from the same channel from the given I2C channel and address">
+                <ArgumentList>
+                    <Argument argumentTypeRef="I2C_Channel_Type" name="I2C_Channel" shortDescription="uint8"> </Argument>
+                    <Argument argumentTypeRef="I2C_ADDRESS_Type" name="I2C_ADDRESS" shortDescription="uint8"> </Argument>
+                    <Argument argumentTypeRef="Number_of_read_bytes_Type" name="Number_of_read_bytes" shortDescription="uint8"> </Argument>
+                </ArgumentList>
+                <CommandContainer name="xob-i2c-rx">
+                    <EntryList>
+                        <FixedValueEntry binaryValue="786f6220693263" sizeInBits="56" />
+                        <FixedValueEntry binaryValue="20" sizeInBits="8"/>
+                        <FixedValueEntry binaryValue="7278" sizeInBits="16" />
+                        <FixedValueEntry binaryValue="20" sizeInBits="8"/>
+                        <ArgumentRefEntry argumentRef="I2C_Channel" />
+                        <ArgumentRefEntry argumentRef="I2C_ADDRESS" />
+                        <ArgumentRefEntry argumentRef="Number_of_read_bytes" />
+                    </EntryList>
+                </CommandContainer>
+            </MetaCommand>
+
+<!--            Generic UART Commands-->
+            <MetaCommand name="write_to_UART_channel-xob-uart-tx" shortDescription="Write the specified number of bytes to the given UART channel">
+                <ArgumentList>
+                    <Argument argumentTypeRef="UART_Channel_Type" name="UART_Channel" shortDescription="uint8"> </Argument>
+                    <Argument argumentTypeRef="Number_of_write_bytes_Type" name="Number_of_write_bytes" shortDescription="uint8"> </Argument>
+                    <Argument argumentTypeRef="Byte_Data_Type" name="Byte_Data" shortDescription="string"> </Argument>
+                </ArgumentList>
+                <CommandContainer name="write_to_UART_channel-xob-uart-tx">
+                    <EntryList>
+                        <FixedValueEntry binaryValue="786f622075617274" sizeInBits="64" />
+                        <FixedValueEntry binaryValue="20" sizeInBits="8"/>
+                        <FixedValueEntry binaryValue="7478" sizeInBits="16" />
+                        <FixedValueEntry binaryValue="20" sizeInBits="8"/>
+                        <ArgumentRefEntry argumentRef="UART_Channel" />
+                        <ArgumentRefEntry argumentRef="Number_of_write_bytes" />
+                        <ArgumentRefEntry argumentRef="Byte_Data" />
+                    </EntryList>
+                </CommandContainer>
+            </MetaCommand>
+            <MetaCommand name="xob-uart-txrx" shortDescription="Write the specified number of bytes to the given UART channel and then read the specified number of bytes from the same channel">
+                <ArgumentList>
+                    <Argument argumentTypeRef="UART_Channel_Type" name="UART_Channel" shortDescription="uint8"> </Argument>
+                    <Argument argumentTypeRef="Number_of_write_bytes_Type" name="Number_of_write_bytes" shortDescription="uint8"> </Argument>
+                    <Argument argumentTypeRef="Number_of_read_bytes_Type" name="Number_of_read_bytes" shortDescription="uint8"> </Argument>
+                    <Argument argumentTypeRef="Byte_Data_Type" name="Byte_Data" shortDescription="string"> </Argument>
+                </ArgumentList>
+                <CommandContainer name="xob-uart-txrx">
+                    <EntryList>
+                        <FixedValueEntry binaryValue="786f622075617274" sizeInBits="64" />
+                        <FixedValueEntry binaryValue="20" sizeInBits="8"/>
+                        <FixedValueEntry binaryValue="74787278" sizeInBits="32" />
+                        <FixedValueEntry binaryValue="20" sizeInBits="8"/>
+                        <ArgumentRefEntry argumentRef="UART_Channel" />
+                        <ArgumentRefEntry argumentRef="Number_of_write_bytes" />
+                        <ArgumentRefEntry argumentRef="Number_of_read_bytes" />
+                        <ArgumentRefEntry argumentRef="Byte_Data" />
+                    </EntryList>
+                </CommandContainer>
+            </MetaCommand>
+
+
+
+            <!--You can see which version is loaded by running the cmp ident command on the OBC.-->
+            <!--The internal/external image will return -->
+            <MetaCommand name="nanomind#cmpident" shortDescription="internal/external image will retur for version check!'">
+                <CommandContainer name="nanomind#cmpident">
+                    <EntryList>
+
+                    </EntryList>
+                </CommandContainer>
+           </MetaCommand>
+
+
+            <MetaCommand name="SendHelloWorld" shortDescription="Send fixed value 'Hello World!'">
+                <ArgumentList>
+                    <Argument argumentTypeRef="Battery_Types" name="Battery" shortDescription="PingToBattery" />
+                    <Argument argumentTypeRef="Voltage_Type" name="Voltage" shortDescription="PingToVoltage" />
+                    <Argument argumentTypeRef="Current_Type" name="Current" shortDescription="PingToCurrent" />
+                </ArgumentList>
+                <CommandContainer name="SendHelloWorld">
+                    <EntryList>
+                        <FixedValueEntry binaryValue="657073206f7574707574" sizeInBits="80" />
+                        <FixedValueEntry binaryValue="20" sizeInBits="8"/>
+                        <ArgumentRefEntry argumentRef="Battery" />
+                        <FixedValueEntry binaryValue="20" sizeInBits="8"/>
+                        <ArgumentRefEntry argumentRef="Voltage" />
+                        <FixedValueEntry binaryValue="20" sizeInBits="8"/>
+                        <ArgumentRefEntry argumentRef="Current" />
+                    </EntryList>
+                </CommandContainer>
+            </MetaCommand>
+
+        </MetaCommandSet>
+    </CommandMetaData>
+</SpaceSystem>

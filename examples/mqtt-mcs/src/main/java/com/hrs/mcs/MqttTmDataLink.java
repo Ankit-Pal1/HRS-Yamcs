@@ -167,7 +167,7 @@ public class MqttTmDataLink extends AbstractTmDataLink implements MqttCallback {
 
         log.info("received message from mqtt broker against topic %s : " + Arrays.toString(packetData) + "\n at time : " + leafResponse.timestamp );
 
-        String messageString = new String(Arrays.copyOfRange(packetData,8,packetData.length));
+        String messageString = new String(Arrays.copyOfRange(packetData,0,packetData.length));
 
         log.info("actual message from leaf : " +  messageString);
 

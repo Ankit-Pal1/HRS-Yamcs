@@ -1,0 +1,644 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SpaceSystem name="eps" xmlns="http://www.omg.org/spec/XTCE/20180204" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.omg.org/spec/XTCE/20180204 https://www.omg.org/spec/XTCE/20180204/SpaceSystem.xsd">
+    <TelemetryMetaData>
+        <ParameterTypeSet>
+            <AggregateParameterType name="CCSDS_Packet_ID_Type">
+                <MemberList>
+                    <Member name="Version" typeRef="CCSDS_Version_Type" />
+                    <Member name="Type" typeRef="CCSDS_Type_Type" />
+                    <Member name="SecHdrFlag" typeRef="CCSDS_Sec_Hdr_Flag_Type" />
+                    <Member name="APID" typeRef="CCSDS_APID_Type" />
+                </MemberList>
+            </AggregateParameterType>
+            <IntegerParameterType name="CCSDS_Version_Type" signed="false">
+                <UnitSet />
+                <IntegerDataEncoding sizeInBits="3" />
+            </IntegerParameterType>
+            <BooleanParameterType name="CCSDS_Type_Type" zeroStringValue="TM" oneStringValue="TC">
+                <UnitSet />
+                <IntegerDataEncoding sizeInBits="1" />
+            </BooleanParameterType>
+            <BooleanParameterType name="CCSDS_Sec_Hdr_Flag_Type" zeroStringValue="NotPresent" oneStringValue="Present">
+                <UnitSet />
+                <IntegerDataEncoding sizeInBits="1" />
+            </BooleanParameterType>
+            <IntegerParameterType name="CCSDS_APID_Type" signed="false">
+                <UnitSet />
+                <IntegerDataEncoding sizeInBits="11" />
+            </IntegerParameterType>
+            <AggregateParameterType name="CCSDS_Packet_Sequence_Type">
+                <MemberList>
+                    <Member name="GroupFlags" typeRef="CCSDS_Group_Flags_Type" />
+                    <Member name="Count" typeRef="CCSDS_Source_Sequence_Count_Type" />
+                </MemberList>
+            </AggregateParameterType>
+            <EnumeratedParameterType name="CCSDS_Group_Flags_Type">
+                <UnitSet />
+                <IntegerDataEncoding sizeInBits="2" />
+                <EnumerationList>
+                    <Enumeration value="0" label="Continuation" />
+                    <Enumeration value="1" label="First" />
+                    <Enumeration value="2" label="Last" />
+                    <Enumeration value="3" label="Standalone" />
+                </EnumerationList>
+            </EnumeratedParameterType>
+            <IntegerParameterType name="CCSDS_Source_Sequence_Count_Type" signed="false">
+                <UnitSet />
+                <IntegerDataEncoding sizeInBits="14" />
+            </IntegerParameterType>
+            <IntegerParameterType name="CCSDS_Packet_Length_Type" signed="false" initialValue="0">
+                <UnitSet>
+                    <Unit description="Size">Octets</Unit>
+                </UnitSet>
+                <IntegerDataEncoding sizeInBits="16" />
+            </IntegerParameterType>
+            <IntegerParameterType name="uint32_t" signed="false">
+                <UnitSet />
+                <IntegerDataEncoding encoding="unsigned" sizeInBits="32" />
+            </IntegerParameterType>
+            <FloatParameterType name="float_t">
+                <UnitSet />
+                <FloatDataEncoding sizeInBits="32" />
+            </FloatParameterType>
+            <BooleanParameterType name="bool_t">
+                <UnitSet />
+                <IntegerDataEncoding sizeInBits="8" />
+            </BooleanParameterType>
+            <AggregateParameterType name="vec3_t">
+                <MemberList>
+                    <Member name="x" typeRef="float_t" />
+                    <Member name="y" typeRef="float_t" />
+                    <Member name="z" typeRef="float_t" />
+                </MemberList>
+            </AggregateParameterType>
+            <EnumeratedParameterType name="EnumerationTest">
+                <UnitSet />
+                <IntegerDataEncoding sizeInBits="3" />
+                <EnumerationList>
+                    <Enumeration value="0" label="ENUM_VALUE_0" />
+                    <Enumeration value="1" label="ENUM_VALUE_1" />
+                    <Enumeration value="2" label="ENUM_VALUE_2" />
+                    <Enumeration value="3" label="ENUM_VALUE_3" />
+                    <Enumeration value="4" label="ENUM_VALUE_4" />
+                    <Enumeration value="5" label="ENUM_VALUE_5" />
+                    <Enumeration value="6" label="ENUM_VALUE_6" />
+                    <Enumeration value="7" label="ENUM_VALUE_7" />
+                </EnumerationList>
+            </EnumeratedParameterType>
+        </ParameterTypeSet>
+        <ParameterSet>
+            <Parameter name="CCSDS_Packet_ID" parameterTypeRef="CCSDS_Packet_ID_Type" />
+            <Parameter name="CCSDS_Packet_Sequence" parameterTypeRef="CCSDS_Packet_Sequence_Type" />
+            <Parameter name="CCSDS_Packet_Length" parameterTypeRef="CCSDS_Packet_Length_Type" />
+            <Parameter name="EpochUSNO" parameterTypeRef="float_t" />
+            <Parameter name="OrbitNumberCumulative" parameterTypeRef="uint32_t" />
+            <Parameter name="ElapsedSeconds" parameterTypeRef="uint32_t" />
+            <Parameter name="A" parameterTypeRef="float_t" />
+            <Parameter name="Height" parameterTypeRef="float_t" />
+            <Parameter name="Position" parameterTypeRef="vec3_t" />
+            <Parameter name="Velocity" parameterTypeRef="vec3_t" />
+            <Parameter name="Latitude" parameterTypeRef="float_t" />
+            <Parameter name="Longitude" parameterTypeRef="float_t" />
+            <Parameter name="Battery1_Voltage" parameterTypeRef="float_t" />
+            <Parameter name="Battery2_Voltage" parameterTypeRef="float_t" />
+            <Parameter name="Battery1_Temp" parameterTypeRef="float_t" />
+            <Parameter name="Battery2_Temp" parameterTypeRef="float_t" />
+            <Parameter name="Magnetometer" parameterTypeRef="vec3_t" />
+            <Parameter name="Sunsensor" parameterTypeRef="float_t" />
+            <Parameter name="Gyro" parameterTypeRef="vec3_t" />
+            <Parameter name="Detector_Temp" parameterTypeRef="float_t" />
+            <Parameter name="Shadow" parameterTypeRef="bool_t" />
+            <Parameter name="Contact_Golbasi_GS" parameterTypeRef="bool_t" />
+            <Parameter name="Contact_Svalbard" parameterTypeRef="bool_t" />
+            <Parameter name="Payload_Status" parameterTypeRef="bool_t" />
+            <Parameter name="Payload_Error_Flag" parameterTypeRef="bool_t" />
+            <Parameter name="ADCS_Error_Flag" parameterTypeRef="bool_t" />
+            <Parameter name="CDHS_Error_Flag" parameterTypeRef="bool_t" />
+            <Parameter name="COMMS_Error_Flag" parameterTypeRef="bool_t" />
+            <Parameter name="EPS_Error_Flag" parameterTypeRef="bool_t" />
+            <Parameter name="COMMS_Status" parameterTypeRef="bool_t" />
+            <Parameter name="CDHS_Status" parameterTypeRef="bool_t" />
+            <Parameter name="Mode_Night" parameterTypeRef="bool_t" />
+            <Parameter name="Mode_Day" parameterTypeRef="bool_t" />
+            <Parameter name="Mode_Payload" parameterTypeRef="bool_t" />
+            <Parameter name="Mode_XBand" parameterTypeRef="bool_t" />
+            <Parameter name="Mode_SBand" parameterTypeRef="bool_t" />
+            <Parameter name="Mode_Safe" parameterTypeRef="bool_t" />
+
+            <Parameter name="Enum_Para_1" parameterTypeRef="EnumerationTest" />
+            <Parameter name="Enum_Para_2" parameterTypeRef="EnumerationTest" />
+            <Parameter name="Enum_Para_3" parameterTypeRef="EnumerationTest" />
+        </ParameterSet>
+        <ContainerSet>
+            <SequenceContainer abstract="true" name="CCSDSPacket">
+                <EntryList>
+                    <ParameterRefEntry parameterRef="CCSDS_Packet_ID" />
+                    <ParameterRefEntry parameterRef="CCSDS_Packet_Sequence" />
+                    <ParameterRefEntry parameterRef="CCSDS_Packet_Length" />
+                </EntryList>
+            </SequenceContainer>
+            <SequenceContainer name="TelemetryPacket">
+                <EntryList />
+                <BaseContainer containerRef="CCSDSPacket">
+                    <RestrictionCriteria>
+                        <ComparisonList>
+                            <Comparison value="0" parameterRef="CCSDS_Packet_ID/Version" />
+                            <Comparison value="TM" parameterRef="CCSDS_Packet_ID/Type" />
+                        </ComparisonList>
+                    </RestrictionCriteria>
+                </BaseContainer>
+            </SequenceContainer>
+            <SequenceContainer name="Spacecraft">
+                <EntryList>
+                    <ParameterRefEntry parameterRef="EpochUSNO" />
+                    <ParameterRefEntry parameterRef="OrbitNumberCumulative" />
+                    <ParameterRefEntry parameterRef="ElapsedSeconds" />
+                    <ParameterRefEntry parameterRef="A" />
+                    <ParameterRefEntry parameterRef="Height" />
+                    <ParameterRefEntry parameterRef="Position" />
+                    <ParameterRefEntry parameterRef="Velocity" />
+                    <ParameterRefEntry parameterRef="Latitude" />
+                    <ParameterRefEntry parameterRef="Longitude" />
+                    <ParameterRefEntry parameterRef="Battery1_Voltage" />
+                    <ParameterRefEntry parameterRef="Battery2_Voltage" />
+                    <ParameterRefEntry parameterRef="Battery1_Temp" />
+                    <ParameterRefEntry parameterRef="Battery2_Temp" />
+                    <ParameterRefEntry parameterRef="Magnetometer" />
+                    <ParameterRefEntry parameterRef="Sunsensor" />
+                    <ParameterRefEntry parameterRef="Gyro" />
+                    <ParameterRefEntry parameterRef="Detector_Temp" />
+                    <ParameterRefEntry parameterRef="Shadow" />
+                    <ParameterRefEntry parameterRef="Contact_Golbasi_GS" />
+                    <ParameterRefEntry parameterRef="Contact_Svalbard" />
+                    <ParameterRefEntry parameterRef="Payload_Status" />
+                    <ParameterRefEntry parameterRef="Payload_Error_Flag" />
+                    <ParameterRefEntry parameterRef="ADCS_Error_Flag" />
+                    <ParameterRefEntry parameterRef="CDHS_Error_Flag" />
+                    <ParameterRefEntry parameterRef="COMMS_Error_Flag" />
+                    <ParameterRefEntry parameterRef="EPS_Error_Flag" />
+                    <ParameterRefEntry parameterRef="COMMS_Status" />
+                    <ParameterRefEntry parameterRef="CDHS_Status" />
+                    <ParameterRefEntry parameterRef="Mode_Night" />
+                    <ParameterRefEntry parameterRef="Mode_Day" />
+                    <ParameterRefEntry parameterRef="Mode_Payload" />
+                    <ParameterRefEntry parameterRef="Mode_XBand" />
+                    <ParameterRefEntry parameterRef="Mode_SBand" />
+                    <ParameterRefEntry parameterRef="Mode_Safe" />
+                    <ParameterRefEntry parameterRef="Enum_Para_1">
+                        <LocationInContainerInBits referenceLocation="containerStart">
+                            <FixedValue>29</FixedValue>
+                        </LocationInContainerInBits>
+                    </ParameterRefEntry>
+                    <ParameterRefEntry parameterRef="Enum_Para_2">
+                        <LocationInContainerInBits referenceLocation="containerStart">
+                            <FixedValue>27</FixedValue>
+                        </LocationInContainerInBits>
+                    </ParameterRefEntry>
+                    <ParameterRefEntry parameterRef="Enum_Para_3">
+                        <LocationInContainerInBits referenceLocation="containerStart">
+                            <FixedValue>25</FixedValue>
+                        </LocationInContainerInBits>
+                    </ParameterRefEntry>
+                </EntryList>
+                <BaseContainer containerRef="TelemetryPacket">
+                    <RestrictionCriteria>
+                        <ComparisonList>
+                            <Comparison value="NotPresent" parameterRef="CCSDS_Packet_ID/SecHdrFlag" />
+                            <Comparison value="100" parameterRef="CCSDS_Packet_ID/APID" />
+                        </ComparisonList>
+                    </RestrictionCriteria>
+                </BaseContainer>
+            </SequenceContainer>
+        </ContainerSet>
+    </TelemetryMetaData>
+    <CommandMetaData>
+        <ArgumentTypeSet>
+            <StringArgumentType name="String_Type">
+                <StringDataEncoding encoding="UTF-8">
+                    <Variable maxSizeInBits="200">
+                        <DynamicValue>
+                            <ParameterInstanceRef parameterRef="_yamcs_ignore" />
+                        </DynamicValue>
+                        <TerminationChar>00</TerminationChar>
+                    </Variable>
+                </StringDataEncoding>
+            </StringArgumentType>
+            <StringArgumentType name="Battery_Types">
+                <StringDataEncoding encoding="UTF-8">
+                    <Variable maxSizeInBits="200">
+                        <DynamicValue>
+                            <ParameterInstanceRef parameterRef="_yamcs_ignore" />
+                        </DynamicValue>
+                        <TerminationChar>00</TerminationChar>
+                    </Variable>
+                </StringDataEncoding>
+            </StringArgumentType>
+            <StringArgumentType name="Voltage_Type">
+                <StringDataEncoding encoding="UTF-8">
+                    <Variable maxSizeInBits="200">
+                        <DynamicValue>
+                            <ParameterInstanceRef parameterRef="_yamcs_ignore" />
+                        </DynamicValue>
+                        <TerminationChar>00</TerminationChar>
+                    </Variable>
+                </StringDataEncoding>
+            </StringArgumentType>
+            <StringArgumentType name="Current_Type">
+                <StringDataEncoding encoding="UTF-8">
+                    <Variable maxSizeInBits="200">
+                        <DynamicValue>
+                            <ParameterInstanceRef parameterRef="_yamcs_ignore" />
+                        </DynamicValue>
+                        <TerminationChar>00</TerminationChar>
+                    </Variable>
+                </StringDataEncoding>
+            </StringArgumentType>
+            <StringArgumentType name="Battery_Node_Number_Type">
+                <StringDataEncoding encoding="UTF-8">
+                    <Variable maxSizeInBits="200">
+                        <DynamicValue>
+                            <ParameterInstanceRef parameterRef="_yamcs_ignore" />
+                        </DynamicValue>
+                        <TerminationChar>20</TerminationChar>
+                    </Variable>
+                </StringDataEncoding>
+            </StringArgumentType>
+            <StringArgumentType name="UART_CHANNEL_Types">
+                <StringDataEncoding encoding="UTF-8">
+                    <Variable maxSizeInBits="200">
+                        <DynamicValue>
+                            <ParameterInstanceRef parameterRef="_yamcs_ignore" />
+                        </DynamicValue>
+                        <TerminationChar>20</TerminationChar>
+                    </Variable>
+                </StringDataEncoding>
+            </StringArgumentType>
+            <StringArgumentType name="Power_On_Off_Type">
+                <StringDataEncoding encoding="UTF-8">
+                    <Variable maxSizeInBits="200">
+                        <DynamicValue>
+                            <ParameterInstanceRef parameterRef="_yamcs_ignore" />
+                        </DynamicValue>
+                        <TerminationChar>20</TerminationChar>
+                    </Variable>
+                </StringDataEncoding>
+            </StringArgumentType>
+
+        </ArgumentTypeSet>
+
+        <MetaCommandSet>
+
+            <!--eps-->
+            <MetaCommand name="Set_EPS_ADDRESS_IN_OBC-send-eps-node" shortDescription="Set EPS address in OBC host table">
+                <CommandContainer name="Set_EPS_ADDRESS_IN_OBC-send-eps-node">
+                    <EntryList>
+                        <FixedValueEntry binaryValue="657073206e6f6465" sizeInBits="64"/>
+                    </EntryList>
+                </CommandContainer>
+            </MetaCommand>
+            <MetaCommand name="eps-state-send-eps-hk" shortDescription="get the summary of eps state like current temp voltage">
+                <CommandContainer name="eps-state-send-eps-hk">
+                    <EntryList>
+                        <FixedValueEntry binaryValue="65707320686b" sizeInBits="48" />
+                    </EntryList>
+                </CommandContainer>
+            </MetaCommand>
+            <MetaCommand name="Get-HK-sub-structs-send-eps-hksub" shortDescription="Get HK sub structs">
+                <CommandContainer name="Get-HK-sub-structs-send-eps-hksub">
+                    <EntryList>
+                        <FixedValueEntry binaryValue="65707320686b737562" sizeInBits="72" />
+                    </EntryList>
+                </CommandContainer>
+            </MetaCommand>
+            <MetaCommand name="Get-configuration-send-eps-conf" shortDescription="Configuration">
+                <CommandContainer name="Get-HK-sub-structs-send-eps-conf">
+                    <EntryList>
+                        <FixedValueEntry binaryValue="65707320636f6e6620" sizeInBits="72" />
+                    </EntryList>
+                </CommandContainer>
+            </MetaCommand>
+            <MetaCommand name="SET_ON_OFF-send-eps-outputmask" shortDescription="Set on/off, argument hex value of output char">
+                <CommandContainer name="SET_ON_OFF-send-eps-outputmask">
+                    <EntryList>
+                        <FixedValueEntry binaryValue="657073206f75747075746d61736b20" sizeInBits="120" />
+                    </EntryList>
+                </CommandContainer>
+            </MetaCommand>
+            <MetaCommand name="SET_CHANNEL_ON_OFF-send-eps-output" shortDescription="Set channel on/off, argument (channel) to (1 or 0)(channel) (mode) (delay)">
+                <CommandContainer name="SET_ON_OFF-send-eps-output">
+                    <EntryList>
+                        <FixedValueEntry binaryValue="657073206f757470757420" sizeInBits="88" />
+                    </EntryList>
+                </CommandContainer>
+            </MetaCommand>
+            <MetaCommand name="RESET_ALL_COUNTER_TO_ZERO-send-eps-resetcounters" shortDescription="Reset all counters to zero">
+                <CommandContainer name="RESET_ALL_COUNTER_TO_ZERO-send-eps-resetcounters">
+                    <EntryList>
+                        <FixedValueEntry binaryValue="657073207265736574636f756e74657273" sizeInBits="136" />
+                    </EntryList>
+                </CommandContainer>
+            </MetaCommand>
+            <MetaCommand name="RESET_THE_WDT_GND-send-eps-resetwdt" shortDescription="Resets the WDT GND">
+                <CommandContainer name="RESET_THE_WDT_GND-send-eps-resetwdt">
+                    <EntryList>
+                        <FixedValueEntry binaryValue="657073207265736574776474" sizeInBits="96" />
+                    </EntryList>
+                </CommandContainer>
+            </MetaCommand>
+            <MetaCommand name="Hard-reset-send-eps-hardreset" shortDescription="Completely power cycle the EPS">
+                <CommandContainer name="RHard-reset-send-eps-hardreset">
+                    <EntryList>
+                        <FixedValueEntry binaryValue="65707320686172647265736574" sizeInBits="104" />
+                    </EntryList>
+                </CommandContainer>
+            </MetaCommand>
+            <MetaCommand name="CHANGE_CURRENT_PPT_MODE-send-eps-ppt" shortDescription="Change current PPT mode">
+                <CommandContainer name="CHANGE_CURRENT_PPT_MODE-send-eps-ppt">
+                    <EntryList>
+                        <FixedValueEntry binaryValue="65707320707074" sizeInBits="56" />
+                    </EntryList>
+                </CommandContainer>
+            </MetaCommand>
+            <MetaCommand name="CHANGE_CURRENT_VBOOST_VOLTAGE-send-eps-vboost" shortDescription="Change current VBOOST voltage">
+                <CommandContainer name="CHANGE_CURRENT_VBOOST_VOLTAGE-send-eps-vboost">
+                    <EntryList>
+                        <FixedValueEntry binaryValue="6570732076626f6f7374" sizeInBits="80" />
+                    </EntryList>
+                </CommandContainer>
+            </MetaCommand>
+            <MetaCommand name="Get_product_UID-send-board-getuid" shortDescription="Get product UID">
+                <CommandContainer name="Get_product_UID-send-board-getuid">
+                    <EntryList>
+                        <FixedValueEntry binaryValue="626f61726420676574756964" sizeInBits="96" />
+                    </EntryList>
+                </CommandContainer>
+            </MetaCommand>
+            <MetaCommand name="Set_OR_get_heater_on_quadbat-send-board-heaterquadbat" shortDescription="Set/get heater on quadbat">
+                <CommandContainer name="Set_OR_get_heater_on_quadbat-send-board-heaterquadbat">
+                    <EntryList>
+                        <FixedValueEntry binaryValue="626f6172642068656174657271756164626174" sizeInBits="152" />
+                    </EntryList>
+                </CommandContainer>
+            </MetaCommand>
+            <MetaCommand name="Set_OR_get_heater_on_onboard-send-board-heateronboard" shortDescription="Set/get heater on onboard">
+                <CommandContainer name="Set_OR_get_heater_on_onboard-send-board-heateronboard">
+                    <EntryList>
+                        <FixedValueEntry binaryValue="626f617264206865617465726f6e626f617264" sizeInBits="152" />
+                    </EntryList>
+                </CommandContainer>
+            </MetaCommand>
+            <MetaCommand name="Set_OR_get_wdt_i2c_reset_type-send-board-wdti2c_rst" shortDescription="Set/get wdt i2c reset type">
+                <CommandContainer name="Set_OR_get_wdt_i2c_reset_type-send-board-wdti2c_rst">
+                    <EntryList>
+                        <FixedValueEntry binaryValue="626f617264207764746932635f727374" sizeInBits="128" />
+                    </EntryList>
+                </CommandContainer>
+            </MetaCommand>
+            <MetaCommand name="Set_OR_get_wdt_gnd-send-board-wdtgnd" shortDescription="Set/get wdt gnd">
+                <CommandContainer name="Set_OR_get_wdt_gnd-send-board-wdtgnd">
+                    <EntryList>
+                        <FixedValueEntry binaryValue="626f61726420776474676e64" sizeInBits="96" />
+                    </EntryList>
+                </CommandContainer>
+            </MetaCommand>
+            <MetaCommand name="Set_OR_get_wdt_csp-send-board-wdtcsp" shortDescription="Set/get wdt csp">
+                <CommandContainer name="Set_OR_get_wdt_csp-send-board-wdtcsp">
+                    <EntryList>
+                        <FixedValueEntry binaryValue="626f61726420776474637370" sizeInBits="96" />
+                    </EntryList>
+                </CommandContainer>
+            </MetaCommand>
+            <MetaCommand name="Set_OR_get_i2c_slave-send-board-i2cslave" shortDescription="Set/get i2c slave">
+                <CommandContainer name="Set_OR_get_i2c_slave-send-board-i2cslave">
+                    <EntryList>
+                        <FixedValueEntry binaryValue="626f6172642020693263736c61766520" sizeInBits="128" />
+                    </EntryList>
+                </CommandContainer>
+            </MetaCommand>
+            <MetaCommand name="Set_OR_get_i2c_speed-send-board-i2cspeed" shortDescription="Set/get i2cspeed in khz">
+                <CommandContainer name="Set_OR_get_i2c_speed-send-board-i2cspeed">
+                    <EntryList>
+                        <FixedValueEntry binaryValue="626f6172642020693263737065656420" sizeInBits="128" />
+                    </EntryList>
+                </CommandContainer>
+            </MetaCommand>
+<!--            check space once in hex code-->
+            <MetaCommand name="Set_OR_get_i2c_addr-send-board-i2caddr" shortDescription="Set/get i2c addr">
+                <CommandContainer name="Set_OR_get_i2c_addr-send-board-i2caddr">
+                    <EntryList>
+                        <FixedValueEntry binaryValue="626f61726420206932636164647220" sizeInBits="120" />
+                    </EntryList>
+                </CommandContainer>
+            </MetaCommand>
+            <MetaCommand name="Set_OR_get_csp_addr-send-board-cspaddr" shortDescription="Set/get cspaddr">
+                <CommandContainer name="Set_OR_get_csp_addr-send-board-cspaddr">
+                    <EntryList>
+                        <FixedValueEntry binaryValue="626f61726420206373706164647220" sizeInBits="120" />
+                    </EntryList>
+                </CommandContainer>
+            </MetaCommand>
+            <MetaCommand name="Save_routing_table_to_flash-send-board-csp_route_save" shortDescription="Save routing table to flash">
+                <CommandContainer name="Save_routing_table_to_flash-send-board-csp_route_save">
+                    <EntryList>
+                        <FixedValueEntry binaryValue="626f61726420206373706164647220" sizeInBits="120" />
+                    </EntryList>
+                </CommandContainer>
+            </MetaCommand>
+            <MetaCommand name="Save_routing_table_to_flash-send-board-csp_route_load" shortDescription="Load routing table from flash">
+                <CommandContainer name="Save_routing_table_to_flash-send-board-csp_route_load">
+                    <EntryList>
+                        <FixedValueEntry binaryValue="626f6172642020206373705f726f7574655f6c6f616420" sizeInBits="184" />
+                    </EntryList>
+                </CommandContainer>
+            </MetaCommand>
+            <MetaCommand name="Restore_to_factory_routing_table_in_flash-send-board-csp_route_restore" shortDescription="Restore to factory routing table in flash">
+                <CommandContainer name="Restore_to_factory_routing_table_in_flash-send-board-csp_route_restore">
+                    <EntryList>
+                        <FixedValueEntry binaryValue="626f617264206373705f726f7574655f726573746f7265" sizeInBits="184" />
+                    </EntryList>
+                </CommandContainer>
+            </MetaCommand>
+            <MetaCommand name="Measure_power_at_different_vboost_values-send-epsdebug_powersweep" shortDescription="Measure power at different vboost values">
+                <CommandContainer name="Measure_power_at_different_vboost_values-send-epsdebug_powersweep">
+                    <EntryList>
+                        <FixedValueEntry binaryValue="657073646562756720706f7765727377656570" sizeInBits="152" />
+                    </EntryList>
+                </CommandContainer>
+            </MetaCommand>
+
+
+<!--            Configurations-->
+<!--            ‘eps conf’ command:-->
+            <MetaCommand name="Get_Config_send_eps_conf_get" shortDescription="Conf get">
+                <CommandContainer name="Get_Config_send_eps_conf_get">
+                    <EntryList>
+                        <FixedValueEntry binaryValue="65707320636f6e6620676574" sizeInBits="96" />
+                    </EntryList>
+                </CommandContainer>
+            </MetaCommand>
+            <MetaCommand name="Conf_set_to_RAM_send_eps_conf_set" shortDescription="Conf set to RAM">
+                <CommandContainer name="Conf_set_to_RAM_send_eps_conf_set">
+                    <EntryList>
+                        <FixedValueEntry binaryValue="65707320636f6e6620736574" sizeInBits="96" />
+                    </EntryList>
+                </CommandContainer>
+            </MetaCommand>
+            <MetaCommand name="Edit_local_config_send_eps_conf_edit" shortDescription="Edit local config">
+                <CommandContainer name="Edit_local_config_send_eps_conf_edit">
+                    <EntryList>
+                        <FixedValueEntry binaryValue="65707320636f6e662065646974" sizeInBits="104" />
+                    </EntryList>
+                </CommandContainer>
+            </MetaCommand>
+            <MetaCommand name="Print_local_config_send_eps_conf_print" shortDescription="Print local config">
+                <CommandContainer name="Print_local_config_send_eps_conf_print">
+                    <EntryList>
+                        <FixedValueEntry binaryValue="65707320636f6e66207072696e74" sizeInBits="112" />
+                    </EntryList>
+                </CommandContainer>
+            </MetaCommand>
+            <MetaCommand name="Restore_config_send_eps_conf_restore" shortDescription="Restore config from default">
+                <CommandContainer name="Restore_config_send_eps_conf_restore">
+                    <EntryList>
+                        <FixedValueEntry binaryValue="65707320636f6e6620726573746f7265" sizeInBits="128" />
+                    </EntryList>
+                </CommandContainer>
+            </MetaCommand>
+            <MetaCommand name="Confirm_New_config_send_eps_conf_confirm" shortDescription="Confirm new config (save to EEPROM)">
+                <CommandContainer name="Confirm_New_config_send_eps_conf_confirm">
+                    <EntryList>
+                        <FixedValueEntry binaryValue="65707320636f6e6620636f6e6669726d" sizeInBits="128" />
+                    </EntryList>
+                </CommandContainer>
+            </MetaCommand>
+
+<!--            ‘eps conf2’ command:-->
+
+            <MetaCommand name="Get_Config2_send_eps_conf2_get" shortDescription="Conf2 get">
+                <CommandContainer name="Get_Config2_send_eps_conf2_get">
+                    <EntryList>
+                        <FixedValueEntry binaryValue="65707320636f6e663220676574" sizeInBits="104" />
+                    </EntryList>
+                </CommandContainer>
+            </MetaCommand>
+            <MetaCommand name="Conf2_set_to_RAM_send_eps_conf2_set" shortDescription="Conf2 set to RAM">
+                <CommandContainer name="Conf2_set_to_RAM_send_eps_conf2_set">
+                    <EntryList>
+                        <FixedValueEntry binaryValue="65707320636f6e663220736574" sizeInBits="104" />
+                    </EntryList>
+                </CommandContainer>
+            </MetaCommand>
+            <MetaCommand name="Edit_local_config2_send_eps_conf2_edit" shortDescription="Edit local config2">
+                <CommandContainer name="Edit_local_config2_send_eps_conf2_edit">
+                    <EntryList>
+                        <FixedValueEntry binaryValue="65707320636f6e66322065646974" sizeInBits="112" />
+                    </EntryList>
+                </CommandContainer>
+            </MetaCommand>
+            <MetaCommand name="Print_local_config2_send_eps_conf2_print" shortDescription="Print local config2">
+                <CommandContainer name="Print_local_config2_send_eps_conf2_print">
+                    <EntryList>
+                        <FixedValueEntry binaryValue="65707320636f6e6632207072696e74" sizeInBits="120" />
+                    </EntryList>
+                </CommandContainer>
+            </MetaCommand>
+            <MetaCommand name="Restore_config2_send_eps_conf2_restore" shortDescription="Restore config2 from default">
+                <CommandContainer name="Restore_config2_send_eps_conf2_restore">
+                    <EntryList>
+                        <FixedValueEntry binaryValue="65707320636f6e663220726573746f7265" sizeInBits="136" />
+                    </EntryList>
+                </CommandContainer>
+            </MetaCommand>
+            <MetaCommand name="Confirm_New_config2_send_eps_conf2_confirm" shortDescription="Confirm new config2 (save to EEPROM)">
+                <CommandContainer name="Confirm_New_config2_send_eps_conf2_confirm">
+                    <EntryList>
+                        <FixedValueEntry binaryValue="65707320636f6e663220636f6e6669726d" sizeInBits="136" />
+                    </EntryList>
+                </CommandContainer>
+            </MetaCommand>
+
+
+
+
+
+
+
+
+
+
+
+            <!--            board-->
+
+
+
+
+
+
+
+
+
+
+            <!--  multiplexer-->
+            <!--   Power   =>   to power multiplexer-->
+            <MetaCommand name="eps-power-multiplexer" shortDescription="to power-multiplexer">
+                <ArgumentList>
+                    <Argument argumentTypeRef="UART_CHANNEL_Types" name="UART_CHANNEL" shortDescription="enter 5" />
+                    <Argument argumentTypeRef="Power_On_Off_Type" name="Power_On_Off" shortDescription="Enter 1 or 0" />
+                    <Argument argumentTypeRef="Current_Type" name="Current" shortDescription="" />
+                </ArgumentList>
+                <CommandContainer name="eps-power-multiplexer">
+                    <EntryList>
+                        <FixedValueEntry binaryValue="657073206f7574707574" sizeInBits="80" />
+                        <FixedValueEntry binaryValue="20" sizeInBits="8"/>
+                        <ArgumentRefEntry argumentRef="UART_CHANNEL" />
+                        <ArgumentRefEntry argumentRef="Power_On_Off" />
+                        <ArgumentRefEntry argumentRef="Current" />
+                    </EntryList>
+                </CommandContainer>
+            </MetaCommand>
+
+
+
+<!--            bpx-->
+<!--            The bpx command requires the user to set the CSP Address of the battery pack it is commanding. This can be set by entering , where NODE_NUMBER is replaced by the target battery pack address.-->
+            <MetaCommand name="bpx" shortDescription="set the CSP Address of the battery pack by entering node number">
+                <ArgumentList>
+                    <Argument argumentTypeRef="Battery_Node_Number_Type" name="Battery_Node_Number" shortDescription="set the CSP Address of the battery pack by entering node number" />
+                </ArgumentList>
+                <CommandContainer name="bpx">
+                    <EntryList>
+                        <FixedValueEntry binaryValue="627078" sizeInBits="24" />
+                        <FixedValueEntry binaryValue="20" sizeInBits="8"/>
+                        <FixedValueEntry binaryValue="6e6f6465" sizeInBits="32"/>
+                        <FixedValueEntry binaryValue="20" sizeInBits="8"/>
+                        <ArgumentRefEntry argumentRef="Battery_Node_Number" />
+                    </EntryList>
+                </CommandContainer>
+            </MetaCommand>
+
+
+
+
+
+            <MetaCommand name="SendHelloWorld" shortDescription="Send fixed value 'Hello World!'">
+                <ArgumentList>
+                    <Argument argumentTypeRef="Battery_Types" name="Battery" shortDescription="PingToBattery" />
+                    <Argument argumentTypeRef="Voltage_Type" name="Voltage" shortDescription="PingToVoltage" />
+                    <Argument argumentTypeRef="Current_Type" name="Current" shortDescription="PingToCurrent" />
+                </ArgumentList>
+                <CommandContainer name="SendHelloWorld">
+                    <EntryList>
+                        <FixedValueEntry binaryValue="657073206f7574707574" sizeInBits="80" />
+                        <FixedValueEntry binaryValue="20" sizeInBits="8"/>
+                        <ArgumentRefEntry argumentRef="Battery" />
+                        <FixedValueEntry binaryValue="20" sizeInBits="8"/>
+                        <ArgumentRefEntry argumentRef="Voltage" />
+                        <FixedValueEntry binaryValue="20" sizeInBits="8"/>
+                        <ArgumentRefEntry argumentRef="Current" />
+                    </EntryList>
+                </CommandContainer>
+            </MetaCommand>
+
+        </MetaCommandSet>
+    </CommandMetaData>
+</SpaceSystem>
