@@ -283,12 +283,22 @@
                     </Variable>
                 </StringDataEncoding>
             </StringArgumentType>
+            <StringArgumentType name="Delay_In_Activation_Type">
+                <StringDataEncoding encoding="UTF-8">
+                    <Variable maxSizeInBits="200">
+                        <DynamicValue>
+                            <ParameterInstanceRef parameterRef="_yamcs_ignore" />
+                        </DynamicValue>
+                        <TerminationChar>00</TerminationChar>
+                    </Variable>
+                </StringDataEncoding>
+            </StringArgumentType>
 
         </ArgumentTypeSet>
 
         <MetaCommandSet>
 
-            <!--eps-->
+            <!--eps commands-->
             <MetaCommand name="Set_EPS_ADDRESS_IN_OBC-send-eps-node" shortDescription="Set EPS address in OBC host table">
                 <CommandContainer name="Set_EPS_ADDRESS_IN_OBC-send-eps-node">
                     <EntryList>
@@ -366,6 +376,7 @@
                     </EntryList>
                 </CommandContainer>
             </MetaCommand>
+            <!--  board commands          -->
             <MetaCommand name="Get_product_UID-send-board-getuid" shortDescription="Get product UID">
                 <CommandContainer name="Get_product_UID-send-board-getuid">
                     <EntryList>
@@ -411,29 +422,28 @@
             <MetaCommand name="Set_OR_get_i2c_slave-send-board-i2cslave" shortDescription="Set/get i2c slave">
                 <CommandContainer name="Set_OR_get_i2c_slave-send-board-i2cslave">
                     <EntryList>
-                        <FixedValueEntry binaryValue="626f6172642020693263736c61766520" sizeInBits="128" />
+                        <FixedValueEntry binaryValue="626f61726420693263736c61766520" sizeInBits="120" />
                     </EntryList>
                 </CommandContainer>
             </MetaCommand>
             <MetaCommand name="Set_OR_get_i2c_speed-send-board-i2cspeed" shortDescription="Set/get i2cspeed in khz">
                 <CommandContainer name="Set_OR_get_i2c_speed-send-board-i2cspeed">
                     <EntryList>
-                        <FixedValueEntry binaryValue="626f6172642020693263737065656420" sizeInBits="128" />
+                        <FixedValueEntry binaryValue="626f61726420693263737065656420" sizeInBits="120" />
                     </EntryList>
                 </CommandContainer>
             </MetaCommand>
-<!--            check space once in hex code-->
             <MetaCommand name="Set_OR_get_i2c_addr-send-board-i2caddr" shortDescription="Set/get i2c addr">
                 <CommandContainer name="Set_OR_get_i2c_addr-send-board-i2caddr">
                     <EntryList>
-                        <FixedValueEntry binaryValue="626f61726420206932636164647220" sizeInBits="120" />
+                        <FixedValueEntry binaryValue="626f617264206932636164647220" sizeInBits="112" />
                     </EntryList>
                 </CommandContainer>
             </MetaCommand>
             <MetaCommand name="Set_OR_get_csp_addr-send-board-cspaddr" shortDescription="Set/get cspaddr">
                 <CommandContainer name="Set_OR_get_csp_addr-send-board-cspaddr">
                     <EntryList>
-                        <FixedValueEntry binaryValue="626f61726420206373706164647220" sizeInBits="120" />
+                        <FixedValueEntry binaryValue="626f617264206373706164647220" sizeInBits="112" />
                     </EntryList>
                 </CommandContainer>
             </MetaCommand>
@@ -458,6 +468,7 @@
                     </EntryList>
                 </CommandContainer>
             </MetaCommand>
+            <!--  epsdebug command         -->
             <MetaCommand name="Measure_power_at_different_vboost_values-send-epsdebug_powersweep" shortDescription="Measure power at different vboost values">
                 <CommandContainer name="Measure_power_at_different_vboost_values-send-epsdebug_powersweep">
                     <EntryList>
@@ -467,8 +478,8 @@
             </MetaCommand>
 
 
-<!--            Configurations-->
-<!--            ‘eps conf’ command:-->
+           <!--Configurations-->
+           <!--‘eps conf’ command:-->
             <MetaCommand name="Get_Config_send_eps_conf_get" shortDescription="Conf get">
                 <CommandContainer name="Get_Config_send_eps_conf_get">
                     <EntryList>
@@ -512,7 +523,7 @@
                 </CommandContainer>
             </MetaCommand>
 
-<!--            ‘eps conf2’ command:-->
+            <!--‘eps conf2’ command:-->
 
             <MetaCommand name="Get_Config2_send_eps_conf2_get" shortDescription="Conf2 get">
                 <CommandContainer name="Get_Config2_send_eps_conf2_get">
@@ -557,25 +568,50 @@
                 </CommandContainer>
             </MetaCommand>
 
+            <!--‘eps conf3’ command:-->
 
-
-
-
-
-
-
-
-
-
-            <!--            board-->
-
-
-
-
-
-
-
-
+            <MetaCommand name="Get_Config_send_eps_conf3_get" shortDescription="Conf3 get">
+                <CommandContainer name="Get_Config3_send_eps_conf3_get">
+                    <EntryList>
+                        <FixedValueEntry binaryValue="65707320636f6e663320676574" sizeInBits="104" />
+                    </EntryList>
+                </CommandContainer>
+            </MetaCommand>
+            <MetaCommand name="Conf3_set_to_RAM_send_eps_conf3_set" shortDescription="Conf3 set to RAM">
+                <CommandContainer name="Conf3_set_to_RAM_send_eps_conf3_set">
+                    <EntryList>
+                        <FixedValueEntry binaryValue="65707320636f6e663320736574" sizeInBits="104" />
+                    </EntryList>
+                </CommandContainer>
+            </MetaCommand>
+            <MetaCommand name="Edit_local_config3_send_eps_conf3_edit" shortDescription="Edit local config3">
+                <CommandContainer name="Edit_local_config3_send_eps_conf3_edit">
+                    <EntryList>
+                        <FixedValueEntry binaryValue="65707320636f6e66332065646974" sizeInBits="112" />
+                    </EntryList>
+                </CommandContainer>
+            </MetaCommand>
+            <MetaCommand name="Print_local_config3_send_eps_conf3_print" shortDescription="Print local config3">
+                <CommandContainer name="Print_local_config3_send_eps_conf3_print">
+                    <EntryList>
+                        <FixedValueEntry binaryValue="65707320636f6e6633207072696e74" sizeInBits="120" />
+                    </EntryList>
+                </CommandContainer>
+            </MetaCommand>
+            <MetaCommand name="Restore_config3_send_eps_conf3_restore" shortDescription="Restore config3 from default">
+                <CommandContainer name="Restore_config3_send_eps_conf3_restore">
+                    <EntryList>
+                        <FixedValueEntry binaryValue="65707320636f6e663320726573746f7265" sizeInBits="136" />
+                    </EntryList>
+                </CommandContainer>
+            </MetaCommand>
+            <MetaCommand name="Confirm_New_config3_send_eps_conf3_confirm" shortDescription="Confirm new config3 (save to EEPROM)">
+                <CommandContainer name="Confirm_New_config3_send_eps_conf3_confirm">
+                    <EntryList>
+                        <FixedValueEntry binaryValue="65707320636f6e663320636f6e6669726d" sizeInBits="136" />
+                    </EntryList>
+                </CommandContainer>
+            </MetaCommand>
 
 
             <!--  multiplexer-->
@@ -584,7 +620,7 @@
                 <ArgumentList>
                     <Argument argumentTypeRef="UART_CHANNEL_Types" name="UART_CHANNEL" shortDescription="enter 5" />
                     <Argument argumentTypeRef="Power_On_Off_Type" name="Power_On_Off" shortDescription="Enter 1 or 0" />
-                    <Argument argumentTypeRef="Current_Type" name="Current" shortDescription="" />
+                    <Argument argumentTypeRef="Delay_In_Activation_Type" name="Delay_In_Activation" shortDescription="Should be kept 0" />
                 </ArgumentList>
                 <CommandContainer name="eps-power-multiplexer">
                     <EntryList>
@@ -592,15 +628,16 @@
                         <FixedValueEntry binaryValue="20" sizeInBits="8"/>
                         <ArgumentRefEntry argumentRef="UART_CHANNEL" />
                         <ArgumentRefEntry argumentRef="Power_On_Off" />
-                        <ArgumentRefEntry argumentRef="Current" />
+                        <ArgumentRefEntry argumentRef="Delay_In_Activation" />
                     </EntryList>
                 </CommandContainer>
             </MetaCommand>
 
 
 
-<!--            bpx-->
-<!--            The bpx command requires the user to set the CSP Address of the battery pack it is commanding. This can be set by entering , where NODE_NUMBER is replaced by the target battery pack address.-->
+
+            <!--bpx-->
+            <!--The bpx command requires the user to set the CSP Address of the battery pack it is commanding. This can be set by entering , where NODE_NUMBER is replaced by the target battery pack address.-->
             <MetaCommand name="bpx" shortDescription="set the CSP Address of the battery pack by entering node number">
                 <ArgumentList>
                     <Argument argumentTypeRef="Battery_Node_Number_Type" name="Battery_Node_Number" shortDescription="set the CSP Address of the battery pack by entering node number" />
@@ -615,10 +652,6 @@
                     </EntryList>
                 </CommandContainer>
             </MetaCommand>
-
-
-
-
 
             <MetaCommand name="SendHelloWorld" shortDescription="Send fixed value 'Hello World!'">
                 <ArgumentList>
