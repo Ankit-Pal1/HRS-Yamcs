@@ -1,0 +1,774 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SpaceSystem name="adcs" xmlns="http://www.omg.org/spec/XTCE/20180204" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.omg.org/spec/XTCE/20180204 https://www.omg.org/spec/XTCE/20180204/SpaceSystem.xsd">
+    <TelemetryMetaData>
+        <!--ADCS Telemetry-->
+        <ParameterTypeSet>
+
+            <AggregateParameterType name="CSP_Packet_ID_Type">
+                <MemberList>
+                    <Member name="Version" typeRef="CSP_Version_Type" />
+                    <Member name="Type" typeRef="CSP_Type_Type" />
+                    <Member name="SecHdrFlag" typeRef="CSP_Sec_Hdr_Flag_Type" />
+                    <Member name="APID" typeRef="CSP_APID_Type" />
+                </MemberList>
+            </AggregateParameterType>
+            <IntegerParameterType name="CSP_Version_Type" signed="false">
+                <UnitSet />
+                <IntegerDataEncoding sizeInBits="3" />
+            </IntegerParameterType>
+            <BooleanParameterType name="CSP_Type_Type" zeroStringValue="TM" oneStringValue="TC">
+                <UnitSet />
+                <IntegerDataEncoding sizeInBits="1" />
+            </BooleanParameterType>
+            <BooleanParameterType name="CSP_Sec_Hdr_Flag_Type" zeroStringValue="NotPresent" oneStringValue="Present">
+                <UnitSet />
+                <IntegerDataEncoding sizeInBits="1" />
+            </BooleanParameterType>
+            <IntegerParameterType name="CSP_APID_Type" signed="false">
+                <UnitSet />
+                <IntegerDataEncoding sizeInBits="11" />
+            </IntegerParameterType>
+            <AggregateParameterType name="CSP_Packet_Sequence_Type">
+                <MemberList>
+                    <Member name="GroupFlags" typeRef="CSP_Group_Flags_Type" />
+                    <Member name="Count" typeRef="CSP_Source_Sequence_Count_Type" />
+                </MemberList>
+            </AggregateParameterType>
+            <EnumeratedParameterType name="CSP_Group_Flags_Type">
+                <UnitSet />
+                <IntegerDataEncoding sizeInBits="2" />
+                <EnumerationList>
+                    <Enumeration value="0" label="Continuation" />
+                    <Enumeration value="1" label="First" />
+                    <Enumeration value="2" label="Last" />
+                    <Enumeration value="3" label="Standalone" />
+                </EnumerationList>
+            </EnumeratedParameterType>
+            <IntegerParameterType name="CSP_Source_Sequence_Count_Type" signed="false">
+                <UnitSet />
+                <IntegerDataEncoding sizeInBits="14" />
+            </IntegerParameterType>
+            <IntegerParameterType name="CSP_Packet_Length_Type" signed="false" initialValue="0">
+                <UnitSet>
+                    <Unit description="Size">Octets</Unit>
+                </UnitSet>
+                <IntegerDataEncoding sizeInBits="16" />
+            </IntegerParameterType>
+
+            <!-- Boolean Parameter Type -->
+            <BooleanParameterType name="BL">
+                <UnitSet />
+                <IntegerDataEncoding sizeInBits="1" />
+            </BooleanParameterType>
+
+            <!-- Integer Parameter Type -->
+            <IntegerParameterType name="I16" signed="true">
+                <UnitSet />
+                <IntegerDataEncoding sizeInBits="16" />
+            </IntegerParameterType>
+
+            <!-- Unsigned Integer Parameter Type -->
+            <IntegerParameterType name="U16" signed="false">
+                <UnitSet />
+                <IntegerDataEncoding sizeInBits="16" />
+            </IntegerParameterType>
+
+            <!-- U32 Parameter Type -->
+            <IntegerParameterType name="U32" signed="false">
+                <UnitSet />
+                <IntegerDataEncoding sizeInBits="32" />
+            </IntegerParameterType>
+
+            <FloatParameterType name="float_t">
+                <UnitSet />
+                <FloatDataEncoding sizeInBits="32" />
+            </FloatParameterType>
+            <AggregateParameterType name="mag_FLT">
+                <MemberList>
+                    <Member name="x" typeRef="float_t"/>
+                    <Member name="y" typeRef="float_t"/>
+                    <Member name="z" typeRef="float_t"/>
+                </MemberList>
+            </AggregateParameterType>
+            <IntegerParameterType name="U8" signed="false">
+                <UnitSet />
+                <IntegerDataEncoding sizeInBits="8" />
+            </IntegerParameterType>
+            <AggregateParameterType name="extmag_temp_FLT">
+                <MemberList>
+                    <Member name="x" typeRef="float_t"/>
+                </MemberList>
+            </AggregateParameterType>
+            <AggregateParameterType name="suns_FLT">
+                <MemberList>
+                    <Member name="x1" typeRef="float_t"/>
+                    <Member name="x2" typeRef="float_t"/>
+                    <Member name="x3" typeRef="float_t"/>
+                    <Member name="x4" typeRef="float_t"/>
+                    <Member name="x5" typeRef="float_t"/>
+                    <Member name="x6" typeRef="float_t"/>
+                </MemberList>
+            </AggregateParameterType>
+            <AggregateParameterType name="st_raw_t">
+                <MemberList>
+                    <Member name="x1" typeRef="float_t"/>
+                    <Member name="x2" typeRef="float_t"/>
+                    <Member name="x3" typeRef="float_t"/>
+                    <Member name="x4" typeRef="float_t"/>
+                </MemberList>
+            </AggregateParameterType>
+            <IntegerParameterType name="I8" signed="true">
+                <UnitSet />
+                <IntegerDataEncoding sizeInBits="8" />
+            </IntegerParameterType>
+            <AggregateParameterType name="fss_t">
+                <MemberList>
+                    <Member name="x1" typeRef="float_t"/>
+                    <Member name="x2" typeRef="float_t"/>
+                    <Member name="x3" typeRef="float_t"/>
+                    <Member name="x4" typeRef="float_t"/>
+                    <Member name="x5" typeRef="float_t"/>
+                    <Member name="x6" typeRef="float_t"/>
+                    <Member name="x7" typeRef="float_t"/>
+                    <Member name="x8" typeRef="float_t"/>
+                    <Member name="y1" typeRef="float_t"/>
+                    <Member name="y2" typeRef="float_t"/>
+                    <Member name="y3" typeRef="float_t"/>
+                    <Member name="y4" typeRef="float_t"/>
+                    <Member name="y5" typeRef="float_t"/>
+                    <Member name="y6" typeRef="float_t"/>
+                    <Member name="y7" typeRef="float_t"/>
+                    <Member name="y8" typeRef="float_t"/>
+                    <Member name="z1" typeRef="float_t"/>
+                    <Member name="z2" typeRef="float_t"/>
+                    <Member name="z3" typeRef="float_t"/>
+                    <Member name="z4" typeRef="float_t"/>
+                    <Member name="z5" typeRef="float_t"/>
+                    <Member name="z6" typeRef="float_t"/>
+                    <Member name="z7" typeRef="float_t"/>
+                    <Member name="z8" typeRef="float_t"/>
+                </MemberList>
+            </AggregateParameterType>
+            <AggregateParameterType name="fss_temp_t">
+                <MemberList>
+                    <Member name="x1" typeRef="float_t"/>
+                    <Member name="x2" typeRef="float_t"/>
+                    <Member name="x3" typeRef="float_t"/>
+                    <Member name="x4" typeRef="float_t"/>
+                    <Member name="y1" typeRef="float_t"/>
+                    <Member name="y2" typeRef="float_t"/>
+                    <Member name="y3" typeRef="float_t"/>
+                    <Member name="y4" typeRef="float_t"/>
+                </MemberList>
+            </AggregateParameterType>
+            <BooleanParameterType name="bool_t">
+                <UnitSet />
+                <IntegerDataEncoding sizeInBits="8" />
+            </BooleanParameterType>
+
+            <AggregateParameterType name="htpa_BL">
+                <MemberList>
+                    <Member name="x1" typeRef="bool_t"/>
+                    <Member name="x2" typeRef="bool_t"/>
+                    <Member name="x3" typeRef="bool_t"/>
+                    <Member name="x4" typeRef="bool_t"/>
+                </MemberList>
+            </AggregateParameterType>
+
+            <AggregateParameterType name="htpa_roll_t">
+                <MemberList>
+                    <Member name="x1" typeRef="float_t"/>
+                    <Member name="x2" typeRef="float_t"/>
+                    <Member name="x3" typeRef="float_t"/>
+                    <Member name="x4" typeRef="float_t"/>
+                </MemberList>
+            </AggregateParameterType>
+
+            <AggregateParameterType name="gps_pos_t">
+                <MemberList>
+                    <Member name="x1" typeRef="float_t"/>
+                    <Member name="x2" typeRef="float_t"/>
+                    <Member name="x3" typeRef="float_t"/>
+                </MemberList>
+            </AggregateParameterType>
+            <IntegerParameterType name="I32" signed="true">
+                <UnitSet />
+                <IntegerDataEncoding sizeInBits="32" />
+            </IntegerParameterType>
+            <AggregateParameterType name="torquer_duty_t">
+                <MemberList>
+                    <Member name="x1" typeRef="float_t"/>
+                    <Member name="x2" typeRef="float_t"/>
+                    <Member name="x3" typeRef="float_t"/>
+                </MemberList>
+            </AggregateParameterType>
+            <AggregateParameterType name="wheel_torque_t">
+                <MemberList>
+                    <Member name="x1" typeRef="float_t"/>
+                    <Member name="x2" typeRef="float_t"/>
+                    <Member name="x3" typeRef="float_t"/>
+                    <Member name="x4" typeRef="float_t"/>
+                </MemberList>
+            </AggregateParameterType>
+            <AggregateParameterType name="wheel_enable_U8">
+                <MemberList>
+                    <Member name="x1" typeRef="U8"/>
+                    <Member name="x2" typeRef="U8"/>
+                    <Member name="x3" typeRef="U8"/>
+                    <Member name="x4" typeRef="U8"/>
+                </MemberList>
+            </AggregateParameterType>
+            <AggregateParameterType name="wheel_cur_U16">
+                <MemberList>
+                    <Member name="x1" typeRef="U16"/>
+                    <Member name="x2" typeRef="U16"/>
+                    <Member name="x3" typeRef="U16"/>
+                    <Member name="x4" typeRef="U16"/>
+                </MemberList>
+            </AggregateParameterType>
+            <AggregateParameterType name="wheel_temp_I16">
+                <MemberList>
+                    <Member name="x1" typeRef="I16"/>
+                    <Member name="x2" typeRef="I16"/>
+                    <Member name="x3" typeRef="I16"/>
+                    <Member name="x4" typeRef="I16"/>
+                </MemberList>
+            </AggregateParameterType>
+            <AggregateParameterType name="fss_valid_U8">
+                <MemberList>
+                    <Member name="x1" typeRef="U8"/>
+                    <Member name="x2" typeRef="U8"/>
+                    <Member name="x3" typeRef="U8"/>
+                    <Member name="x4" typeRef="U8"/>
+                    <Member name="x5" typeRef="U8"/>
+                    <Member name="x6" typeRef="U8"/>
+                    <Member name="x7" typeRef="U8"/>
+                    <Member name="x8" typeRef="U8"/>
+                </MemberList>
+            </AggregateParameterType>
+            <AggregateParameterType name="fss_raw_U16">
+                <MemberList>
+                    <Member name="x1" typeRef="U16"/>
+                    <Member name="x2" typeRef="U16"/>
+                    <Member name="x3" typeRef="U16"/>
+                    <Member name="x4" typeRef="U16"/>
+                    <Member name="x5" typeRef="U16"/>
+                    <Member name="x6" typeRef="U16"/>
+                    <Member name="x7" typeRef="U16"/>
+                    <Member name="x8" typeRef="U16"/>
+                    <Member name="x9" typeRef="U16"/>
+                    <Member name="x10" typeRef="U16"/>
+                    <Member name="x11" typeRef="U16"/>
+                    <Member name="x12" typeRef="U16"/>
+                    <Member name="x13" typeRef="U16"/>
+                    <Member name="x14" typeRef="U16"/>
+                    <Member name="x15" typeRef="U16"/>
+                    <Member name="x16" typeRef="U16"/>
+                    <Member name="x17" typeRef="U16"/>
+                    <Member name="x18" typeRef="U16"/>
+                    <Member name="x19" typeRef="U16"/>
+                    <Member name="x20" typeRef="U16"/>
+                    <Member name="x21" typeRef="U16"/>
+                    <Member name="x22" typeRef="U16"/>
+                    <Member name="x23" typeRef="U16"/>
+                    <Member name="x24" typeRef="U16"/>
+                    <Member name="x25" typeRef="U16"/>
+                    <Member name="x26" typeRef="U16"/>
+                    <Member name="x27" typeRef="U16"/>
+                    <Member name="x28" typeRef="U16"/>
+                    <Member name="x29" typeRef="U16"/>
+                    <Member name="x30" typeRef="U16"/>
+                </MemberList>
+            </AggregateParameterType>
+            <AggregateParameterType name="suns_raw_t">
+                <MemberList>
+                    <Member name="x1" typeRef="U16"/>
+                    <Member name="x2" typeRef="U16"/>
+                    <Member name="x3" typeRef="U16"/>
+                    <Member name="x4" typeRef="U16"/>
+                    <Member name="x5" typeRef="U16"/>
+                    <Member name="x6" typeRef="U16"/>
+                </MemberList>
+            </AggregateParameterType>
+            <AggregateParameterType name="suns_temp_t">
+                <MemberList>
+                    <Member name="x1" typeRef="I16"/>
+                    <Member name="x2" typeRef="I16"/>
+                    <Member name="x3" typeRef="I16"/>
+                    <Member name="x4" typeRef="I16"/>
+                    <Member name="x5" typeRef="I16"/>
+                    <Member name="x6" typeRef="I16"/>
+                </MemberList>
+            </AggregateParameterType>
+            <AggregateParameterType name="status_fss_t">
+                <MemberList>
+                    <Member name="x1" typeRef="I8"/>
+                    <Member name="x2" typeRef="I8"/>
+                    <Member name="x3" typeRef="I8"/>
+                    <Member name="x4" typeRef="I8"/>
+                    <Member name="x5" typeRef="I8"/>
+                    <Member name="x6" typeRef="I8"/>
+                    <Member name="x7" typeRef="I8"/>
+                    <Member name="x8" typeRef="I8"/>
+                </MemberList>
+            </AggregateParameterType>
+            <AggregateParameterType name="bdot_rate_t">
+                <MemberList>
+                    <Member name="x1" typeRef="float_t"/>
+                    <Member name="x2" typeRef="float_t"/>
+                </MemberList>
+            </AggregateParameterType>
+            <AggregateParameterType name="bdot_dmag_t">
+                <MemberList>
+                    <Member name="x1" typeRef="float_t"/>
+                    <Member name="x2" typeRef="float_t"/>
+                    <Member name="x3" typeRef="float_t"/>
+                </MemberList>
+            </AggregateParameterType>
+            <AggregateParameterType name="bdot_torquer_t">
+                <MemberList>
+                    <Member name="x1" typeRef="float_t"/>
+                    <Member name="x2" typeRef="float_t"/>
+                    <Member name="x3" typeRef="float_t"/>
+                </MemberList>
+            </AggregateParameterType>
+            <AggregateParameterType name="ukf_enable_t">
+                <MemberList>
+                    <Member name="x1" typeRef="U8"/>
+                    <Member name="x2" typeRef="U8"/>
+                    <Member name="x3" typeRef="U8"/>
+                    <Member name="x4" typeRef="U8"/>
+                    <Member name="x5" typeRef="U8"/>
+                    <Member name="x6" typeRef="U8"/>
+                    <Member name="x7" typeRef="U8"/>
+                    <Member name="x8" typeRef="U8"/>
+                    <Member name="x9" typeRef="U8"/>
+                    <Member name="x10" typeRef="U8"/>
+                    <Member name="x11" typeRef="U8"/>
+                    <Member name="x12" typeRef="U8"/>
+                    <Member name="x13" typeRef="U8"/>
+                    <Member name="x14" typeRef="U8"/>
+                </MemberList>
+            </AggregateParameterType>
+
+            <AggregateParameterType name="ukf_X_t">
+                <MemberList>
+                    <Member name="x1" typeRef="float_t"/>
+                    <Member name="x2" typeRef="float_t"/>
+                    <Member name="x3" typeRef="float_t"/>
+                    <Member name="x4" typeRef="float_t"/>
+                    <Member name="x5" typeRef="float_t"/>
+                    <Member name="x6" typeRef="float_t"/>
+                    <Member name="x7" typeRef="float_t"/>
+                    <Member name="x8" typeRef="float_t"/>
+                    <Member name="x9" typeRef="float_t"/>
+                    <Member name="x10" typeRef="float_t"/>
+                    <Member name="x11" typeRef="float_t"/>
+                    <Member name="x12" typeRef="float_t"/>
+                    <Member name="x13" typeRef="float_t"/>
+                    <Member name="x14" typeRef="float_t"/>
+                </MemberList>
+            </AggregateParameterType>
+            <AggregateParameterType name="DBL">
+                <MemberList>
+                    <Member name="x" typeRef="float_t"/>
+                </MemberList>
+            </AggregateParameterType>
+            <AggregateParameterType name="ephem_reci_t">
+                <MemberList>
+                    <Member name="x" typeRef="float_t"/>
+                    <Member name="y" typeRef="float_t"/>
+                    <Member name="z" typeRef="float_t"/>
+                </MemberList>
+            </AggregateParameterType>
+            <AggregateParameterType name="quat_ie_t">
+                <MemberList>
+                    <Member name="x" typeRef="float_t"/>
+                    <Member name="y" typeRef="float_t"/>
+                    <Member name="z" typeRef="float_t"/>
+                    <Member name="z1" typeRef="float_t"/>
+                </MemberList>
+            </AggregateParameterType>
+            <AggregateParameterType name="j_t">
+                <MemberList>
+                    <Member name="x" typeRef="float_t"/>
+                </MemberList>
+            </AggregateParameterType>
+            <AggregateParameterType name="ctrl-t1">
+                <MemberList>
+                    <Member name="x" typeRef="float_t"/>
+                    <Member name="y" typeRef="float_t"/>
+                    <Member name="z" typeRef="float_t"/>
+                    <Member name="z1" typeRef="float_t"/>
+                </MemberList>
+            </AggregateParameterType>
+            <AggregateParameterType name="ctrl-t2">
+                <MemberList>
+                    <Member name="x" typeRef="float_t"/>
+                    <Member name="y" typeRef="float_t"/>
+                    <Member name="z" typeRef="float_t"/>
+                </MemberList>
+            </AggregateParameterType>
+            <AggregateParameterType name="htpa_I8_t1">
+                <MemberList>
+                    <Member name="x1" typeRef="I8"/>
+                    <Member name="x2" typeRef="I8"/>
+                    <Member name="x3" typeRef="I8"/>
+                    <Member name="x4" typeRef="I8"/>
+                </MemberList>
+            </AggregateParameterType>
+            <AggregateParameterType name="htpa_U8_t1">
+                <MemberList>
+                    <Member name="x1" typeRef="U8"/>
+                    <Member name="x2" typeRef="U8"/>
+                    <Member name="x3" typeRef="U8"/>
+                    <Member name="x4" typeRef="U8"/>
+                </MemberList>
+            </AggregateParameterType>
+            <AggregateParameterType name="htpa_t2">
+                <MemberList>
+                    <Member name="x1" typeRef="float_t"/>
+                    <Member name="x2" typeRef="float_t"/>
+                    <Member name="x3" typeRef="float_t"/>
+                    <Member name="x4" typeRef="float_t"/>
+                </MemberList>
+            </AggregateParameterType>
+
+
+
+
+        </ParameterTypeSet>
+
+        <ParameterSet>
+<!--            Table -telemetry-->
+            <Parameter name="CSP_Packet_ID" parameterTypeRef="CSP_Packet_ID_Type" />
+            <Parameter name="CSP_Packet_Sequence" parameterTypeRef="CSP_Packet_Sequence_Type" />
+            <Parameter name="CSP_Packet_Length" parameterTypeRef="CSP_Packet_Length_Type" />
+
+            <Parameter name="fs_mounted" parameterTypeRef="BL" initialValue="True" />
+            <Parameter name="ram_image" parameterTypeRef="BL" initialValue="False" />
+            <Parameter name="temp_mcu" parameterTypeRef="I16" initialValue="283" />
+            <Parameter name="temp_ram" parameterTypeRef="I16" initialValue="286" />
+            <Parameter name="i_GSSB1" parameterTypeRef="U16" initialValue="0" />
+            <Parameter name="i_GSSB2" parameterTypeRef="U16" initialValue="0" />
+            <Parameter name="i_Flash" parameterTypeRef="U16" initialValue="0" />
+            <Parameter name="i_PWM" parameterTypeRef="U16" initialValue="0" />
+            <Parameter name="resetcause" parameterTypeRef="U32" initialValue="5" />
+            <Parameter name="bootcause" parameterTypeRef="U32" initialValue="4" />
+            <Parameter name="bootcount" parameterTypeRef="U16" initialValue="2692" />
+            <Parameter name="clock" parameterTypeRef="U32" initialValue="8452" />
+            <Parameter name="uptime" parameterTypeRef="U32" initialValue="8452" />
+            <!--    Table -dock        -->
+            <Parameter name="gps_en" parameterTypeRef="BL" initialValue="True" />
+            <Parameter name="rw0_en" parameterTypeRef="BL" initialValue="False" />
+            <Parameter name="rw1_en" parameterTypeRef="BL" initialValue="False" />
+            <Parameter name="rw2_en" parameterTypeRef="BL" initialValue="False" />
+            <Parameter name="rw3_en" parameterTypeRef="BL" initialValue="False" />
+            <Parameter name="gssb_c_en" parameterTypeRef="BL" initialValue="False" />
+            <Parameter name="gssb_d_en" parameterTypeRef="BL" initialValue="False" />
+            <Parameter name="gps_i" parameterTypeRef="U16" initialValue="299" />
+            <Parameter name="gssb_c_i" parameterTypeRef="U16" initialValue="0" />
+            <Parameter name="gssb_d_i" parameterTypeRef="U16" initialValue="0" />
+
+            <!--Table - telem1-->
+            <Parameter name="mag" parameterTypeRef="mag_FLT"/>
+            <Parameter name="mag_valid" parameterTypeRef="U8"/>
+            <Parameter name="extmag" parameterTypeRef="mag_FLT"/>
+            <Parameter name="extmag_temp" parameterTypeRef="extmag_temp_FLT"/>
+            <Parameter name="extmag_valid" parameterTypeRef="U8"/>
+            <Parameter name="extmag2" parameterTypeRef="mag_FLT"/>
+            <Parameter name="extmag2_temp" parameterTypeRef="extmag_temp_FLT"/>
+            <Parameter name="extmag2_valid" parameterTypeRef="U8"/>
+            <Parameter name="suns" parameterTypeRef="suns_FLT"/>
+            <Parameter name="suns_raw" parameterTypeRef="suns_raw_t"/>
+            <Parameter name="suns_valid" parameterTypeRef="U8"/>
+            <Parameter name="suns_temp" parameterTypeRef="suns_temp_t"/>
+            <Parameter name="gyro" parameterTypeRef="mag_FLT"/>
+            <Parameter name="gyro_norm" parameterTypeRef="mag_FLT"/>
+            <Parameter name="gyro_trend" parameterTypeRef="mag_FLT"/>
+            <Parameter name="gyro_temp" parameterTypeRef="extmag_temp_FLT"/>
+            <Parameter name="gyro_valid" parameterTypeRef="U8"/>
+            <Parameter name="extgyro" parameterTypeRef="mag_FLT"/>
+            <Parameter name="extgyro_temp" parameterTypeRef="extmag_temp_FLT"/>
+            <Parameter name="extgyro_valid" parameterTypeRef="U8"/>
+            <Parameter name="st_raw" parameterTypeRef="st_raw_t"/>
+            <Parameter name="st_body" parameterTypeRef="st_raw_t"/>
+            <Parameter name="st_stars" parameterTypeRef="I8"/>
+            <Parameter name="st_exp_time" parameterTypeRef="U16"/>
+            <Parameter name="st_valid" parameterTypeRef="U8"/>
+            <Parameter name="st_temp" parameterTypeRef="I16"/>
+            <Parameter name="fss" parameterTypeRef="fss_t"/>
+            <Parameter name="fss_body" parameterTypeRef="fss_t"/>
+            <Parameter name="fss_raw" parameterTypeRef="fss_raw_U16" initialValue="3408"/>
+            <Parameter name="fss_temp" parameterTypeRef="fss_temp_t"/>
+            <Parameter name="fss_valid" parameterTypeRef="fss_valid_U8"/>
+            <Parameter name="htpa_valid" parameterTypeRef="htpa_BL"/>
+            <Parameter name="htpa_roll" parameterTypeRef="htpa_roll_t"/>
+            <Parameter name="htpa_pitch" parameterTypeRef="htpa_roll_t"/>
+            <Parameter name="gps_pos" parameterTypeRef="gps_pos_t"/>
+            <Parameter name="gps_vel" parameterTypeRef="gps_pos_t"/>
+            <Parameter name="gps_epoch" parameterTypeRef="U32"/>
+            <Parameter name="gps_valid" parameterTypeRef="U8"/>
+            <Parameter name="gps_sat" parameterTypeRef="U8"/>
+            <Parameter name="gps_satsol" parameterTypeRef="U8"/>
+            <Parameter name="tdiff_unix" parameterTypeRef="I32"/>
+            <Parameter name="pps_unix" parameterTypeRef="U32" initialValue="7"/>
+            <Parameter name="torquer_duty" parameterTypeRef="torquer_duty_t"/>
+            <Parameter name="torquer_calib" parameterTypeRef="torquer_duty_t"/>
+            <Parameter name="wheel_torque" parameterTypeRef="wheel_torque_t"/>
+            <Parameter name="wheel_momen" parameterTypeRef="wheel_torque_t"/>
+            <Parameter name="wheel_speed" parameterTypeRef="wheel_torque_t"/>
+            <Parameter name="wheel_enable" parameterTypeRef="wheel_enable_U8"/>
+            <Parameter name="wheel_cur" parameterTypeRef="wheel_cur_U16"/>
+            <Parameter name="wheel_temp" parameterTypeRef="wheel_temp_I16"/>
+
+            <!--Table - telem2-->
+            <Parameter name="acs_mode" parameterTypeRef="I8"/>
+            <Parameter name="acs_dmode" parameterTypeRef="I8"/>
+            <Parameter name="ads_mode" parameterTypeRef="I8"/>
+            <Parameter name="ads_dmode" parameterTypeRef="I8"/>
+            <Parameter name="ephem_mode" parameterTypeRef="I8"/>
+            <Parameter name="ephem_dmode" parameterTypeRef="I8"/>
+            <Parameter name="frame_mode" parameterTypeRef="I8"/>
+            <Parameter name="frame_dmode" parameterTypeRef="I8"/>
+            <Parameter name="spin_mode" parameterTypeRef="I8"/>
+            <Parameter name="status_mag" parameterTypeRef="I8"/>
+            <Parameter name="status_exmag" parameterTypeRef="I8"/>
+            <Parameter name="status_css" parameterTypeRef="I8"/>
+            <Parameter name="status_fss" parameterTypeRef="status_fss_t"/>
+            <Parameter name="status_gyro" parameterTypeRef="I8"/>
+            <Parameter name="status_exgyr" parameterTypeRef="I8"/>
+            <Parameter name="status_gps" parameterTypeRef="I8"/>
+            <Parameter name="status_htpa" parameterTypeRef="I8"/>
+            <Parameter name="status_str" parameterTypeRef="U8"/>
+            <Parameter name="status_bdot" parameterTypeRef="I8"/>
+            <Parameter name="status_ukf" parameterTypeRef="I8"/>
+            <Parameter name="status_igrf" parameterTypeRef="I8"/>
+            <Parameter name="status_sgp4" parameterTypeRef="I8"/>
+            <Parameter name="status_j2ele" parameterTypeRef="I8"/>
+            <Parameter name="status_j2pro" parameterTypeRef="I8"/>
+            <Parameter name="status_etime" parameterTypeRef="I8"/>
+            <Parameter name="status_ephem" parameterTypeRef="I8"/>
+            <Parameter name="status_run" parameterTypeRef="I8"/>
+            <Parameter name="looptime" parameterTypeRef="U16"/>
+            <Parameter name="maxlooptime" parameterTypeRef="U16"/>
+            <Parameter name="bdot_rate" parameterTypeRef="bdot_rate_t"/>
+            <Parameter name="bdot_dmag" parameterTypeRef="bdot_dmag_t"/>
+            <Parameter name="bdot_torquer" parameterTypeRef="bdot_torquer_t"/>
+            <Parameter name="bdot_detumb" parameterTypeRef="U8"/>
+            <Parameter name="dbtask" parameterTypeRef="U8"/>
+            <Parameter name="dbmain" parameterTypeRef="U8"/>
+
+            <!--Table - telem3-->
+            <Parameter name="ukf_X" parameterTypeRef="ukf_X_t"/>
+            <Parameter name="ukf_q" parameterTypeRef="ukf_X_t"/>
+            <Parameter name="ukf_w" parameterTypeRef="ukf_X_t"/>
+            <Parameter name="ukf_Pdiag" parameterTypeRef="ukf_X_t"/>
+            <Parameter name="ukf_Xpred" parameterTypeRef="ukf_X_t"/>
+            <Parameter name="ukf_Zpred" parameterTypeRef="ukf_X_t"/>
+            <Parameter name="ukf_Pzzdiag" parameterTypeRef="ukf_X_t"/>
+            <Parameter name="ukf_Z" parameterTypeRef="ukf_X_t"/>
+            <Parameter name="ukf_enable" parameterTypeRef="ukf_enable_t"/>
+            <Parameter name="ukf_sunmax" parameterTypeRef="ukf_X_t"/>
+            <Parameter name="ukf_ineclipse" parameterTypeRef="U8"/>
+            <Parameter name="ukf_choice" parameterTypeRef="U8"/>
+            <Parameter name="ukf_ctrlT" parameterTypeRef="ukf_X_t"/>
+            <Parameter name="ukf_ctrlM" parameterTypeRef="ukf_X_t"/>
+            <Parameter name="ukf_rate" parameterTypeRef="ukf_X_t"/>
+
+            <!--Table - telem4-->
+            <Parameter name="ephem_jdate" parameterTypeRef="DBL"/>
+            <Parameter name="ephem_reci" parameterTypeRef="ephem_reci_t"/>
+            <Parameter name="ephem_veci" parameterTypeRef="ephem_reci_t"/>
+            <Parameter name="ephem_suneci" parameterTypeRef="ephem_reci_t"/>
+            <Parameter name="ephem_mageci" parameterTypeRef="ephem_reci_t"/>
+            <Parameter name="ephem_dmageci" parameterTypeRef="ephem_reci_t"/>
+            <Parameter name="ephem_quat_ie" parameterTypeRef="quat_ie_t"/>
+            <Parameter name="ephem_quat_io" parameterTypeRef="quat_ie_t"/>
+            <Parameter name="ephem_quat_il" parameterTypeRef="quat_ie_t"/>
+            <Parameter name="ephem_rate_io" parameterTypeRef="rate_io_t"/>
+            <Parameter name="ephem_rate_il" parameterTypeRef="rate_io_t"/>
+            <Parameter name="ephem_t_eclip" parameterTypeRef="I32"/>
+            <Parameter name="j2_epoch" parameterTypeRef="DBL"/>
+            <Parameter name="j2_peci" parameterTypeRef="ephem_reci_t"/>
+            <Parameter name="j2_veci" parameterTypeRef="ephem_reci_t"/>
+            <Parameter name="j2_a" parameterTypeRef="j_t"/>
+            <Parameter name="j2_n" parameterTypeRef="j_t"/>
+            <Parameter name="j2_p" parameterTypeRef="j_t"/>
+            <Parameter name="j2_incl" parameterTypeRef="j_t"/>
+            <Parameter name="j2_raan" parameterTypeRef="j_t"/>
+            <Parameter name="j2_argper" parameterTypeRef="j_t"/>
+            <Parameter name="j2_trueanom" parameterTypeRef="j_t"/>
+            <Parameter name="j2_eccanom" parameterTypeRef="j_t"/>
+            <Parameter name="j2_meananom" parameterTypeRef="j_t"/>
+
+            <!--Table - telem5-->
+            <Parameter name="ctrl_refq" parameterTypeRef="ctrl_t1"/>
+            <Parameter name="ctrl_errq" parameterTypeRef="ctrl_t1"/>
+            <Parameter name="ctrl_errrate" parameterTypeRef="ctrl_t2"/>
+            <Parameter name="ctrl_M" parameterTypeRef="ctrl_t2"/>
+            <Parameter name="ctrl_mwtorque" parameterTypeRef="ctrl_t1"/>
+            <Parameter name="ctrl_mwspeed" parameterTypeRef="ctrl_t1"/>
+            <Parameter name="ctrl_mwmoment" parameterTypeRef="ctrl_t1"/>
+            <Parameter name="ctrl_refrate" parameterTypeRef="ctrl_t2"/>
+            <Parameter name="ctrl_euleroff" parameterTypeRef="ctrl_t2"/>
+            <Parameter name="ctrl_btorque" parameterTypeRef="ctrl_t2"/>
+            <Parameter name="ctrl_bmoment" parameterTypeRef="ctrl_t2"/>
+
+
+            <!--Table - telem6-->
+            <Parameter name="htpa_valid_for_telem6" parameterTypeRef="htpa_I8_t1"/>
+            <Parameter name="htpa_edge_cnt" parameterTypeRef="htpa_U8_t1"/>
+            <Parameter name="htpa_g_th" parameterTypeRef="htpa_t2"/>
+            <Parameter name="htpa_roll_for_telem6" parameterTypeRef="htpa_t2"/>
+            <Parameter name="htpa_pitch_for_telem6" parameterTypeRef="htpa_t2"/>
+            <Parameter name="htpa_roll_sc" parameterTypeRef="htpa_t2"/>
+            <Parameter name="htpa_pitch_sc" parameterTypeRef="htpa_t2"/>
+            <Parameter name="htpa_roll_or" parameterTypeRef="htpa_t2"/>
+            <Parameter name="htpa_pitch_or" parameterTypeRef="htpa_t2"/>
+            <Parameter name="htpa_Gy" parameterTypeRef="htpa_t2"/>
+            <Parameter name="htpa_Gz" parameterTypeRef="htpa_t2"/>
+            <Parameter name="htpa_G" parameterTypeRef="htpa_t2"/>
+            <Parameter name="htpa_Cy" parameterTypeRef="htpa_t2"/>
+            <Parameter name="htpa_Cz" parameterTypeRef="htpa_t2"/>
+            <Parameter name="htpa_Cr" parameterTypeRef="htpa_t2"/>
+
+
+            <!--Table - telem7-->
+            <Parameter name="ephem_time" parameterTypeRef="U32"/>
+            <Parameter name="frame_time" parameterTypeRef="U32"/>
+            <Parameter name="ads_time" parameterTypeRef="U32"/>
+            <Parameter name="acs_time" parameterTypeRef="U32"/>
+            <Parameter name="sens_time" parameterTypeRef="U32"/>
+
+        </ParameterSet>
+
+        <ContainerSet>
+            <SequenceContainer abstract="true" name="CSPPacket">
+                <EntryList>
+                    <ParameterRefEntry parameterRef="CSP_Packet_ID" />
+                    <ParameterRefEntry parameterRef="CSP_Packet_Sequence" />
+                    <ParameterRefEntry parameterRef="CSP_Packet_Length" />
+                </EntryList>
+            </SequenceContainer>
+            <SequenceContainer name="TelemetryPacket">
+                <EntryList />
+                <BaseContainer containerRef="CSPPacket">
+                    <RestrictionCriteria>
+                        <ComparisonList>
+                            <Comparison value="0" parameterRef="CSP_Packet_ID/Version" />
+                            <Comparison value="TM" parameterRef="CSP_Packet_ID/Type" />
+                        </ComparisonList>
+                    </RestrictionCriteria>
+                </BaseContainer>
+            </SequenceContainer>
+            <SequenceContainer name="ADCSSpaceSystem">
+                <EntryList>
+                    <ParameterRefEntry parameterRef="fs_mounted" />
+                    <ParameterRefEntry parameterRef="ram_image" />
+                    <ParameterRefEntry parameterRef="temp_mcu" />
+                    <ParameterRefEntry parameterRef="temp_ram" />
+                    <ParameterRefEntry parameterRef="i_GSSB1" />
+                    <ParameterRefEntry parameterRef="i_GSSB2" />
+                    <ParameterRefEntry parameterRef="i_Flash" />
+                    <ParameterRefEntry parameterRef="i_PWM" />
+                    <ParameterRefEntry parameterRef="resetcause" />
+                    <ParameterRefEntry parameterRef="bootcause" />
+                    <ParameterRefEntry parameterRef="bootcount" />
+                    <ParameterRefEntry parameterRef="clock" />
+                    <ParameterRefEntry parameterRef="uptime" />
+                </EntryList>
+                <BaseContainer containerRef="TelemetryPacket">
+                    <RestrictionCriteria>
+                        <ComparisonList>
+                            <Comparison value="NotPresent" parameterRef="CSP_Packet_ID/SecHdrFlag" />
+                            <Comparison value="100" parameterRef="CSP_Packet_ID/APID" />
+                        </ComparisonList>
+                    </RestrictionCriteria>
+                </BaseContainer>
+            </SequenceContainer>
+
+            <SequenceContainer name="DockPacket">
+                <EntryList>
+                    <ParameterRefEntry parameterRef="gps_en" />
+                    <ParameterRefEntry parameterRef="rw0_en" />
+                    <ParameterRefEntry parameterRef="rw1_en" />
+                    <ParameterRefEntry parameterRef="rw2_en" />
+                    <ParameterRefEntry parameterRef="rw3_en" />
+                    <ParameterRefEntry parameterRef="gssb_c_en" />
+                    <ParameterRefEntry parameterRef="gssb_d_en" />
+                    <ParameterRefEntry parameterRef="gps_i" />
+                    <ParameterRefEntry parameterRef="gssb_c_i" />
+                    <ParameterRefEntry parameterRef="gssb_d_i" />
+                </EntryList>
+                <BaseContainer containerRef="TelemetryPacket">
+                    <RestrictionCriteria>
+                        <ComparisonList>
+                            <Comparison value="NotPresent" parameterRef="CSP_Packet_ID/SecHdrFlag" />
+                            <Comparison value="100" parameterRef="CSP_Packet_ID/APID" />
+                        </ComparisonList>
+                    </RestrictionCriteria>
+                </BaseContainer>
+            </SequenceContainer>
+        </ContainerSet>
+    </TelemetryMetaData>
+
+
+
+    <CommandMetaData>
+        <ArgumentTypeSet>
+            <StringArgumentType name="Battery_Types">
+                <StringDataEncoding encoding="UTF-8">
+                    <Variable maxSizeInBits="200">
+                        <DynamicValue>
+                            <ParameterInstanceRef parameterRef="_yamcs_ignore" />
+                        </DynamicValue>
+                        <TerminationChar>00</TerminationChar>
+                    </Variable>
+                </StringDataEncoding>
+            </StringArgumentType>
+            <StringArgumentType name="Voltage_Type">
+                <StringDataEncoding encoding="UTF-8">
+                    <Variable maxSizeInBits="200">
+                        <DynamicValue>
+                            <ParameterInstanceRef parameterRef="_yamcs_ignore" />
+                        </DynamicValue>
+                        <TerminationChar>00</TerminationChar>
+                    </Variable>
+                </StringDataEncoding>
+            </StringArgumentType>
+            <StringArgumentType name="Current_Type">
+                <StringDataEncoding encoding="UTF-8">
+                    <Variable maxSizeInBits="200">
+                        <DynamicValue>
+                            <ParameterInstanceRef parameterRef="_yamcs_ignore" />
+                        </DynamicValue>
+                        <TerminationChar>00</TerminationChar>
+                    </Variable>
+                </StringDataEncoding>
+            </StringArgumentType>
+        </ArgumentTypeSet>
+        <MetaCommandSet>
+
+            <MetaCommand name="SendHelloWorld" shortDescription="Send fixed value 'Hello World!'">
+                <ArgumentList>
+                    <Argument argumentTypeRef="Battery_Types" name="Battery" shortDescription="PingToBattery" />
+                    <Argument argumentTypeRef="Voltage_Type" name="Voltage" shortDescription="PingToVoltage" />
+                    <Argument argumentTypeRef="Current_Type" name="Current" shortDescription="PingToCurrent" />
+                </ArgumentList>
+                <CommandContainer name="SendHelloWorld">
+                    <EntryList>
+                        <FixedValueEntry binaryValue="657073206f7574707574" sizeInBits="80" />
+                        <FixedValueEntry binaryValue="20" sizeInBits="8"/>
+                        <ArgumentRefEntry argumentRef="Battery" />
+                        <FixedValueEntry binaryValue="20" sizeInBits="8"/>
+                        <ArgumentRefEntry argumentRef="Voltage" />
+                        <FixedValueEntry binaryValue="20" sizeInBits="8"/>
+                        <ArgumentRefEntry argumentRef="Current" />
+                    </EntryList>
+                </CommandContainer>
+            </MetaCommand>
+
+        </MetaCommandSet>
+    </CommandMetaData>
+</SpaceSystem>

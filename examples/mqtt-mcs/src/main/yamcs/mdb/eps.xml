@@ -1,38 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <SpaceSystem name="eps" xmlns="http://www.omg.org/spec/XTCE/20180204" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.omg.org/spec/XTCE/20180204 https://www.omg.org/spec/XTCE/20180204/SpaceSystem.xsd">
     <TelemetryMetaData>
+<!--        S-Band-Radio Telemetry-->
         <ParameterTypeSet>
-            <AggregateParameterType name="CCSDS_Packet_ID_Type">
+
+            <AggregateParameterType name="CSP_Packet_ID_Type">
                 <MemberList>
-                    <Member name="Version" typeRef="CCSDS_Version_Type" />
-                    <Member name="Type" typeRef="CCSDS_Type_Type" />
-                    <Member name="SecHdrFlag" typeRef="CCSDS_Sec_Hdr_Flag_Type" />
-                    <Member name="APID" typeRef="CCSDS_APID_Type" />
+                    <Member name="Version" typeRef="CSP_Version_Type" />
+                    <Member name="Type" typeRef="CSP_Type_Type" />
+                    <Member name="SecHdrFlag" typeRef="CSP_Sec_Hdr_Flag_Type" />
+                    <Member name="APID" typeRef="CSP_APID_Type" />
                 </MemberList>
             </AggregateParameterType>
-            <IntegerParameterType name="CCSDS_Version_Type" signed="false">
+            <IntegerParameterType name="CSP_Version_Type" signed="false">
                 <UnitSet />
                 <IntegerDataEncoding sizeInBits="3" />
             </IntegerParameterType>
-            <BooleanParameterType name="CCSDS_Type_Type" zeroStringValue="TM" oneStringValue="TC">
+            <BooleanParameterType name="CSP_Type_Type" zeroStringValue="TM" oneStringValue="TC">
                 <UnitSet />
                 <IntegerDataEncoding sizeInBits="1" />
             </BooleanParameterType>
-            <BooleanParameterType name="CCSDS_Sec_Hdr_Flag_Type" zeroStringValue="NotPresent" oneStringValue="Present">
+            <BooleanParameterType name="CSP_Sec_Hdr_Flag_Type" zeroStringValue="NotPresent" oneStringValue="Present">
                 <UnitSet />
                 <IntegerDataEncoding sizeInBits="1" />
             </BooleanParameterType>
-            <IntegerParameterType name="CCSDS_APID_Type" signed="false">
+            <IntegerParameterType name="CSP_APID_Type" signed="false">
                 <UnitSet />
                 <IntegerDataEncoding sizeInBits="11" />
             </IntegerParameterType>
-            <AggregateParameterType name="CCSDS_Packet_Sequence_Type">
+            <AggregateParameterType name="CSP_Packet_Sequence_Type">
                 <MemberList>
-                    <Member name="GroupFlags" typeRef="CCSDS_Group_Flags_Type" />
-                    <Member name="Count" typeRef="CCSDS_Source_Sequence_Count_Type" />
+                    <Member name="GroupFlags" typeRef="CSP_Group_Flags_Type" />
+                    <Member name="Count" typeRef="CSP_Source_Sequence_Count_Type" />
                 </MemberList>
             </AggregateParameterType>
-            <EnumeratedParameterType name="CCSDS_Group_Flags_Type">
+            <EnumeratedParameterType name="CSP_Group_Flags_Type">
                 <UnitSet />
                 <IntegerDataEncoding sizeInBits="2" />
                 <EnumerationList>
@@ -42,175 +44,140 @@
                     <Enumeration value="3" label="Standalone" />
                 </EnumerationList>
             </EnumeratedParameterType>
-            <IntegerParameterType name="CCSDS_Source_Sequence_Count_Type" signed="false">
+            <IntegerParameterType name="CSP_Source_Sequence_Count_Type" signed="false">
                 <UnitSet />
                 <IntegerDataEncoding sizeInBits="14" />
             </IntegerParameterType>
-            <IntegerParameterType name="CCSDS_Packet_Length_Type" signed="false" initialValue="0">
+            <IntegerParameterType name="CSP_Packet_Length_Type" signed="false" initialValue="0">
                 <UnitSet>
                     <Unit description="Size">Octets</Unit>
                 </UnitSet>
                 <IntegerDataEncoding sizeInBits="16" />
             </IntegerParameterType>
-            <IntegerParameterType name="uint32_t" signed="false">
+
+            <!-- Integer Parameter Type -->
+            <IntegerParameterType name="I16" signed="true">
                 <UnitSet />
-                <IntegerDataEncoding encoding="unsigned" sizeInBits="32" />
+                <IntegerDataEncoding sizeInBits="16" />
             </IntegerParameterType>
-            <FloatParameterType name="float_t">
+
+            <!-- Unsigned Integer Parameter Type -->
+            <IntegerParameterType name="U8" signed="false">
                 <UnitSet />
-                <FloatDataEncoding sizeInBits="32" />
-            </FloatParameterType>
-            <BooleanParameterType name="bool_t">
+                <IntegerDataEncoding sizeInBits="16" />
+            </IntegerParameterType>
+            <IntegerParameterType name="U16" signed="false">
+                <UnitSet />
+                <IntegerDataEncoding sizeInBits="16" />
+            </IntegerParameterType>
+
+            <!-- U32 Parameter Type -->
+            <IntegerParameterType name="U32" signed="false">
+                <UnitSet />
+                <IntegerDataEncoding sizeInBits="32" />
+            </IntegerParameterType>
+
+            <!-- I8 Parameter Type -->
+            <IntegerParameterType name="I8" signed="true">
                 <UnitSet />
                 <IntegerDataEncoding sizeInBits="8" />
-            </BooleanParameterType>
-            <AggregateParameterType name="vec3_t">
-                <MemberList>
-                    <Member name="x" typeRef="float_t" />
-                    <Member name="y" typeRef="float_t" />
-                    <Member name="z" typeRef="float_t" />
-                </MemberList>
-            </AggregateParameterType>
-            <EnumeratedParameterType name="EnumerationTest">
-                <UnitSet />
-                <IntegerDataEncoding sizeInBits="3" />
-                <EnumerationList>
-                    <Enumeration value="0" label="ENUM_VALUE_0" />
-                    <Enumeration value="1" label="ENUM_VALUE_1" />
-                    <Enumeration value="2" label="ENUM_VALUE_2" />
-                    <Enumeration value="3" label="ENUM_VALUE_3" />
-                    <Enumeration value="4" label="ENUM_VALUE_4" />
-                    <Enumeration value="5" label="ENUM_VALUE_5" />
-                    <Enumeration value="6" label="ENUM_VALUE_6" />
-                    <Enumeration value="7" label="ENUM_VALUE_7" />
-                </EnumerationList>
-            </EnumeratedParameterType>
-        </ParameterTypeSet>
-        <ParameterSet>
-            <Parameter name="CCSDS_Packet_ID" parameterTypeRef="CCSDS_Packet_ID_Type" />
-            <Parameter name="CCSDS_Packet_Sequence" parameterTypeRef="CCSDS_Packet_Sequence_Type" />
-            <Parameter name="CCSDS_Packet_Length" parameterTypeRef="CCSDS_Packet_Length_Type" />
-            <Parameter name="EpochUSNO" parameterTypeRef="float_t" />
-            <Parameter name="OrbitNumberCumulative" parameterTypeRef="uint32_t" />
-            <Parameter name="ElapsedSeconds" parameterTypeRef="uint32_t" />
-            <Parameter name="A" parameterTypeRef="float_t" />
-            <Parameter name="Height" parameterTypeRef="float_t" />
-            <Parameter name="Position" parameterTypeRef="vec3_t" />
-            <Parameter name="Velocity" parameterTypeRef="vec3_t" />
-            <Parameter name="Latitude" parameterTypeRef="float_t" />
-            <Parameter name="Longitude" parameterTypeRef="float_t" />
-            <Parameter name="Battery1_Voltage" parameterTypeRef="float_t" />
-            <Parameter name="Battery2_Voltage" parameterTypeRef="float_t" />
-            <Parameter name="Battery1_Temp" parameterTypeRef="float_t" />
-            <Parameter name="Battery2_Temp" parameterTypeRef="float_t" />
-            <Parameter name="Magnetometer" parameterTypeRef="vec3_t" />
-            <Parameter name="Sunsensor" parameterTypeRef="float_t" />
-            <Parameter name="Gyro" parameterTypeRef="vec3_t" />
-            <Parameter name="Detector_Temp" parameterTypeRef="float_t" />
-            <Parameter name="Shadow" parameterTypeRef="bool_t" />
-            <Parameter name="Contact_Golbasi_GS" parameterTypeRef="bool_t" />
-            <Parameter name="Contact_Svalbard" parameterTypeRef="bool_t" />
-            <Parameter name="Payload_Status" parameterTypeRef="bool_t" />
-            <Parameter name="Payload_Error_Flag" parameterTypeRef="bool_t" />
-            <Parameter name="ADCS_Error_Flag" parameterTypeRef="bool_t" />
-            <Parameter name="CDHS_Error_Flag" parameterTypeRef="bool_t" />
-            <Parameter name="COMMS_Error_Flag" parameterTypeRef="bool_t" />
-            <Parameter name="EPS_Error_Flag" parameterTypeRef="bool_t" />
-            <Parameter name="COMMS_Status" parameterTypeRef="bool_t" />
-            <Parameter name="CDHS_Status" parameterTypeRef="bool_t" />
-            <Parameter name="Mode_Night" parameterTypeRef="bool_t" />
-            <Parameter name="Mode_Day" parameterTypeRef="bool_t" />
-            <Parameter name="Mode_Payload" parameterTypeRef="bool_t" />
-            <Parameter name="Mode_XBand" parameterTypeRef="bool_t" />
-            <Parameter name="Mode_SBand" parameterTypeRef="bool_t" />
-            <Parameter name="Mode_Safe" parameterTypeRef="bool_t" />
+            </IntegerParameterType>
 
-            <Parameter name="Enum_Para_1" parameterTypeRef="EnumerationTest" />
-            <Parameter name="Enum_Para_2" parameterTypeRef="EnumerationTest" />
-            <Parameter name="Enum_Para_3" parameterTypeRef="EnumerationTest" />
+        </ParameterTypeSet>
+
+        <ParameterSet>
+            <Parameter name="CSP_Packet_ID" parameterTypeRef="CSP_Packet_ID_Type" />
+            <Parameter name="CSP_Packet_Sequence" parameterTypeRef="CSP_Packet_Sequence_Type" />
+            <Parameter name="CSP_Packet_Length" parameterTypeRef="CSP_Packet_Length_Type" />
+
+
+            <Parameter name="temp_brd" parameterTypeRef="I16" initialValue="303" />
+            <Parameter name="temp_pa" parameterTypeRef="I16" initialValue="296" />
+            <Parameter name="last_rssi" parameterTypeRef="I16" initialValue="-128" />
+            <Parameter name="last_rferr" parameterTypeRef="I16" initialValue="-753" />
+            <Parameter name="tx_count" parameterTypeRef="U32" initialValue="0" />
+            <Parameter name="rx_count" parameterTypeRef="U32" initialValue="0" />
+            <Parameter name="tx_bytes" parameterTypeRef="U32" initialValue="0" />
+            <Parameter name="rx_bytes" parameterTypeRef="U32" initialValue="0" />
+            <Parameter name="bootcount" parameterTypeRef="U16" initialValue="5325" />
+            <Parameter name="bootcause" parameterTypeRef="U32" initialValue="2" />
+            <Parameter name="last_contact" parameterTypeRef="U32" initialValue="0" />
+            <Parameter name="bgnd_rssi" parameterTypeRef="I16" initialValue="-129" />
+            <Parameter name="tx_duty" parameterTypeRef="U8" initialValue="0" />
+            <Parameter name="tot_tx_count" parameterTypeRef="U32" initialValue="0" />
+            <Parameter name="tot_rx_count" parameterTypeRef="U32" initialValue="0" />
+            <Parameter name="tot_tx_bytes" parameterTypeRef="U32" initialValue="0" />
+            <Parameter name="tot_rx_bytes" parameterTypeRef="U32" initialValue="0" />
+            <Parameter name="cur_rf3v3_raw" parameterTypeRef="I16" initialValue="127" />
+            <Parameter name="cur_rf3v3" parameterTypeRef="I16" initialValue="64" />
+            <Parameter name="cur_5v_raw" parameterTypeRef="I16" initialValue="19" />
+            <Parameter name="cur_5v" parameterTypeRef="I16" initialValue="17" />
+            <Parameter name="hw_det" parameterTypeRef="I8" initialValue="1" />
+            <Parameter name="gnd_wdt_cnt" parameterTypeRef="U16" initialValue="60" />
+            <Parameter name="gnd_wdt_left" parameterTypeRef="U32" initialValue="36660" />
+
         </ParameterSet>
+
         <ContainerSet>
-            <SequenceContainer abstract="true" name="CCSDSPacket">
+            <SequenceContainer abstract="true" name="CSPPacket">
                 <EntryList>
-                    <ParameterRefEntry parameterRef="CCSDS_Packet_ID" />
-                    <ParameterRefEntry parameterRef="CCSDS_Packet_Sequence" />
-                    <ParameterRefEntry parameterRef="CCSDS_Packet_Length" />
+                    <ParameterRefEntry parameterRef="CSP_Packet_ID" />
+                    <ParameterRefEntry parameterRef="CSP_Packet_Sequence" />
+                    <ParameterRefEntry parameterRef="CSP_Packet_Length" />
                 </EntryList>
             </SequenceContainer>
             <SequenceContainer name="TelemetryPacket">
                 <EntryList />
-                <BaseContainer containerRef="CCSDSPacket">
+                <BaseContainer containerRef="CSPPacket">
                     <RestrictionCriteria>
                         <ComparisonList>
-                            <Comparison value="0" parameterRef="CCSDS_Packet_ID/Version" />
-                            <Comparison value="TM" parameterRef="CCSDS_Packet_ID/Type" />
+                            <Comparison value="0" parameterRef="CSP_Packet_ID/Version" />
+                            <Comparison value="TM" parameterRef="CSP_Packet_ID/Type" />
                         </ComparisonList>
                     </RestrictionCriteria>
                 </BaseContainer>
             </SequenceContainer>
-            <SequenceContainer name="Spacecraft">
+            <SequenceContainer name="SpaceSystem">
                 <EntryList>
-                    <ParameterRefEntry parameterRef="EpochUSNO" />
-                    <ParameterRefEntry parameterRef="OrbitNumberCumulative" />
-                    <ParameterRefEntry parameterRef="ElapsedSeconds" />
-                    <ParameterRefEntry parameterRef="A" />
-                    <ParameterRefEntry parameterRef="Height" />
-                    <ParameterRefEntry parameterRef="Position" />
-                    <ParameterRefEntry parameterRef="Velocity" />
-                    <ParameterRefEntry parameterRef="Latitude" />
-                    <ParameterRefEntry parameterRef="Longitude" />
-                    <ParameterRefEntry parameterRef="Battery1_Voltage" />
-                    <ParameterRefEntry parameterRef="Battery2_Voltage" />
-                    <ParameterRefEntry parameterRef="Battery1_Temp" />
-                    <ParameterRefEntry parameterRef="Battery2_Temp" />
-                    <ParameterRefEntry parameterRef="Magnetometer" />
-                    <ParameterRefEntry parameterRef="Sunsensor" />
-                    <ParameterRefEntry parameterRef="Gyro" />
-                    <ParameterRefEntry parameterRef="Detector_Temp" />
-                    <ParameterRefEntry parameterRef="Shadow" />
-                    <ParameterRefEntry parameterRef="Contact_Golbasi_GS" />
-                    <ParameterRefEntry parameterRef="Contact_Svalbard" />
-                    <ParameterRefEntry parameterRef="Payload_Status" />
-                    <ParameterRefEntry parameterRef="Payload_Error_Flag" />
-                    <ParameterRefEntry parameterRef="ADCS_Error_Flag" />
-                    <ParameterRefEntry parameterRef="CDHS_Error_Flag" />
-                    <ParameterRefEntry parameterRef="COMMS_Error_Flag" />
-                    <ParameterRefEntry parameterRef="EPS_Error_Flag" />
-                    <ParameterRefEntry parameterRef="COMMS_Status" />
-                    <ParameterRefEntry parameterRef="CDHS_Status" />
-                    <ParameterRefEntry parameterRef="Mode_Night" />
-                    <ParameterRefEntry parameterRef="Mode_Day" />
-                    <ParameterRefEntry parameterRef="Mode_Payload" />
-                    <ParameterRefEntry parameterRef="Mode_XBand" />
-                    <ParameterRefEntry parameterRef="Mode_SBand" />
-                    <ParameterRefEntry parameterRef="Mode_Safe" />
-                    <ParameterRefEntry parameterRef="Enum_Para_1">
-                        <LocationInContainerInBits referenceLocation="containerStart">
-                            <FixedValue>29</FixedValue>
-                        </LocationInContainerInBits>
-                    </ParameterRefEntry>
-                    <ParameterRefEntry parameterRef="Enum_Para_2">
-                        <LocationInContainerInBits referenceLocation="containerStart">
-                            <FixedValue>27</FixedValue>
-                        </LocationInContainerInBits>
-                    </ParameterRefEntry>
-                    <ParameterRefEntry parameterRef="Enum_Para_3">
-                        <LocationInContainerInBits referenceLocation="containerStart">
-                            <FixedValue>25</FixedValue>
-                        </LocationInContainerInBits>
-                    </ParameterRefEntry>
+                    <ParameterRefEntry parameterRef="temp_brd" />
+                    <ParameterRefEntry parameterRef="temp_pa" />
+                    <ParameterRefEntry parameterRef="last_rssi" />
+                    <ParameterRefEntry parameterRef="last_rferr" />
+                    <ParameterRefEntry parameterRef="tx_count" />
+                    <ParameterRefEntry parameterRef="rx_count" />
+                    <ParameterRefEntry parameterRef="tx_bytes" />
+                    <ParameterRefEntry parameterRef="rx_bytes" />
+                    <ParameterRefEntry parameterRef="bootcount" />
+                    <ParameterRefEntry parameterRef="bootcause" />
+                    <ParameterRefEntry parameterRef="last_contact" />
+                    <ParameterRefEntry parameterRef="bgnd_rssi" />
+                    <ParameterRefEntry parameterRef="tx_duty" />
+                    <ParameterRefEntry parameterRef="tot_tx_count" />
+                    <ParameterRefEntry parameterRef="tot_rx_count" />
+                    <ParameterRefEntry parameterRef="tot_tx_bytes" />
+                    <ParameterRefEntry parameterRef="tot_rx_bytes" />
+                    <ParameterRefEntry parameterRef="cur_rf3v3_raw" />
+                    <ParameterRefEntry parameterRef="cur_rf3v3" />
+                    <ParameterRefEntry parameterRef="cur_5v_raw" />
+                    <ParameterRefEntry parameterRef="cur_5v" />
+                    <ParameterRefEntry parameterRef="hw_det" />
+                    <ParameterRefEntry parameterRef="gnd_wdt_cnt" />
+                    <ParameterRefEntry parameterRef="gnd_wdt_left" />
                 </EntryList>
                 <BaseContainer containerRef="TelemetryPacket">
                     <RestrictionCriteria>
                         <ComparisonList>
-                            <Comparison value="NotPresent" parameterRef="CCSDS_Packet_ID/SecHdrFlag" />
-                            <Comparison value="100" parameterRef="CCSDS_Packet_ID/APID" />
+                            <Comparison value="NotPresent" parameterRef="CSP_Packet_ID/SecHdrFlag" />
+                            <Comparison value="100" parameterRef="CSP_Packet_ID/APID" />
                         </ComparisonList>
                     </RestrictionCriteria>
                 </BaseContainer>
             </SequenceContainer>
         </ContainerSet>
     </TelemetryMetaData>
+
+
+
     <CommandMetaData>
         <ArgumentTypeSet>
             <StringArgumentType name="String_Type">
